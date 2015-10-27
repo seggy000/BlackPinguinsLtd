@@ -29,8 +29,8 @@ public class DBDataSource {
                 ds.setServerName("db.ig.he-arc.ch");
                 ds.setPortNumber(1521);
                 ds.setDatabaseName("ens2"); // sid
-                ds.setUser("thomas_ruegsegg");
-                ds.setPassword("thomas_ruegsegg");
+                ds.setUser("thierry_hubmann");
+                ds.setPassword("thierry_hubmann");
             }
             return ds.getConnection();
             // c = ds.getConnection();ds=new DataSource();
