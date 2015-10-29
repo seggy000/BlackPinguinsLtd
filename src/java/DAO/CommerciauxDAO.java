@@ -5,13 +5,86 @@
  */
 package DAO;
 
+import Model.Commercial;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  *
  * @author JulmyS
  */
 public class CommerciauxDAO {
 
+    Connection c;
+
     public CommerciauxDAO() {
+        c = DBDataSource.getJDBCConnection();
     }
-    
+
+    public List getAllCommerciaux() {
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+
+        List<Commercial> listeCommerciaux = new ArrayList();
+
+        String query = "SELECT nom, prenom ,username FROM commerciaux";
+        try {
+            
+            stmt = c.prepareStatement(query);
+            rs = stmt.executeQuery();
+
+            while (rs.next()) {
+                String nom = rs.getString("nom");
+                String prenom = rs.getString("prenom");
+                String username = rs.getString("username");
+                Commercial commercial = new Commercial(nom, prenom, username);
+                listeCommerciaux.add(commercial);
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        } finally {
+            try {
+                stmt.close();
+                c.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+        return listeCommerciaux;
+    }
+
+    public Commercial getCommercialByUsername(String username) {
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+
+        Commercial commercial = null;
+
+        String query = "SELECT nom, prenom ,username FROM commerciaux  WHERE username =?";
+        try {
+            stmt = c.prepareStatement(query);
+            stmt.setString(1, username);
+            rs = stmt.executeQuery();
+
+            while (rs.next()) {
+                String nom = rs.getString("nom");
+                String prenom = rs.getString("prenom");
+                commercial = new Commercial(nom, prenom, username);
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        } finally {
+            try {
+                stmt.close();
+                c.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+        return commercial;
+    }
+
 }
