@@ -9,31 +9,41 @@ and open the template in the editor.
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
   </head>
   <body>
-    <p><h1> recherche personne</h1></p>
-        
-    <form method="GET" action="ServletListePersonne">
-        <table>
-                <tr>
+    <div id="FormRecherche">
+        <p><h3>Recherche personne :</h3></p>    
+        <form method="GET" action="ServletListePersonne">
+            <table>
+                    <tr>
                         <td>Prénom :</td>
                         <td><input type='text' name='firstname'></td>
-                </tr>
-                <tr>
+                    </tr>
+                    <tr>
                         <td>Nom :</td>
                         <td><input type='text' name='lastname'></td>
-                </tr>
-                <tr>
+                    </tr>
+                    <tr>
                         <td>Adresse :</td>
                         <td><input type='text' name='address'></td>
-                </tr>
-                <tr>
+                    </tr>
+                    <tr>
                         <td>Ville :</td>
                         <td><input type='text' name='address'></td>
-                </tr>
-                <tr>
-                    <td colspan="2"><input type="submit" value="rechercher personne"></td>
-                </tr>
-        </table>  
-    </form>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td><input align='right' type="submit" value="rechercher personne"></td>
+                    </tr>
+            </table>  
+        </form>
+    </div>
+      
+      <div id="listResultats">
+          <!-- Tableau dynamique de résultats -->
+      </div>
+      
+      <div id="apercuPersonne">
+          <!-- Aperçu de la personne sélectionnée depuis le tableau + Boutons pour modifier, supprimer-->
+      </div>
 
     <a href='index.jsp'>index</a>
   </body>
