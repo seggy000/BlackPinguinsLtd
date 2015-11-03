@@ -13,6 +13,9 @@ import java.util.Hashtable;
 public class Utilisateurs {
     public static Hashtable<String,String>  users =null;
 
+    public static boolean checkPassword(String user, String pw){
+        return true;
+    }
     public static boolean verifyUser(String user, String pw){
         if(users == null){
             users = new Hashtable<String,String>();
