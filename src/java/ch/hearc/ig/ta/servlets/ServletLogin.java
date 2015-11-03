@@ -43,7 +43,7 @@ public class ServletLogin extends HttpServlet {
                 if (!username.equals("") && !password.equals("")) {
 
 
-                      if(Utilisateurs.verifyUser(username, password)){
+                      if(Utilisateurs.checkPassword(username, password)){
                         //CREATION HTTP SESSION
                         //request.getRequestDispatcher("/index.jsp").forward(request, response);
                         HttpSession s= request.getSession(true);

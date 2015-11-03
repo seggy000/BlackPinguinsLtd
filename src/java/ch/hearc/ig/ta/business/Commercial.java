@@ -64,8 +64,13 @@ public class Commercial implements Serializable{
     public void setPassword(String password) {
         this.password = password;
     }
-    
-    
-    
+
+    public int getPoints() {
+        return points;
+    }
+
+    public void setPoints(int points) {
+        this.points = points;
+    }
     
 }
