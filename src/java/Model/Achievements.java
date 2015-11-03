@@ -5,11 +5,13 @@
  */
 package Model;
 
+import java.io.Serializable;
+
 /**
  *
  * @author JulmyS
  */
-public class Achievements {
+public class Achievements implements Serializable{
     private int numero;
     private String libelle;
 
