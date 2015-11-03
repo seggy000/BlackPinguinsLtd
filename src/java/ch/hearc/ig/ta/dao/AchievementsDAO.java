@@ -61,7 +61,7 @@ public class AchievementsDAO {
 
         List<Achievement> listAchievements = new ArrayList<>();
 
-        String query = "SELECT libelle FROM Achivements a INNER JOIN REL_COM_ACH rca on rca.ACH_Numero = numero INNER JOIN Commerciaux c on rca.COMM_Numero = c.numero WHERE username = ?";
+        String query = "SELECT a.libelle, rca.date_obtention FROM Achivements a INNER JOIN REL_COM_ACH rca on rca.ACH_Numero = numero INNER JOIN Commerciaux c on rca.COMM_Numero = c.numero WHERE username = ?";
         try {
             stmt = c.prepareStatement(query);
             stmt.setString(1, username);
