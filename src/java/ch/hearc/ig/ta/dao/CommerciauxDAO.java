@@ -33,7 +33,7 @@ public class CommerciauxDAO {
 
         String query = "SELECT nom, prenom ,username FROM commerciaux";
         try {
-            
+
             stmt = c.prepareStatement(query);
             rs = stmt.executeQuery();
 
@@ -87,4 +87,30 @@ public class CommerciauxDAO {
         return commercial;
     }
 
+    public String returnPasswordByUsername(String username) {
+        String password = null;
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+
+        String query = "SELECT password FROM commerciaux  WHERE username =?";
+        try {
+            stmt = c.prepareStatement(query);
+            stmt.setString(1, username);
+            rs = stmt.executeQuery();
+
+            while (rs.next()) {
+                password = rs.getString("password");
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        } finally {
+            try {
+                stmt.close();
+                c.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+        return password;
+    }
 }
