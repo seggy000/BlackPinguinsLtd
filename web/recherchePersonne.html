@@ -9,14 +9,31 @@ and open the template in the editor.
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
   </head>
   <body>
-       <h1> recherche personne</h1>
-         <form method="GET" action="ServletListePersonne">
-         nom: <input type="text" name="nom"><br>
-         prenom : <input type="text" name="prenom"><br>
-         adresse: <input type="text" name="adresse"><br>
-         ville :  <input type="text" name="ville"><br>
-         <input type="submit" value="rechercher personne">
-      </form>
+    <p><h1> recherche personne</h1></p>
+        
+    <form method="GET" action="ServletListePersonne">
+        <table>
+                <tr>
+                        <td>Prénom :</td>
+                        <td><input type='text' name='firstname'></td>
+                </tr>
+                <tr>
+                        <td>Nom :</td>
+                        <td><input type='text' name='lastname'></td>
+                </tr>
+                <tr>
+                        <td>Adresse :</td>
+                        <td><input type='text' name='address'></td>
+                </tr>
+                <tr>
+                        <td>Ville :</td>
+                        <td><input type='text' name='address'></td>
+                </tr>
+                <tr>
+                    <td colspan="2"><input type="submit" value="rechercher personne"></td>
+                </tr>
+        </table>  
+    </form>
 
     <a href='index.jsp'>index</a>
   </body>
