@@ -5,17 +5,15 @@
  */
 package Model;
 
-import java.io.Serializable;
-
 /**
  *
  * @author JulmyS
  */
-public class Achievements implements Serializable{
+public class Achievement {
     private int numero;
     private String libelle;
 
-    public Achievements(String libelle) {
+    public Achievement(String libelle) {
         this.libelle = libelle;
     }
 

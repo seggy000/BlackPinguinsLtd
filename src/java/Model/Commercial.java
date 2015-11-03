@@ -11,7 +11,7 @@ import java.io.Serializable;
  *
  * @author JulmyS
  */
-public class Commerciaux implements Serializable{
+public class Commercial implements Serializable{
     private int Numero;
     private String nom;
     private String prenom;
@@ -19,7 +19,7 @@ public class Commerciaux implements Serializable{
     private String password;
     private int points;
     
-    public Commerciaux(String nom, String prenom, String username) {
+    public Commercial(String nom, String prenom, String username) {
         this.nom = nom;
         this.prenom = prenom;
         this.username = username;
