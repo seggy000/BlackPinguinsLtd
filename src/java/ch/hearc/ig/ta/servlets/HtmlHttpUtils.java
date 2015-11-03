@@ -3,7 +3,7 @@
  * and open the template in the editor.
  */
 
-package servlets;
+package ch.hearc.ig.ta.servlets;
 
 import java.io.PrintWriter;
 import javax.servlet.http.HttpServletRequest;

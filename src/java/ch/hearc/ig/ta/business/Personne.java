@@ -2,7 +2,7 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package Model;
+package ch.hearc.ig.ta.business;
 
 import java.io.Serializable;
 

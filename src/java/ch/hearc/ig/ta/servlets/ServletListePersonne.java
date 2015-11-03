@@ -1,11 +1,11 @@
-package servlets;
+package ch.hearc.ig.ta.servlets;
 
 /*
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-import DAO.PersonneDAO;
-import Model.Personne;
+import ch.hearc.ig.ta.dao.PersonneDAO;
+import ch.hearc.ig.ta.business.Personne;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.Vector;

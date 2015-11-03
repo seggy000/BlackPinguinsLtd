@@ -1,13 +1,14 @@
-package servlets;
+package ch.hearc.ig.ta.servlets;
 
 /*
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-import DAO.PersonneDAO;
-import Model.Personne;
+import ch.hearc.ig.ta.dao.PersonneDAO;
+import ch.hearc.ig.ta.business.Personne;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.Vector;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -17,7 +18,7 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author termine
  */
-public class ServletCreationPersonne extends HttpServlet {
+public class ServletMAJPersonne extends HttpServlet {
 
     /** 
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code> methods.
@@ -30,29 +31,36 @@ public class ServletCreationPersonne extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         PrintWriter out = response.getWriter();
-        String nom = null, prenom = null, adresse = null, ville = null;
         try {
-
-            HtmlHttpUtils.doHeader("creation personne", out);
+            HtmlHttpUtils.doHeader("MAJ personne", out);
             if (HtmlHttpUtils.isAuthenticate(request)) {
-                nom = request.getParameter("nom");
-                prenom = request.getParameter("prenom");
-                adresse = request.getParameter("adresse");
-                ville = request.getParameter("ville");
+                Long idl = null;
+                String id = request.getParameter("id");
+                if (id != null) {
+                    if (!id.equals("")) {
 
-                if (nom != null && prenom != null) {
-                    if (!nom.equals("") && !prenom.equals("")) {
-                        PersonneDAO p = new PersonneDAO();
-                        Long id = p.create(new Personne(nom, prenom, adresse, ville));
-                        out.println("<p>" + id + "/" + nom + "/" + prenom + "/" + adresse + "/" + ville + "</p>");
-                    } else {
-                        out.println("<p>nom et prenom ne doivent pas etre null !!</p>");
+                        PersonneDAO pdao = new PersonneDAO();
+                        idl = new Long(id);
+
+                        Vector<Personne> v = pdao.research(new Personne(idl, null, null, null, null));
+
+                        for (int i = 0; i < v.size(); i++) {//UN SEULEMENT
+                            Personne p = v.elementAt(i);
+                            out.println("<form method='GET' action='ServletFaireMAJPersonne'>");
+                            out.println("<input type='hidden' name='id' value='" + p.getId() + "'><br>");
+                            out.println("id: <input type='text' name='id' value='" + p.getId() + "' DISABLED><br>");
+                            out.println("nom: <input type='text' name='nom' value='" + p.getNom() + "'><br>");
+                            out.println("prenom : <input type='text' name='prenom' value='" + p.getPrenom() + "'><br>");
+                            out.println(" adresse: <input type='text' name='adresse' value='" + p.getAdresse() + "'><br>");
+                            out.println(" ville :  <input type='text' name='ville' value='" + p.getVille() + "'><br>");
+                            out.println("<input type='submit' value='MAJ personne'>");
+                            out.println("</form>");
+
+                        }
                     }
                 }
-                /* TODO output your page here
-                out.println("<h1>Servlet ServletCreationPersonne at " + request.getContextPath () + "</h1>");
-                 */
             }
+
             HtmlHttpUtils.doFooter(out);
         } finally {
             out.close();

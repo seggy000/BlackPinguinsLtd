@@ -1,14 +1,13 @@
-package servlets;
+package ch.hearc.ig.ta.servlets;
 
 /*
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-import DAO.PersonneDAO;
-import Model.Personne;
+import ch.hearc.ig.ta.dao.PersonneDAO;
+import ch.hearc.ig.ta.business.Personne;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.Vector;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -18,7 +17,7 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author termine
  */
-public class ServletMAJPersonne extends HttpServlet {
+public class ServletFaireMAJPersonne extends HttpServlet {
 
     /** 
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code> methods.
@@ -31,37 +30,23 @@ public class ServletMAJPersonne extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         PrintWriter out = response.getWriter();
+        String id = null, nom = null, prenom = null, adresse = null, ville = null;
         try {
-            HtmlHttpUtils.doHeader("MAJ personne", out);
             if (HtmlHttpUtils.isAuthenticate(request)) {
-                Long idl = null;
-                String id = request.getParameter("id");
-                if (id != null) {
-                    if (!id.equals("")) {
+                id = request.getParameter("id");
+                nom = request.getParameter("nom");
+                prenom = request.getParameter("prenom");
+                adresse = request.getParameter("adresse");
+                ville = request.getParameter("ville");
 
-                        PersonneDAO pdao = new PersonneDAO();
-                        idl = new Long(id);
+                Personne p = new Personne(Long.parseLong(id), nom, prenom, adresse, ville);
 
-                        Vector<Personne> v = pdao.research(new Personne(idl, null, null, null, null));
+                PersonneDAO pdao = new PersonneDAO();
 
-                        for (int i = 0; i < v.size(); i++) {//UN SEULEMENT
-                            Personne p = v.elementAt(i);
-                            out.println("<form method='GET' action='ServletFaireMAJPersonne'>");
-                            out.println("<input type='hidden' name='id' value='" + p.getId() + "'><br>");
-                            out.println("id: <input type='text' name='id' value='" + p.getId() + "' DISABLED><br>");
-                            out.println("nom: <input type='text' name='nom' value='" + p.getNom() + "'><br>");
-                            out.println("prenom : <input type='text' name='prenom' value='" + p.getPrenom() + "'><br>");
-                            out.println(" adresse: <input type='text' name='adresse' value='" + p.getAdresse() + "'><br>");
-                            out.println(" ville :  <input type='text' name='ville' value='" + p.getVille() + "'><br>");
-                            out.println("<input type='submit' value='MAJ personne'>");
-                            out.println("</form>");
+                pdao.update(p);
 
-                        }
-                    }
-                }
+                request.getRequestDispatcher("/index.jsp").forward(request, response);
             }
-
-            HtmlHttpUtils.doFooter(out);
         } finally {
             out.close();
         }

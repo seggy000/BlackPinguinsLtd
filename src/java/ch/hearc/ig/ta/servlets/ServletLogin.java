@@ -1,23 +1,24 @@
-package servlets;
-
 /*
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-import DAO.PersonneDAO;
-import Model.Personne;
+package ch.hearc.ig.ta.servlets;
+
+
+import ch.hearc.ig.ta.memoryuser.Utilisateurs;
 import java.io.IOException;
 import java.io.PrintWriter;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /**
  *
  * @author termine
  */
-public class ServletFaireMAJPersonne extends HttpServlet {
+public class ServletLogin extends HttpServlet {
 
     /** 
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code> methods.
@@ -30,23 +31,38 @@ public class ServletFaireMAJPersonne extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         PrintWriter out = response.getWriter();
-        String id = null, nom = null, prenom = null, adresse = null, ville = null;
+        String username = null, password = null;
         try {
-            if (HtmlHttpUtils.isAuthenticate(request)) {
-                id = request.getParameter("id");
-                nom = request.getParameter("nom");
-                prenom = request.getParameter("prenom");
-                adresse = request.getParameter("adresse");
-                ville = request.getParameter("ville");
 
-                Personne p = new Personne(Long.parseLong(id), nom, prenom, adresse, ville);
+            HtmlHttpUtils.doHeader("Login Page - Gestion de personnes (CRUD)", out);
+            
+            username = request.getParameter("username");
+            password= request.getParameter("password");
+            boolean errorlogin=false;
+            if (username != null && password != null) {
+                if (!username.equals("") && !password.equals("")) {
 
-                PersonneDAO pdao = new PersonneDAO();
 
-                pdao.update(p);
-
-                request.getRequestDispatcher("/index.jsp").forward(request, response);
+                      if(Utilisateurs.verifyUser(username, password)){
+                        //CREATION HTTP SESSION
+                        //request.getRequestDispatcher("/index.jsp").forward(request, response);
+                        HttpSession s= request.getSession(true);
+                        s.setAttribute("username", username);
+                        response.sendRedirect("index.jsp");
+                     }else errorlogin=true;
+              }else errorlogin=true;
+            }else errorlogin=true;
+            
+            if(errorlogin){
+                out.println("<p>Erreur d'authentification, veuillez préciser username , password");
+                out.println("<a href='login.jsp'>reessayer</a>");
+                out.println("</body></html>");
             }
+
+
+
+        } catch (Exception e) {
+            e.printStackTrace();
         } finally {
             out.close();
         }

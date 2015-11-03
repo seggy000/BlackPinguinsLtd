@@ -3,9 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package DAO;
+package ch.hearc.ig.ta.dao;
 
-import Model.Commercial;
+import ch.hearc.ig.ta.business.Commercial;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
