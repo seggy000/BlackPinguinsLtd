@@ -6,7 +6,6 @@
 package ch.hearc.ig.ta.dao;
 
 import ch.hearc.ig.ta.business.Achievement;
-import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -17,13 +16,9 @@ import java.util.List;
  *
  * @author JulmyS
  */
-public class AchievementsDAO {
+public class AchievementsDAO extends DAO {
 
-    Connection c;
-
-    public AchievementsDAO() {
-        c = DBDataSource.getJDBCConnection();
-    }
+    public AchievementsDAO() {}
 
     public List getAllAchievements() {
         PreparedStatement stmt = null;

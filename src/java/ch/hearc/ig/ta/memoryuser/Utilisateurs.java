@@ -17,9 +17,10 @@ public class Utilisateurs {
 
     public static boolean checkPassword(String user, String pw) {
         if (!user.equals(null)) {
-            CommerciauxDAO dao = new CommerciauxDAO();
-            String password = dao.returnPasswordByUsername(user);
-            return password.equals(pw);
+//            CommerciauxDAO dao = new CommerciauxDAO();
+//            String password = dao.returnPasswordByUsername(user);
+//            return password.equals(pw);
+            return new CommerciauxDAO().checkLogin(user, pw);
         } else {
             return false;
         }
