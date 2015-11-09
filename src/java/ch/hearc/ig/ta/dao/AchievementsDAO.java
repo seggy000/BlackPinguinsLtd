@@ -11,6 +11,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -18,6 +20,8 @@ import java.util.List;
  */
 public class AchievementsDAO extends DAO {
 
+    private static final Logger logger = Logger.getLogger(AchievementsDAO.class.getName());
+    
     public AchievementsDAO() {}
 
     public List getAllAchievements() {
@@ -38,13 +42,14 @@ public class AchievementsDAO extends DAO {
                 listAchievements.add(achievement);
             }
         } catch (SQLException ex) {
-            ex.printStackTrace();
+            logger.log(Level.SEVERE, null, ex);
         } finally {
             try {
+                rs.close();
                 stmt.close();
                 c.close();
-            } catch (SQLException e) {
-                e.printStackTrace();
+            } catch (SQLException ex) {
+                logger.log(Level.SEVERE, null, ex);
             }
         }
         return listAchievements;
@@ -68,13 +73,14 @@ public class AchievementsDAO extends DAO {
                 listAchievements.add(achievement);
             }
         }catch(SQLException ex){
-            ex.printStackTrace();
+            logger.log(Level.SEVERE, null, ex);
         }finally{
             try{
+                rs.close();
                 stmt.close();
                 c.close();
-            }catch(SQLException e){
-                e.printStackTrace();
+            }catch(SQLException ex){
+                logger.log(Level.SEVERE, null, ex);
             }
         }
         return listAchievements;
@@ -96,15 +102,17 @@ public class AchievementsDAO extends DAO {
                 nbAchievements = rs.getInt("a.numero");
             }
         }catch(SQLException ex){
-            ex.printStackTrace();
+            logger.log(Level.SEVERE, null, ex);
         }finally{
             try{
+                rs.close();
                 stmt.close();
                 c.close();
-            }catch(SQLException e){
-                e.printStackTrace();
+            }catch(SQLException ex){
+                logger.log(Level.SEVERE, null, ex);
             }
         }
         return nbAchievements;
     }
+    
 }

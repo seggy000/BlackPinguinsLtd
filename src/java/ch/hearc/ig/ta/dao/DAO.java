@@ -20,6 +20,14 @@ public abstract class DAO {
         }
     }
     
+    public static void close() {
+        try {
+            c.close();
+        }catch(SQLException ex) {
+            logger.log(Level.SEVERE, null, ex);
+        }
+    }
+    
     public static void commit() {
         try {
             c.commit();

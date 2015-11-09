@@ -5,6 +5,7 @@
 
 package ch.hearc.ig.ta.servlets;
 
+import ch.hearc.ig.ta.dao.DAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import javax.servlet.ServletException;
@@ -31,6 +32,7 @@ public class ServletLogout extends HttpServlet {
         PrintWriter out = response.getWriter();
         try {
           request.getSession(false).invalidate();
+          DAO.close();
           response.sendRedirect("login.jsp");
         } finally { 
             out.close();

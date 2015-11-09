@@ -26,9 +26,9 @@ public class Services {
         
         StringBuilder sb = new StringBuilder();
         
-        sb.append(commercial.getNom());
-        sb.append(" ");
         sb.append(commercial.getPrenom());
+        sb.append(" ");
+        sb.append(commercial.getNom());
         
         return sb.toString();
     }
