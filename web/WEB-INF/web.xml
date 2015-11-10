@@ -2,35 +2,35 @@
 <web-app version="2.5" xmlns="http://java.sun.com/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd">
     <servlet>
         <servlet-name>ServletCreationPersonne</servlet-name>
-        <servlet-class>servlets.ServletCreationPersonne</servlet-class>
+        <servlet-class>ch.hearc.ig.ta.servlets.ServletCreationPersonne</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>ServletListePersonne</servlet-name>
-        <servlet-class>servlets.ServletListePersonne</servlet-class>
+        <servlet-class>ch.hearc.ig.ta.servlets.ServletListePersonne</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>ServletEffacerPersonne</servlet-name>
-        <servlet-class>servlets.ServletEffacerPersonne</servlet-class>
+        <servlet-class>ch.hearc.ig.ta.servlets.ServletEffacerPersonne</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>ServletMAJPersonne</servlet-name>
-        <servlet-class>servlets.ServletMAJPersonne</servlet-class>
+        <servlet-class>ch.hearc.ig.ta.servlets.ServletMAJPersonne</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>ServletFaireEffacementPersonne</servlet-name>
-        <servlet-class>servlets.ServletFaireEffacementPersonne</servlet-class>
+        <servlet-class>ch.hearc.ig.ta.servlets.ServletFaireEffacementPersonne</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>ServletFaireMAJPersonne</servlet-name>
-        <servlet-class>servlets.ServletFaireMAJPersonne</servlet-class>
+        <servlet-class>ch.hearc.ig.ta.servlets.ServletFaireMAJPersonne</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>ServletLogin</servlet-name>
-        <servlet-class>servlets.ServletLogin</servlet-class>
+        <servlet-class>ch.hearc.ig.ta.servlets.ServletLogin</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>ServletLogout</servlet-name>
-        <servlet-class>servlets.ServletLogout</servlet-class>
+        <servlet-class>ch.hearc.ig.ta.servlets.ServletLogout</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>ServletCreationPersonne</servlet-name>
