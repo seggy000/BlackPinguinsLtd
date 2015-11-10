@@ -14,12 +14,12 @@ public class RelComAchDao extends DAO {
     
     private static final Logger logger = Logger.getLogger(RelComAchDao.class.getName());
     
-    public int insert(final String username, final String label) {
+    public int insert(final String username, final String achievementLabel) {
         try(PreparedStatement pstmt = c.prepareStatement("INSERT INTO rel_com_ach(date_obtention, comm_numero, ach_numero) "
                                                          + "VALUES (sysdate, (SELECT numero FROM commerciaux WHERE UPPER(username) = ?), "
                                                                 + "(SELECT numero FROM achievements WHERE UPPER(libelle) = ?))")) {
             pstmt.setString(1, username);
-            pstmt.setString(2, label);
+            pstmt.setString(2, achievementLabel);
             
             return pstmt.executeUpdate();
         }catch(SQLException ex) {

@@ -1,9 +1,12 @@
 package ch.hearc.ig.ta.services;
 
+import ch.hearc.ig.ta.business.Achievement;
 import ch.hearc.ig.ta.business.Commercial;
 import ch.hearc.ig.ta.dao.AchievementsDAO;
 import ch.hearc.ig.ta.dao.CommerciauxDAO;
 import ch.hearc.ig.ta.dao.DAO;
+import ch.hearc.ig.ta.dao.RelComAchDao;
+import java.util.List;
 
 /**
  *
@@ -13,6 +16,7 @@ public class Services {
 
     private final CommerciauxDAO commerciauxDao = new CommerciauxDAO();
     private final AchievementsDAO achievementsDao = new AchievementsDAO();
+    private final RelComAchDao relComAchDao = new RelComAchDao();
     private Commercial commercial;
 
     private void getCommercial(final String username) {
@@ -54,6 +58,26 @@ public class Services {
         
         if(result > 0) {
             commercial.setPoints(commercial.getPoints() + points);
+            DAO.commit();
+            return true;
+        }else {
+            DAO.rollback();
+            return false;
+        }
+    }
+    
+    public List<Achievement> getUserAchievements(final String username) {
+        return achievementsDao.getAchievementsByCommercial(username);
+    }
+    
+    public boolean checkUserAchievement(final String username, final String achievementLabel) {
+        return achievementsDao.checkUserAchievement(username, achievementLabel);
+    }
+    
+    public boolean addAchievement(final String username, final String achievementLabel) {
+        int result = relComAchDao.insert(username, achievementLabel);
+        
+        if(result > 0) {
             DAO.commit();
             return true;
         }else {
