@@ -12,25 +12,30 @@ import java.io.Serializable;
  * @author JulmyS
  */
 public class Commercial implements Serializable{
-    private int Numero;
+    private int numero;
     private String nom;
     private String prenom;
     private String username;
     private String password;
     private int points;
     
-    public Commercial(String nom, String prenom, String username) {
+    public Commercial(final String nom, final String prenom, final String username, final int points) {
         this.nom = nom;
         this.prenom = prenom;
         this.username = username;
+        this.points = points;
+    }
+    
+    public int getLevel() {
+        return (int)Math.floor(points);
     }
 
     public int getNumero() {
-        return Numero;
+        return numero;
     }
 
-    public void setNumero(int Numero) {
-        this.Numero = Numero;
+    public void setNumero(int numero) {
+        this.numero = numero;
     }
 
     public String getNom() {

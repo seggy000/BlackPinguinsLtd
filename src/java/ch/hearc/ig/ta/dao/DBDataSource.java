@@ -32,7 +32,9 @@ public class DBDataSource {
                 ds.setUser("thierry_hubmann");
                 ds.setPassword("thierry_hubmann");
             }
-            return ds.getConnection();
+            Connection conn = ds.getConnection();
+            conn.setAutoCommit(false);
+            return conn;
             // c = ds.getConnection();ds=new DataSource();
             } catch (SQLException ex) {
             Logger.getLogger(DBDataSource.class.getName()).log(Level.SEVERE, null, ex);
