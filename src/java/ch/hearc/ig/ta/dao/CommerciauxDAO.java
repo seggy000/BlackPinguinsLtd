@@ -27,8 +27,9 @@ public class CommerciauxDAO extends DAO {
     public boolean checkLogin(final String username, final String password) {
         try(PreparedStatement pstmt = c.prepareStatement("SELECT 1 "
                                                          + "FROM commerciaux "
-                                                         + "WHERE UPPER(username) = ? AND UPPER(mpd) = ?")) {
-            pstmt.setString(1, username);
+                                                         + "WHERE UPPER(username) = ? AND mdp = ?")) {
+            String upperUsername = username.toUpperCase();
+            pstmt.setString(1, upperUsername);
             pstmt.setString(2, password);
             
             try(ResultSet userFound = pstmt.executeQuery()) {
