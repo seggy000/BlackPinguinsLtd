@@ -52,6 +52,7 @@ public class ServletLogin extends HttpServlet {
                         HttpSession s= request.getSession(true);
                         s.setAttribute("username", username);
                         s.setAttribute("date_connexion", new Date());
+                        s.setAttribute("navigateur", request.getHeader("User-Agent"));
                         response.sendRedirect("index.jsp");
                      }else errorlogin=true;
               }else errorlogin=true;
