@@ -1,9 +1,5 @@
 package ch.hearc.ig.ta.servlets;
 
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 import ch.hearc.ig.ta.dao.PersonneDAO;
 import ch.hearc.ig.ta.business.Personne;
 import java.io.IOException;
@@ -20,8 +16,10 @@ import javax.servlet.http.HttpServletResponse;
  */
 public class ServletMAJPersonne extends HttpServlet {
 
-    /** 
-     * Processes requests for both HTTP <code>GET</code> and <code>POST</code> methods.
+    /**
+     * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
+     * methods.
+     *
      * @param request servlet request
      * @param response servlet response
      * @throws ServletException if a servlet-specific error occurs
@@ -31,18 +29,18 @@ public class ServletMAJPersonne extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         PrintWriter out = response.getWriter();
+
         try {
             HtmlHttpUtils.doHeader("MAJ personne", out);
+
             if (HtmlHttpUtils.isAuthenticate(request)) {
-                Long idl = null;
                 String id = request.getParameter("id");
+
                 if (id != null) {
                     if (!id.equals("")) {
-
                         PersonneDAO pdao = new PersonneDAO();
-                        idl = new Long(id);
 
-                        Vector<Personne> v = pdao.research(new Personne(idl, null, null, null, null));
+                        Vector<Personne> v = pdao.research(new Personne(new Long(id), null, null, null, null));
 
                         for (int i = 0; i < v.size(); i++) {//UN SEULEMENT
                             Personne p = v.elementAt(i);
@@ -55,7 +53,6 @@ public class ServletMAJPersonne extends HttpServlet {
                             out.println(" ville :  <input type='text' name='ville' value='" + p.getVille() + "'><br>");
                             out.println("<input type='submit' value='MAJ personne'>");
                             out.println("</form>");
-
                         }
                     }
                 }
@@ -68,8 +65,9 @@ public class ServletMAJPersonne extends HttpServlet {
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
-    /** 
+    /**
      * Handles the HTTP <code>GET</code> method.
+     *
      * @param request servlet request
      * @param response servlet response
      * @throws ServletException if a servlet-specific error occurs
@@ -81,8 +79,9 @@ public class ServletMAJPersonne extends HttpServlet {
         processRequest(request, response);
     }
 
-    /** 
+    /**
      * Handles the HTTP <code>POST</code> method.
+     *
      * @param request servlet request
      * @param response servlet response
      * @throws ServletException if a servlet-specific error occurs
@@ -94,8 +93,9 @@ public class ServletMAJPersonne extends HttpServlet {
         processRequest(request, response);
     }
 
-    /** 
+    /**
      * Returns a short description of the servlet.
+     *
      * @return a String containing servlet description
      */
     @Override

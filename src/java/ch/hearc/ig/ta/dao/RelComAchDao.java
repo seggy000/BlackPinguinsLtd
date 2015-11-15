@@ -16,8 +16,8 @@ public class RelComAchDao extends DAO {
     
     public int insert(final String username, final String achievementLabel) {
         try(PreparedStatement pstmt = c.prepareStatement("INSERT INTO rel_com_ach(date_obtention, comm_numero, ach_numero) "
-                                                         + "VALUES (sysdate, (SELECT numero FROM commerciaux WHERE UPPER(username) = ?), "
-                                                                + "(SELECT numero FROM achievements WHERE UPPER(libelle) = ?))")) {
+                                                         + "VALUES (sysdate, (SELECT numero FROM commerciaux WHERE UPPER(username) = UPPER(?)), "
+                                                                + "(SELECT numero FROM achievements WHERE UPPER(libelle) = UPPER(?)))")) {
             pstmt.setString(1, username);
             pstmt.setString(2, achievementLabel);
             

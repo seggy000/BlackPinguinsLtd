@@ -62,7 +62,7 @@ public class AchievementsDAO extends DAO {
 
         List<Achievement> listAchievements = new ArrayList<>();
 
-        String query = "SELECT a.libelle, rca.date_obtention FROM Achivements a INNER JOIN REL_COM_ACH rca on rca.ACH_Numero = a.numero INNER JOIN Commerciaux c on rca.COMM_Numero = c.numero WHERE username = ?";
+        String query = "SELECT a.libelle, rca.date_obtention FROM Achivements a INNER JOIN REL_COM_ACH rca on rca.ACH_Numero = a.numero INNER JOIN Commerciaux c on rca.COMM_Numero = c.numero WHERE UPPER(username) = UPPER(?)";
         try {
             stmt = c.prepareStatement(query);
             stmt.setString(1, username);
@@ -93,7 +93,7 @@ public class AchievementsDAO extends DAO {
 
         int nbAchievements = 0;
 
-        String query = "SELECT COUNT(a.numero) FROM Achivements a INNER JOIN REL_COM_ACH rca on rca.ACH_Numero = a.numero INNER JOIN Commerciaux c on rca.COMM_Numero = c.numero WHERE username = ?";
+        String query = "SELECT COUNT(a.numero) FROM Achivements a INNER JOIN REL_COM_ACH rca on rca.ACH_Numero = a.numero INNER JOIN Commerciaux c on rca.COMM_Numero = c.numero WHERE UPPER(username) = UPPER(?)";
         try {
             stmt = c.prepareStatement(query);
             stmt.setString(1, username);

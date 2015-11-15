@@ -1,14 +1,9 @@
 package ch.hearc.ig.ta.servlets;
 
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
-import ch.hearc.ig.ta.dao.PersonneDAO;
 import ch.hearc.ig.ta.business.Personne;
+import ch.hearc.ig.ta.dao.PersonneDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.Vector;
 import java.util.Vector;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -21,8 +16,10 @@ import javax.servlet.http.HttpServletResponse;
  */
 public class ServletEffacerPersonne extends HttpServlet {
 
-    /** 
-     * Processes requests for both HTTP <code>GET</code> and <code>POST</code> methods.
+    /**
+     * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
+     * methods.
+     *
      * @param request servlet request
      * @param response servlet response
      * @throws ServletException if a servlet-specific error occurs
@@ -35,24 +32,23 @@ public class ServletEffacerPersonne extends HttpServlet {
 
         try {
             HtmlHttpUtils.doHeader("Etes-vous sur de vouloir effacer la personne ? ", out);
+
             if (HtmlHttpUtils.isAuthenticate(request)) {
-                Long idl = null;
                 String id = request.getParameter("id");
+
                 if (id != null) {
                     if (!id.equals("")) {
-
                         PersonneDAO pdao = new PersonneDAO();
 
-                        idl = new Long(id);
-                        Vector<Personne> v = pdao.research(new Personne(idl, null, null, null, null));
+                        Vector<Personne> v = pdao.research(new Personne(new Long(id), null, null, null, null));
                         out.println("<table>");
+
                         for (int i = 0; i < v.size(); i++) {
                             Personne p = v.elementAt(i);
                             out.println("<tr><td>" + p.getId() + " : " + p.getNom() + " , " + p.getPrenom() + " , " + p.getAdresse() + " , " + p.getVille() + "</td><td><a href='ServletFaireEffacementPersonne?id=" + p.getId() + "'>oui supprimer</a></td></tr>");
                         }
+
                         out.println("</table>");
-
-
                     }
                 }
 
@@ -64,8 +60,9 @@ public class ServletEffacerPersonne extends HttpServlet {
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
-    /** 
+    /**
      * Handles the HTTP <code>GET</code> method.
+     *
      * @param request servlet request
      * @param response servlet response
      * @throws ServletException if a servlet-specific error occurs
@@ -77,8 +74,9 @@ public class ServletEffacerPersonne extends HttpServlet {
         processRequest(request, response);
     }
 
-    /** 
+    /**
      * Handles the HTTP <code>POST</code> method.
+     *
      * @param request servlet request
      * @param response servlet response
      * @throws ServletException if a servlet-specific error occurs
@@ -90,8 +88,9 @@ public class ServletEffacerPersonne extends HttpServlet {
         processRequest(request, response);
     }
 
-    /** 
+    /**
      * Returns a short description of the servlet.
+     *
      * @return a String containing servlet description
      */
     @Override

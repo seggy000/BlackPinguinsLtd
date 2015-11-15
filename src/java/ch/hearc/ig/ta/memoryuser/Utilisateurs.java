@@ -5,7 +5,6 @@
 package ch.hearc.ig.ta.memoryuser;
 
 import ch.hearc.ig.ta.dao.CommerciauxDAO;
-import java.util.Hashtable;
 
 /**
  *
@@ -13,13 +12,10 @@ import java.util.Hashtable;
  */
 public class Utilisateurs {
 
-    public static Hashtable<String, String> users = null;
+//    public static Hashtable<String, String> users = null;
 
     public static boolean checkPassword(String user, String pw) {
-        if (!user.equals(null)) {
-//            CommerciauxDAO dao = new CommerciauxDAO();
-//            String password = dao.returnPasswordByUsername(user);
-//            return password.equals(pw);
+        if (user != null) {
             return new CommerciauxDAO().checkLogin(user, pw);
         } else {
             return false;

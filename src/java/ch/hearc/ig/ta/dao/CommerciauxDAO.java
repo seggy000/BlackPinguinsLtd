@@ -84,7 +84,7 @@ public class CommerciauxDAO extends DAO {
 
         Commercial commercial = null;
 
-        String query = "SELECT nom, prenom ,username, points FROM commerciaux  WHERE username =?";
+        String query = "SELECT nom, prenom ,username, points FROM commerciaux  WHERE UPPER(username) = UPPER(?)";
         try {
             stmt = c.prepareStatement(query);
             stmt.setString(1, username);
@@ -114,7 +114,7 @@ public class CommerciauxDAO extends DAO {
         PreparedStatement stmt = null;
         ResultSet passwordFound = null;
 
-        String query = "SELECT password FROM commerciaux  WHERE username =?";
+        String query = "SELECT password FROM commerciaux  WHERE UPPER(username) = UPPER(?)";
         try {
             stmt = c.prepareStatement(query);
             stmt.setString(1, username);
@@ -137,7 +137,7 @@ public class CommerciauxDAO extends DAO {
     }
     
     public int updatePoints(final String username, final int points) {
-        try(PreparedStatement pstmt = c.prepareStatement("UPDATE commerciaux SET points = ? WHERE username = ?")) {
+        try(PreparedStatement pstmt = c.prepareStatement("UPDATE commerciaux SET points = ? WHERE UPPER(username) = UPPER(?)")) {
             pstmt.setInt(1, points);
             pstmt.setString(2, username);
             

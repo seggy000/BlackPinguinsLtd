@@ -1,11 +1,8 @@
 package ch.hearc.ig.ta.servlets;
 
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 import ch.hearc.ig.ta.dao.PersonneDAO;
 import ch.hearc.ig.ta.business.Personne;
+import ch.hearc.ig.ta.services.Services;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.Vector;
@@ -20,8 +17,10 @@ import javax.servlet.http.HttpServletResponse;
  */
 public class ServletListePersonne extends HttpServlet {
 
-    /** 
-     * Processes requests for both HTTP <code>GET</code> and <code>POST</code> methods.
+    /**
+     * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
+     * methods.
+     *
      * @param request servlet request
      * @param response servlet response
      * @throws ServletException if a servlet-specific error occurs
@@ -32,6 +31,7 @@ public class ServletListePersonne extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         PrintWriter out = response.getWriter();
         String nom = null, prenom = null, adresse = null, ville = null;
+
         try {
             HtmlHttpUtils.doHeader("liste des personnes", out);
 
@@ -41,18 +41,31 @@ public class ServletListePersonne extends HttpServlet {
                 adresse = request.getParameter("adresse");
                 ville = request.getParameter("ville");
                 //ATTENTION EXECUTION DE CROSS SITE SCRIPTING
-                out.println("recherche de "+ nom + " "+ prenom + " "+ adresse +" " + ville+"<br>");
-
+                out.println("recherche de " + nom + " " + prenom + " " + adresse + " " + ville + "<br>");
 
                 PersonneDAO pdao = new PersonneDAO();
                 Vector<Personne> v = pdao.research(new Personne(nom, prenom, adresse, ville));
                 out.println("<table>");
+
                 for (int i = 0; i < v.size(); i++) {
                     Personne p = v.elementAt(i);
                     out.println("<tr><td>" + p.getId() + " : " + p.getNom() + " , " + p.getPrenom() + " , " + p.getAdresse() + " , " + p.getVille() + "</td><td><a href='ServletMAJPersonne?id=" + p.getId() + "'>edition</a></td><td><a href='ServletEffacerPersonne?id=" + p.getId() + "'>supprimer</a></td></tr>");
                 }
+
                 out.println("</table>");
+                
+                String username = (String) request.getSession(false).getAttribute("username");
+                String achievement = "Premier coup d'oeil";
+
+                if (!Services.checkUserAchievement(username, achievement)) {
+                    boolean achievementOK = Services.addAchievement(username, achievement);
+
+                    if (!achievementOK) {
+                        out.println("<p>Une erreur s'est produite lors de l'attribution de la récompense \"" + achievement + "\".</p>");
+                    }
+                }
             }
+
             HtmlHttpUtils.doFooter(out);
         } finally {
             out.close();
@@ -60,8 +73,9 @@ public class ServletListePersonne extends HttpServlet {
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
-    /** 
+    /**
      * Handles the HTTP <code>GET</code> method.
+     *
      * @param request servlet request
      * @param response servlet response
      * @throws ServletException if a servlet-specific error occurs
@@ -73,8 +87,9 @@ public class ServletListePersonne extends HttpServlet {
         processRequest(request, response);
     }
 
-    /** 
+    /**
      * Handles the HTTP <code>POST</code> method.
+     *
      * @param request servlet request
      * @param response servlet response
      * @throws ServletException if a servlet-specific error occurs
@@ -86,8 +101,9 @@ public class ServletListePersonne extends HttpServlet {
         processRequest(request, response);
     }
 
-    /** 
+    /**
      * Returns a short description of the servlet.
+     *
      * @return a String containing servlet description
      */
     @Override

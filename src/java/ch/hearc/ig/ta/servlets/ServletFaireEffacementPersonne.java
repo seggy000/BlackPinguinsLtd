@@ -1,11 +1,8 @@
 package ch.hearc.ig.ta.servlets;
 
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 import ch.hearc.ig.ta.dao.PersonneDAO;
 import ch.hearc.ig.ta.business.Personne;
+import ch.hearc.ig.ta.services.Services;
 import java.io.IOException;
 import java.io.PrintWriter;
 import javax.servlet.ServletException;
@@ -19,8 +16,10 @@ import javax.servlet.http.HttpServletResponse;
  */
 public class ServletFaireEffacementPersonne extends HttpServlet {
 
-    /** 
-     * Processes requests for both HTTP <code>GET</code> and <code>POST</code> methods.
+    /**
+     * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
+     * methods.
+     *
      * @param request servlet request
      * @param response servlet response
      * @throws ServletException if a servlet-specific error occurs
@@ -31,13 +30,26 @@ public class ServletFaireEffacementPersonne extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         PrintWriter out = response.getWriter();
         String id = null;
+
         try {
             if (HtmlHttpUtils.isAuthenticate(request)) {
                 id = request.getParameter("id");
+
                 if (id != null) {
                     if (!id.equals("")) {
                         PersonneDAO pdao = new PersonneDAO();
                         pdao.delete(new Personne(Long.parseLong(id), null, null, null, null));
+
+                        String username = (String) request.getSession(false).getAttribute("username");
+                        String achievement = "Première suppression";
+
+                        if (!Services.checkUserAchievement(username, achievement)) {
+                            boolean achievementOK = Services.addAchievement(username, achievement);
+
+                            if (!achievementOK) {
+                                out.println("<p>Une erreur s'est produite lors de l'attribution de la récompense \"" + achievement + "\".</p>");
+                            }
+                        }
                     }
                 }
                 request.getRequestDispatcher("/index.jsp").forward(request, response);
@@ -48,8 +60,9 @@ public class ServletFaireEffacementPersonne extends HttpServlet {
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
-    /** 
+    /**
      * Handles the HTTP <code>GET</code> method.
+     *
      * @param request servlet request
      * @param response servlet response
      * @throws ServletException if a servlet-specific error occurs
@@ -61,8 +74,9 @@ public class ServletFaireEffacementPersonne extends HttpServlet {
         processRequest(request, response);
     }
 
-    /** 
+    /**
      * Handles the HTTP <code>POST</code> method.
+     *
      * @param request servlet request
      * @param response servlet response
      * @throws ServletException if a servlet-specific error occurs
@@ -74,8 +88,9 @@ public class ServletFaireEffacementPersonne extends HttpServlet {
         processRequest(request, response);
     }
 
-    /** 
+    /**
      * Returns a short description of the servlet.
+     *
      * @return a String containing servlet description
      */
     @Override
