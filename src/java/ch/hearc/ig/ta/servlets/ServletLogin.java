@@ -8,6 +8,7 @@ package ch.hearc.ig.ta.servlets;
 import ch.hearc.ig.ta.memoryuser.Utilisateurs;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.Date;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -50,6 +51,8 @@ public class ServletLogin extends HttpServlet {
                         //request.getRequestDispatcher("/index.jsp").forward(request, response);
                         HttpSession s= request.getSession(true);
                         s.setAttribute("username", username);
+                        s.setAttribute("date_connexion", new Date());
+                        s.setAttribute("navigateur", request.getHeader("User-Agent"));
                         response.sendRedirect("index.jsp");
                      }else errorlogin=true;
               }else errorlogin=true;
