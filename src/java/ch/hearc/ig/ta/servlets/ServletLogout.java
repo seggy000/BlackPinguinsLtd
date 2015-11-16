@@ -34,7 +34,7 @@ public class ServletLogout extends HttpServlet {
 
         try {
             request.getSession(false).invalidate();
-            DAO.close();
+            DAO.closeConnection();
             response.sendRedirect("login.jsp");
         } finally {
             out.close();

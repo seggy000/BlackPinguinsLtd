@@ -15,12 +15,16 @@ public abstract class DAO {
     protected static Connection c;
 
     public DAO() {
+        DAO.openConnection();
+    }
+    
+    public static void openConnection() {
         if(c == null) {
             c = DBDataSource.getJDBCConnection();
         }
     }
     
-    public static void close() {
+    public static void closeConnection() {
         try {
             c.close();
         }catch(SQLException ex) {

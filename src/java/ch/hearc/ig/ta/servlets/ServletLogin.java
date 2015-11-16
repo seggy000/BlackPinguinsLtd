@@ -1,5 +1,6 @@
 package ch.hearc.ig.ta.servlets;
 
+import ch.hearc.ig.ta.dao.DAO;
 import ch.hearc.ig.ta.memoryuser.Utilisateurs;
 import ch.hearc.ig.ta.services.Services;
 import java.io.IOException;
@@ -46,7 +47,8 @@ public class ServletLogin extends HttpServlet {
 
             if (username != null && password != null) {
                 if (!username.equals("") && !password.equals("")) {
-
+                    
+                    DAO.openConnection();
                     if (Utilisateurs.checkPassword(username, password)) {
                         //CREATION HTTP SESSION
                         //request.getRequestDispatcher("/index.jsp").forward(request, response);
