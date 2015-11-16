@@ -35,10 +35,10 @@ public class ServletCreationPersonne extends HttpServlet {
             HtmlHttpUtils.doHeader("creation personne", out);
 
             if (HtmlHttpUtils.isAuthenticate(request)) {
-                nom = request.getParameter("nom");
-                prenom = request.getParameter("prenom");
-                adresse = request.getParameter("adresse");
-                ville = request.getParameter("ville");
+                nom = request.getParameter("lastname");
+                prenom = request.getParameter("firstname");
+                adresse = request.getParameter("address");
+                ville = request.getParameter("city");
 
                 if (nom != null && prenom != null) {
                     if (!nom.equals("") && !prenom.equals("")) {
