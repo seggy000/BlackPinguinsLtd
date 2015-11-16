@@ -2,14 +2,11 @@ package ch.hearc.ig.ta.services;
 
 import ch.hearc.ig.ta.business.Achievement;
 import ch.hearc.ig.ta.business.Commercial;
-import ch.hearc.ig.ta.business.Personne;
 import ch.hearc.ig.ta.dao.AchievementsDAO;
 import ch.hearc.ig.ta.dao.CommerciauxDAO;
 import ch.hearc.ig.ta.dao.DAO;
-import ch.hearc.ig.ta.dao.PersonneDAO;
 import ch.hearc.ig.ta.dao.RelComAchDao;
 import java.util.List;
-import java.util.Vector;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -21,7 +18,6 @@ public class Services {
     
     private static final Logger logger = Logger.getLogger(Services.class.getName());
 
-    private static final PersonneDAO personneDao = new PersonneDAO();
     private static final CommerciauxDAO commerciauxDao = new CommerciauxDAO();
     private static final AchievementsDAO achievementsDao = new AchievementsDAO();
     private static final RelComAchDao relComAchDao = new RelComAchDao();
