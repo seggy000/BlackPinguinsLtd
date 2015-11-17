@@ -87,7 +87,7 @@
                                         </div>
                                         <div class="form-group">
                                             <div class="col-sm-12">
-                                                <input class="btn btn-default pull-right" type="submit" value="Se connecter">
+                                                <input class="btn btn-default pull-right" data-toggle="modal" data-target="#modal-connexion" type="submit" value="Se connecter">
                                             </div>
                                         </div>
                                     </form>

@@ -38,15 +38,12 @@
             <nav id="sidebar">
                 <div class="sidebar-content">
                     <div class="side-header bg-white-op">
-                        <a href="#">
+                        <a href="annuairePersonnes.jsp">
                             <span class="h4 font-w600 text-white">Portail commercial</span>
                         </a>
                     </div>
                     <div class="side-content">
                         <ul>
-                            <li>
-                                <a href="#">Accueil</a>
-                            </li>
                             <li class="side-content-header">Gestion des clients</li>
                             <li>
                                 <a class="active" href="annuairePersonnes.jsp">Annuaire de clients</a>
@@ -59,7 +56,7 @@
                                 <a href="profil.jsp">Profil</a>
                             </li>
                             <li>
-                                <a href="#">Se d&eacute;connecter</a>
+                                <a href="ServletLogout">Se d&eacute;connecter</a>
                             </li>
                         </ul>
                     </div>
@@ -139,7 +136,33 @@
                                                     <td class="dropdown">
                                                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><span class="glyphicon glyphicon-cog text-muted pull-right"></span></a>
                                                         <ul class="dropdown-menu">
-                                                            <li><a href="editCustomer.html">Modifier</a></li>
+                                                            <li><a href="modificationPersonne.html">Modifier</a></li>
+                                                            <li><a href="#" data-href="ServletEffacerPersonne" data-toggle="modal" data-target="#confirm-delete">Supprimer</a></li>
+                                                        </ul>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="text-primary">Bla bla...</td>
+                                                    <td class="text-primary">Bla bla...</td>
+                                                    <td class="text-muted">Bla bla...</td>
+                                                    <td class="text-muted">Bla bla...</td>
+                                                    <td class="dropdown">
+                                                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><span class="glyphicon glyphicon-cog text-muted pull-right"></span></a>
+                                                        <ul class="dropdown-menu">
+                                                            <li><a href="modificationPersonne.html">Modifier</a></li>
+                                                            <li><a href="#" data-href="ServletEffacerPersonne" data-toggle="modal" data-target="#confirm-delete">Supprimer</a></li>
+                                                        </ul>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="text-primary">Bla bla...</td>
+                                                    <td class="text-primary">Bla bla...</td>
+                                                    <td class="text-muted">Bla bla...</td>
+                                                    <td class="text-muted">Bla bla...</td>
+                                                    <td class="dropdown">
+                                                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><span class="glyphicon glyphicon-cog text-muted pull-right"></span></a>
+                                                        <ul class="dropdown-menu">
+                                                            <li><a href="modificationPersonne.html">Modifier</a></li>
                                                             <li><a href="#" data-href="/delete.php?id=23" data-toggle="modal" data-target="#confirm-delete">Supprimer</a></li>
                                                         </ul>
                                                     </td>
@@ -152,8 +175,8 @@
                                                     <td class="dropdown">
                                                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><span class="glyphicon glyphicon-cog text-muted pull-right"></span></a>
                                                         <ul class="dropdown-menu">
-                                                            <li><a href="editCustomer.html">Modifier</a></li>
-                                                            <li><a href="#" data-href="/delete.php?id=23" data-toggle="modal" data-target="#confirm-delete">Supprimer</a></li>
+                                                            <li><a href="modificationPersonne.html">Modifier</a></li>
+                                                            <li><a href="#" data-href="ServletEffacerPersonne" data-toggle="modal" data-target="#confirm-delete">Supprimer</a></li>
                                                         </ul>
                                                     </td>
                                                 </tr>
@@ -165,34 +188,8 @@
                                                     <td class="dropdown">
                                                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><span class="glyphicon glyphicon-cog text-muted pull-right"></span></a>
                                                         <ul class="dropdown-menu">
-                                                            <li><a href="editCustomer.html">Modifier</a></li>
-                                                            <li><a href="#" data-href="/delete.php?id=23" data-toggle="modal" data-target="#confirm-delete">Supprimer</a></li>
-                                                        </ul>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td class="text-primary">Bla bla...</td>
-                                                    <td class="text-primary">Bla bla...</td>
-                                                    <td class="text-muted">Bla bla...</td>
-                                                    <td class="text-muted">Bla bla...</td>
-                                                    <td class="dropdown">
-                                                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><span class="glyphicon glyphicon-cog text-muted pull-right"></span></a>
-                                                        <ul class="dropdown-menu">
-                                                            <li><a href="editCustomer.html">Modifier</a></li>
-                                                            <li><a href="#" data-href="/delete.php?id=23" data-toggle="modal" data-target="#confirm-delete">Supprimer</a></li>
-                                                        </ul>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td class="text-primary">Bla bla...</td>
-                                                    <td class="text-primary">Bla bla...</td>
-                                                    <td class="text-muted">Bla bla...</td>
-                                                    <td class="text-muted">Bla bla...</td>
-                                                    <td class="dropdown">
-                                                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><span class="glyphicon glyphicon-cog text-muted pull-right"></span></a>
-                                                        <ul class="dropdown-menu">
-                                                            <li><a href="editCustomer.html">Modifier</a></li>
-                                                            <li><a href="#" data-href="/delete.php?id=23" data-toggle="modal" data-target="#confirm-delete">Supprimer</a></li>
+                                                            <li><a href="modificationPersonne.html">Modifier</a></li>
+                                                            <li><a href="#" data-href="ServletEffacerPersonne" data-toggle="modal" data-target="#confirm-delete">Supprimer</a></li>
                                                         </ul>
                                                     </td>
                                                 </tr>

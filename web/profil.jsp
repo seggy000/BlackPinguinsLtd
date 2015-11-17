@@ -20,15 +20,12 @@
             <nav id="sidebar">
                 <div class="sidebar-content">
                     <div class="side-header bg-white-op">
-                        <a href="#">
+                        <a href="annuairePersonnes.jsp">
                             <span class="h4 font-w600 text-white">Portail commercial</span>
                         </a>
                     </div>
                     <div class="side-content">
                         <ul>
-                            <li>
-                                <a href="#">Accueil</a>
-                            </li>
                             <li class="side-content-header">Gestion des clients</li>
                             <li>
                                 <a href="annuairePersonnes.jsp">Annuaire de clients</a>
@@ -41,7 +38,7 @@
                                 <a class="active" href="profil.jsp">Profil</a>
                             </li>
                             <li>
-                                <a href="#">Se d&eacute;connecter</a>
+                                <a href="ServletLogout">Se d&eacute;connecter</a>
                             </li>
                         </ul>
                     </div>
