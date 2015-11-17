@@ -18,20 +18,23 @@
     <body>
         <div id="page-container">
             <nav id="sidebar">
+                <nav id="sidebar">
                 <div class="sidebar-content">
                     <div class="side-header bg-white-op">
-                        <a href="#">
+                        <a href="annuairePersonnes.jsp">
                             <span class="h4 font-w600 text-white">Portail commercial</span>
                         </a>
                     </div>
                     <div class="side-content">
                         <ul>
+                            <li class="side-content-header">Compte</li>
                             <li>
-                                <a class="active" href="#">Accueil</a>
+                                <a class="active" href="login.jsp">Se connecter</a>
                             </li>
                         </ul>
                     </div>
                 </div>
+            </nav>
             </nav>
             <header id="header-navbar">
                 <!--<ul class="pull-right">
