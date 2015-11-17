@@ -5,21 +5,107 @@
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
-    "http://www.w3.org/TR/html4/loose.dtd">
-
-<html>
+<!DOCTYPE html>
+<html lang="fr">
     <head>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>Login page - gestion des personnes (CRUD) </title>
+        <meta charset="utf-8">
+        <title>Page de connexion - Portail commecial</title>
+        <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1.0">
+        <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400italic,600,700%7COpen+Sans:300,400,400italic,600,700">
+        <link rel="stylesheet" href="assets/css/bootstrap.min.css">
+        <link rel="stylesheet" href="assets/css/style.css">
     </head>
     <body>
-        <h1> Login page - gestion des personnes (CRUD)</h1>
-        <form method="POST" action="ServletLogin">
-            username : <input type="text" name="username"><br>
-            password : <input type="password" name="password"><br>
-
-            <input type="submit" value="login">
-        </form>
+        <div id="page-container">
+            <nav id="sidebar">
+                <div class="sidebar-content">
+                    <div class="side-header bg-white-op">
+                        <a href="#">
+                            <span class="h4 font-w600 text-white">Portail commercial</span>
+                        </a>
+                    </div>
+                    <div class="side-content">
+                        <ul>
+                            <li>
+                                <a class="active" href="#">Accueil</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </nav>
+            <header id="header-navbar">
+                <!--<ul class="pull-right">
+                    <li>
+                    </li>
+                </ul>-->
+                <!--<ul class="pull-left">
+                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                </ul>-->
+            </header>
+            <main id="main-container">
+                <div class="content bg-gray-lighter">
+                    <div class="row">
+                        <div class="col-xs-12 page-heading">
+                            <h1>
+                                Connexion
+                            </h1>
+                        </div>
+                    </div>
+                </div>
+                <div class="content">
+                    <div class="row">
+                        <div class="col-lg-offset-4 col-lg-4">
+                            <div class="block">
+                                <div class="block-header">
+                                    <h3 class="block-title"><span class="glyphicon glyphicon-lock"></span>&emsp;Login</h3>
+                                </div>
+                                <div class="alert alert-danger alert-dismissible" role="alert">
+                                    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                    <span class="glyphicon glyphicon-remove"></span>&emsp;Nom d'utilisateur et/ou Mot de passe incorrecte/s.
+                                </div>
+                                <div class="block-content block-content-narrow">
+                                    <form class="form-horizontal" action="ServletLogin" method="post">
+                                        <div class="form-group">
+                                            <div class="col-sm-12">
+                                                <label for="username">Nom d'utilisateur</label>
+                                                <input class="form-control" type="text" id="username" name="username" placeholder="Nom d'utilisateur..." required>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="col-sm-12">
+                                                <label for="password">Mot de passe</label>
+                                                <input class="form-control" type="password" id="password" name="password" placeholder="Mot de passe..." required>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="col-sm-12">
+                                                <input class="btn btn-default pull-right" type="submit" value="Se connecter">
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </main>
+            <footer id="page-footer" class="font-s12 bg-gray-lighter">
+                <div class="pull-right">
+                    Haute &eacute;cole de gestion Arc, 635-1.1 Technologies actuelles, 3-IG-PT
+                </div>
+                <div class="pull-left">
+                    BlackPinguinsLtd Project (Geoffroy Megert, Loïc Megert, Thierry Hubmann, Steve Julmy, Thomas Rüegsegger)
+                </div>
+            </footer>
+        </div>
+        
+        <!-- Bootstrap core JavaScript-->
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+        <script src="assets/js/bootstrap.min.js"></script>
     </body>
 </html>
