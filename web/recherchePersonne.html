@@ -34,3 +34,79 @@
     <a href='index.jsp'>index</a>
 </body>
 </html>
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+  <head>
+    <title></title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  </head>
+  <body>
+    <div id="FormRecherche">
+        <p><h3>Recherche personne :</h3></p>    
+        <form method="GET" action="ServletListePersonne">
+            <table>
+                    <tr>
+                        <td>Prénom :</td>
+                        <td><input type='text' name='firstname'></td>
+                    </tr>
+                    <tr>
+                        <td>Nom :</td>
+                        <td><input type='text' name='lastname'></td>
+                    </tr>
+                    <tr>
+                        <td>Adresse :</td>
+                        <td><input type='text' name='address'></td>
+                    </tr>
+                    <tr>
+                        <td>Ville :</td>
+                        <td><input type='text' name='address'></td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td><input align='right' type="submit" value="rechercher personne"></td>
+                    </tr>
+            </table>  
+        </form>
+    </div>
+      
+      <div id="listResultats">
+          <!-- Tableau dynamique de résultats -->
+      </div>
+      
+      <div id="apercuPersonne">
+          <!-- Aperçu de la personne sélectionnée depuis le tableau + Boutons pour modifier, supprimer-->
+      </div>
+    <head>
+        <title>Recherche d'une personne</title>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    </head>
+    <body>
+        <p><h1>Recherche d'une personne</h1></p>
+
+    <form method="GET" action="ServletListePersonne">
+        <table>
+            <tr>
+                <td>Prénom :</td>
+                <td><input type='text' name='firstname'></td>
+            </tr>
+            <tr>
+                <td>Nom :</td>
+                <td><input type='text' name='lastname'></td>
+            </tr>
+            <tr>
+                <td>Adresse :</td>
+                <td><input type='text' name='address'></td>
+            </tr>
+            <tr>
+                <td>Ville :</td>
+                <td><input type='text' name='address'></td>
+            </tr>
+            <tr>
+                <td colspan="2"><input type="submit" value="rechercher personne"></td>
+            </tr>
+        </table>  
+    </form>
+
+    <a href='index.jsp'>index</a>
+</body>
+</html>

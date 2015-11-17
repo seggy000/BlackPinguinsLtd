@@ -31,14 +31,14 @@
                             </li>
                             <li class="side-content-header">Gestion des clients</li>
                             <li>
-                                <a href="customers.html">Annuaire de clients</a>
+                                <a href="annuairePersonnes.jsp">Annuaire de clients</a>
                             </li>
                             <li>
-                                <a href="newCustomer.html">Nouveau client</a>
+                                <a href="creationPersonne.html">Nouveau client</a>
                             </li>
                             <li class="side-content-header">Compte</li>
                             <li>
-                                <a class="active" href="profile.html">Profil</a>
+                                <a class="active" href="profil.jsp">Profil</a>
                             </li>
                             <li>
                                 <a href="#">Se d&eacute;connecter</a>
