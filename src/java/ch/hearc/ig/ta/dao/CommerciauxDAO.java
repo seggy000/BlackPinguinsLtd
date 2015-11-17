@@ -69,8 +69,8 @@ public class CommerciauxDAO extends DAO {
             logger.log(Level.SEVERE, null, ex);
         } finally {
             try {
+                commerciauxFound.close();
                 stmt.close();
-                c.close();
             } catch (SQLException ex) {
                 logger.log(Level.SEVERE, null, ex);
             }
@@ -100,8 +100,8 @@ public class CommerciauxDAO extends DAO {
             logger.log(Level.SEVERE, null, ex);
         } finally {
             try {
+                commercialFound.close();
                 stmt.close();
-                c.close();
             } catch (SQLException ex) {
                 logger.log(Level.SEVERE, null, ex);
             }
@@ -127,8 +127,8 @@ public class CommerciauxDAO extends DAO {
             logger.log(Level.SEVERE, null, ex);
         } finally {
             try {
+                passwordFound.close();
                 stmt.close();
-                c.close();
             } catch (SQLException ex) {
                 logger.log(Level.SEVERE, null, ex);
             }
