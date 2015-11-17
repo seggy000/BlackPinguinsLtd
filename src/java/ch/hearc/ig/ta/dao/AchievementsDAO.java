@@ -11,6 +11,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -18,7 +20,10 @@ import java.util.List;
  */
 public class AchievementsDAO extends DAO {
 
-    public AchievementsDAO() {}
+    private static final Logger logger = Logger.getLogger(AchievementsDAO.class.getName());
+
+    public AchievementsDAO() {
+    }
 
     public List getAllAchievements() {
         PreparedStatement stmt = null;
@@ -38,13 +43,14 @@ public class AchievementsDAO extends DAO {
                 listAchievements.add(achievement);
             }
         } catch (SQLException ex) {
-            ex.printStackTrace();
+            logger.log(Level.SEVERE, null, ex);
         } finally {
             try {
+                rs.close();
                 stmt.close();
                 c.close();
-            } catch (SQLException e) {
-                e.printStackTrace();
+            } catch (SQLException ex) {
+                logger.log(Level.SEVERE, null, ex);
             }
         }
         return listAchievements;
@@ -56,7 +62,7 @@ public class AchievementsDAO extends DAO {
 
         List<Achievement> listAchievements = new ArrayList<>();
 
-        String query = "SELECT a.libelle, rca.date_obtention FROM Achivements a INNER JOIN REL_COM_ACH rca on rca.ACH_Numero = a.numero INNER JOIN Commerciaux c on rca.COMM_Numero = c.numero WHERE username = ?";
+        String query = "SELECT a.libelle, rca.date_obtention FROM Achivements a INNER JOIN REL_COM_ACH rca on rca.ACH_Numero = a.numero INNER JOIN Commerciaux c on rca.COMM_Numero = c.numero WHERE UPPER(username) = UPPER(?)";
         try {
             stmt = c.prepareStatement(query);
             stmt.setString(1, username);
@@ -67,14 +73,15 @@ public class AchievementsDAO extends DAO {
                 Achievement achievement = new Achievement(libelle);
                 listAchievements.add(achievement);
             }
-        }catch(SQLException ex){
-            ex.printStackTrace();
-        }finally{
-            try{
+        } catch (SQLException ex) {
+            logger.log(Level.SEVERE, null, ex);
+        } finally {
+            try {
+                rs.close();
                 stmt.close();
                 c.close();
-            }catch(SQLException e){
-                e.printStackTrace();
+            } catch (SQLException ex) {
+                logger.log(Level.SEVERE, null, ex);
             }
         }
         return listAchievements;
@@ -86,7 +93,7 @@ public class AchievementsDAO extends DAO {
 
         int nbAchievements = 0;
 
-        String query = "SELECT COUNT(a.numero) FROM Achivements a INNER JOIN REL_COM_ACH rca on rca.ACH_Numero = a.numero INNER JOIN Commerciaux c on rca.COMM_Numero = c.numero WHERE username = ?";
+        String query = "SELECT COUNT(a.numero) FROM Achivements a INNER JOIN REL_COM_ACH rca on rca.ACH_Numero = a.numero INNER JOIN Commerciaux c on rca.COMM_Numero = c.numero WHERE UPPER(username) = UPPER(?)";
         try {
             stmt = c.prepareStatement(query);
             stmt.setString(1, username);
@@ -95,16 +102,38 @@ public class AchievementsDAO extends DAO {
             while (rs.next()) {
                 nbAchievements = rs.getInt("a.numero");
             }
-        }catch(SQLException ex){
-            ex.printStackTrace();
-        }finally{
-            try{
+        } catch (SQLException ex) {
+            logger.log(Level.SEVERE, null, ex);
+        } finally {
+            try {
+                rs.close();
                 stmt.close();
                 c.close();
-            }catch(SQLException e){
-                e.printStackTrace();
+            } catch (SQLException ex) {
+                logger.log(Level.SEVERE, null, ex);
             }
         }
         return nbAchievements;
     }
+
+    public boolean checkUserAchievement(final String username, final String achievementLabel) {
+        try (PreparedStatement pstmt = c.prepareStatement("SELECT 1 "
+                                                          + "FROM Achivements a "
+                                                            + "INNER JOIN REL_COM_ACH rca "
+                                                              + "ON rca.ACH_Numero = a.numero "
+                                                            + "INNER JOIN Commerciaux c "
+                                                              + "ON rca.COMM_Numero = c.numero "
+                                                          + "WHERE UPPER(username) = UPPER(?) AND UPPER(libelle) = UPPER(?)")) {
+            pstmt.setString(1, username);
+            pstmt.setString(2, achievementLabel);
+
+            try (ResultSet achievementFound = pstmt.executeQuery()) {
+                return achievementFound.next();
+            }
+        } catch (SQLException ex) {
+            logger.log(Level.SEVERE, null, ex);
+            return false;
+        }
+    }
+
 }

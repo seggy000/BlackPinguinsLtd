@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package ch.hearc.ig.ta.business;
 
 import java.io.Serializable;
@@ -11,23 +6,24 @@ import java.io.Serializable;
  *
  * @author JulmyS
  */
-public class Commercial implements Serializable{
+public class Commercial implements Serializable {
+
     private int numero;
     private String nom;
     private String prenom;
     private String username;
     private String password;
     private int points;
-    
+
     public Commercial(final String nom, final String prenom, final String username, final int points) {
         this.nom = nom;
         this.prenom = prenom;
         this.username = username;
         this.points = points;
     }
-    
+
     public int getLevel() {
-        return (int)Math.floor(points);
+        return (int) Math.floor(points);
     }
 
     public int getNumero() {
@@ -77,5 +73,5 @@ public class Commercial implements Serializable{
     public void setPoints(int points) {
         this.points = points;
     }
-    
+
 }

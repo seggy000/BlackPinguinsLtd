@@ -1,8 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
-
 package ch.hearc.ig.ta.business;
 
 import java.io.Serializable;
@@ -12,38 +7,52 @@ import java.io.Serializable;
  * @author termine
  */
 public class Action implements Serializable {
+
     public final static int CREATE = 1;
     public final static int UPDATE = 2;
     public final static int DELETE = 3;
     public final static int RESEARCH = 4;
-    
+
     private int action;
     private String content;
     private Long idUser;
     private String username;
 
-
-    public Action (int a, String c){
-    action=a;content=c;
+    public Action(int a, String c) {
+        action = a;
+        content = c;
     }
 
-    public Action (int a, String c, String usern){
-    action=a;content=c;username=usern;
+    public Action(int a, String c, String usern) {
+        action = a;
+        content = c;
+        username = usern;
     }
-    public Action (int a, String c, String usern, long idu){
-    action=a;content=c;username=usern;this.idUser=idu;
+
+    public Action(int a, String c, String usern, long idu) {
+        action = a;
+        content = c;
+        username = usern;
+        this.idUser = idu;
     }
 
+    @Override
+    public String toString() {
+        String a = "";
+        if (getAction() == 1) {
+            a = "CREATE";
+        }
+        if (getAction() == 2) {
+            a = "UPDATE";
+        }
+        if (getAction() == 3) {
+            a = "DELETE";
+        }
+        if (getAction() == 4) {
+            a = "RESEARCH";
+        }
 
-    public  String  toString(){
-        String a="";
-        if (getAction()==1)a="CREATE";
-         if (getAction()==2)a="UPDATE";
-         if (getAction()==3)a="DELETE";
-         if (getAction()==4)a="RESEARCH";
-
-
-        return "Action: "+a +" Content: "+getContent()+" Username: "+ getUsername();
+        return "Action: " + a + " Content: " + getContent() + " Username: " + getUsername();
     }
 
     /**
