@@ -41,13 +41,6 @@
                                 <a class="active" href="profil.jsp">Profil</a>
                             </li>
                             <li>
-                                <a href="newCustomer.html">Nouveau client</a>
-                            </li>
-                            <li class="side-content-header">Compte</li>
-                            <li>
-                                <a class="active" href="profile.html">Profil</a>
-                            </li>
-                            <li>
                                 <a href="#">Se d&eacute;connecter</a>
                             </li>
                         </ul>
