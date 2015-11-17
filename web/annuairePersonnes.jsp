@@ -163,7 +163,7 @@
                                                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><span class="glyphicon glyphicon-cog text-muted pull-right"></span></a>
                                                         <ul class="dropdown-menu">
                                                             <li><a href="modificationPersonne.html">Modifier</a></li>
-                                                            <li><a href="#" data-href="/delete.php?id=23" data-toggle="modal" data-target="#confirm-delete">Supprimer</a></li>
+                                                            <li><a href="#" data-href="ServletEffacerPersonne" data-toggle="modal" data-target="#confirm-delete">Supprimer</a></li>
                                                         </ul>
                                                     </td>
                                                 </tr>
