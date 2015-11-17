@@ -23,7 +23,7 @@ public class Commercial implements Serializable {
     }
 
     public int getLevel() {
-        return (int) Math.floor(points);
+        return (int) Math.floor(points/100) + 1;
     }
 
     public int getNumero() {

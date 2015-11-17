@@ -15,7 +15,7 @@ import java.util.logging.Logger;
  * @author Geoffroy Megert <geoffroy.megert@he-arc.ch>
  */
 public class Services {
-    
+
     private static final Logger logger = Logger.getLogger(Services.class.getName());
 
     private static final CommerciauxDAO commerciauxDao = new CommerciauxDAO();
@@ -47,6 +47,33 @@ public class Services {
         }
 
         return commercial.getLevel();
+    }
+
+    public static String getLevelName(final String username) {
+        if (commercial == null) {
+            getCommercial(username);
+        }
+
+        String levelName;
+        int level = getLevel(username);
+
+        if (level < 5) {
+            levelName = "Débutant";
+        } else if (level < 10) {
+            levelName = "Initié";
+        } else if (level < 15) {
+            levelName = "Professionnel";
+        } else if (level < 25) {
+            levelName = "Connaisseur";
+        } else if (level < 50) {
+            levelName = "Confirmé";
+        } else if (level < 100) {
+            levelName = "Expert";
+        } else {
+            levelName = "Légendaire";
+        }
+
+        return levelName;
     }
 
     public static boolean addPoints(final String username, final int points) {
@@ -92,26 +119,38 @@ public class Services {
     }
 
     public static void getLevelAchievement(final String username) {
-        int level = getLevel(username);
-        String achievement;
+        String levelName = getLevelName(username);
 
-        switch (level) {
-            case 1:
-            case 5:
-            case 10:
-            case 15:
-            case 25:
-            case 50:
-                achievement = "Niveau " + level + " atteint !";
+        String achievement = "Niveau " + levelName + " atteint !";
 
-                if (!checkUserAchievement(username, achievement)) {
-                    boolean achievementOK = addAchievement(username, achievement);
+        if (!checkUserAchievement(username, achievement)) {
+            boolean achievementOK = addAchievement(username, achievement);
 
-                    if (!achievementOK) {
-                        logger.log(Level.SEVERE, "Une erreur s'est produite lors de l'attribution de la récompense \"" + achievement + "\".");
-                    }
-                }
-                break;
+            if (!achievementOK) {
+                logger.log(Level.SEVERE, "Une erreur s'est produite lors de l'attribution de la récompense \"" + achievement + "\".");
+            }
         }
+
+        /*        int level = getLevel(username);
+         String achievement;
+
+         switch (level) {
+         case 1:
+         case 5:
+         case 10:
+         case 15:
+         case 25:
+         case 50:
+         achievement = "Niveau " + level + " atteint !";
+
+         if (!checkUserAchievement(username, achievement)) {
+         boolean achievementOK = addAchievement(username, achievement);
+
+         if (!achievementOK) {
+         logger.log(Level.SEVERE, "Une erreur s'est produite lors de l'attribution de la récompense \"" + achievement + "\".");
+         }
+         }
+         break;
+         }*/
     }
 }

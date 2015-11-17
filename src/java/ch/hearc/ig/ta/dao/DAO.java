@@ -27,6 +27,7 @@ public abstract class DAO {
     public static void closeConnection() {
         try {
             c.close();
+            c = null;
         }catch(SQLException ex) {
             logger.log(Level.SEVERE, null, ex);
         }

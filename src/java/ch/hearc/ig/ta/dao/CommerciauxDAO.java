@@ -137,7 +137,7 @@ public class CommerciauxDAO extends DAO {
     }
     
     public int updatePoints(final String username, final int points) {
-        try(PreparedStatement pstmt = c.prepareStatement("UPDATE commerciaux SET points = ? WHERE UPPER(username) = UPPER(?)")) {
+        try(PreparedStatement pstmt = c.prepareStatement("UPDATE commerciaux SET points = points + ? WHERE UPPER(username) = UPPER(?)")) {
             pstmt.setInt(1, points);
             pstmt.setString(2, username);
             
