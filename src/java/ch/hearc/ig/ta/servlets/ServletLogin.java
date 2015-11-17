@@ -66,7 +66,7 @@ public class ServletLogin extends HttpServlet {
                             }
                         }
 
-                        response.sendRedirect("annuairePersonne.jsp");
+                        response.sendRedirect("annuairePersonnes.jsp");
                     } else {
                         errorlogin = true;
                     }
