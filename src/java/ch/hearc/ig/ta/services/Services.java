@@ -48,9 +48,8 @@ public class Services {
     }
 
     public static String getLevelName(final String username) {
-        if (commercial == null) {
-            getCommercial(username);
-        }
+
+        getCommercial(username);
 
         String levelName;
         int level = getLevel(username);
