@@ -90,6 +90,7 @@ public class Services {
         }
     }
 
+   
     public static int getAchievementsNumber(final String username) {
         return achievementsDao.countAchievementsByCommercial(username);
     }

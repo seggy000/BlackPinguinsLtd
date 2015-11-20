@@ -4,6 +4,7 @@
     Author     : Loïc Megert <loic.megert@he-arc.ch>
 --%>
 
+<%@page import="ch.hearc.ig.ta.services.Services"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html lang="fr">
@@ -16,6 +17,10 @@
         <link rel="stylesheet" href="assets/css/style.css">
     </head>
     <body>
+        <%
+            HttpSession s = request.getSession(true);
+            String username = s.getAttribute("username").toString();
+        %>
         <div id="page-container">
             <nav id="sidebar">
                 <div class="sidebar-content">
@@ -47,7 +52,7 @@
             <header id="header-navbar">
                 <ul class="pull-right">
                     <li>
-                        Connect&eacute; en tant que [Pr&eacute;nom Nom]
+                        Connect&eacute; en tant que <%out.print(Services.getNomCommercial(username));%>
                     </li>
                 </ul>
                 <!--<ul class="pull-left">
@@ -64,7 +69,7 @@
                     <div class="row">
                         <div class="col-xs-12 page-heading">
                             <h1>
-                                Profil <small>[Pr&eacute;nom Nom]</small>
+                                Profil <small><%out.print(Services.getNomCommercial(username));%></small>
                             </h1>
                         </div>
                     </div>
@@ -73,19 +78,15 @@
                     <div class="row items-push text-uppercase">
                         <div class="col-xs-6 col-sm-4">
                             <div class="font-w700 text-gray-darker">Level</div>
-                            <div class="h2 font-w300 text-primary">D&eacute;butant</div>
+                            <div class="h2 font-w300 text-primary"><%out.print(Services.getLevelName(username));%></div>
                             <div class="text-muted"><small>Niveau suivant dans 123 points</small></div>
                         </div>
                         <div class="col-xs-6 col-sm-4">
                             <div class="font-w700 text-gray-darker">Points</div>
-                            <div class="h2 font-w300 text-primary">123</div>
+                            <div class="h2 font-w300 text-primary"><%out.print(Services.getLevel(username));%></div>
                             <div class="text-muted"><small>sur 246 points</small></div>
                         </div>
-                        <div class="col-xs-6 col-sm-4">
-                            <div class="font-w700 text-gray-darker">Rang</div>
-                            <div class="h2 font-w300 text-primary">100</div    >
-                            <div class="text-muted"><small>sur 123</small></div>
-                        </div>
+
                     </div>
                 </div>
                 <div class="content">
@@ -97,7 +98,7 @@
                                 </div>
                                 <div class="block-content bg-gray-lighter">
                                     <div class="row items-push">
-                                        <div class="col-xs-12 h1 font-w300 text-left">[Pr&eacute;nom Nom]</div>
+                                        <div class="col-xs-12 h1 font-w300 text-left"><%out.print(Services.getNomCommercial(username));%></div>
                                     </div>
                                 </div>
                                 <div class="block-content">
@@ -132,11 +133,12 @@
                                         <div class="block-content">
                                             <div class="row items-push text-center">
                                                 <div class="col-xs-6">
-                                                    <div class="h1 font-w700">1</div>
+                                                    <div class="h1 font-w700"><%out.print(Services.getAchievementsNumber(username));%></div>
                                                     <div class="h5 font-w300 text-muted">Nombre de badges gagn&eacute;s</div>
                                                 </div>
                                                 <div class="col-xs-6">
-                                                    <div class="h1 font-w700">12</div>
+                                                        <div class="h1 font-w700"><%int nbBadges = 13 - Services.getAchievementsNumber(username);
+                                                        out.print(nbBadges);%></div>
                                                     <div class="h5 font-w300 text-muted">Nombre de badges restants</div>
                                                 </div>
                                             </div>
@@ -193,7 +195,7 @@
                 </div>
             </footer>
         </div>
-        
+
         <!-- Bootstrap core JavaScript-->
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
         <script src="assets/js/bootstrap.min.js"></script>
