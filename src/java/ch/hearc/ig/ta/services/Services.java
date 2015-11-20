@@ -28,9 +28,8 @@ public class Services {
     }
 
     public static String getNomCommercial(final String username) {
-        if (commercial == null) {
-            getCommercial(username);
-        }
+
+        getCommercial(username);
 
         StringBuilder sb = new StringBuilder();
 
@@ -42,9 +41,8 @@ public class Services {
     }
 
     public static int getLevel(final String username) {
-        if (commercial == null) {
-            getCommercial(username);
-        }
+
+        getCommercial(username);
 
         return commercial.getLevel();
     }
@@ -77,9 +75,8 @@ public class Services {
     }
 
     public static boolean addPoints(final String username, final int points) {
-        if (commercial == null) {
-            getCommercial(username);
-        }
+
+        getCommercial(username);
 
         int result = commerciauxDao.updatePoints(username, points);
 
