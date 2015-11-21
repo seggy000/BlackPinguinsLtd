@@ -4,6 +4,7 @@
     Author     : Loïc Megert <loic.megert@he-arc.ch>
 --%>
 
+<%@page import="ch.hearc.ig.ta.business.Achievement"%>
 <%@page import="ch.hearc.ig.ta.services.Services"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
@@ -133,11 +134,12 @@
                                         <div class="block-content">
                                             <div class="row items-push text-center">
                                                 <div class="col-xs-6">
-                                                    <div class="h1 font-w700"><%out.print(Services.getAchievementsNumber(username));%></div>
+                                                        <div class="h1 font-w700"><%
+                                                        out.print(Services.getAchievementsNumber(username));%></div>
                                                     <div class="h5 font-w300 text-muted">Nombre de badges gagn&eacute;s</div>
                                                 </div>
                                                 <div class="col-xs-6">
-                                                        <div class="h1 font-w700"><%int nbBadges = 13 - Services.getAchievementsNumber(username);
+                                                        <div class="h1 font-w700"><%int nbBadges = 12 - Services.getAchievementsNumber(username);
                                                         out.print(nbBadges);%></div>
                                                     <div class="h5 font-w300 text-muted">Nombre de badges restants</div>
                                                 </div>
@@ -146,38 +148,18 @@
                                     </div>
                                     <div class="col-xs-12">
                                         <div class="row">
+                                            <%
+                                                for (Achievement achievement : Services.getUserAchievements(username)) {%>
                                             <div class="col-sm-6 block-content bg-muted sub-block">
                                                 <div class="row items-push text-center">
                                                     <div class="col-xs-12">
-                                                        <div class="h1 font-w300">Badge#1</div>
-                                                        <div class="h5 font-w300 text-uppercase">Bla bla...</div>
+                                                        <div class="h1 font-w300"><%out.print(achievement.getLibelle());%></div>
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div class="col-sm-6 block-content bg-white sub-block">
-                                                <div class="row items-push text-center">
-                                                    <div class="col-xs-12">
-                                                        <div class="h1 font-w300 text-primary">Premiers pas</div>
-                                                        <div class="h5 font-w300 text-muted text-uppercase">Avoir cr&eacute;&eacute; un compte</div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="col-sm-6 block-content bg-muted sub-block">
-                                                <div class="row items-push text-center">
-                                                    <div class="col-xs-12">
-                                                        <div class="h1 font-w300">Badge#3</div>
-                                                        <div class="h5 font-w300 text-uppercase">Bla bla...</div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="col-sm-6 block-content bg-muted sub-block">
-                                                <div class="row items-push text-center">
-                                                    <div class="col-xs-12">
-                                                        <div class="h1 font-w300">Badge#4</div>
-                                                        <div class="h5 font-w300 text-uppercase">Bla bla...</div>
-                                                    </div>
-                                                </div>
-                                            </div>
+                                            <% }%>
+
+
                                         </div>
                                     </div>
                                 </div>
