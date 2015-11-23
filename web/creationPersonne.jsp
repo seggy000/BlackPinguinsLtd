@@ -1,3 +1,9 @@
+<%@page import="ch.hearc.ig.ta.services.Services"%>
+<%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%
+    HttpSession s = request.getSession(true);
+    String username = s.getAttribute("username").toString();
+%>
 <!DOCTYPE html>
 <html lang="fr">
     <head>
@@ -24,10 +30,10 @@
                                 <a href="annuairePersonnes.jsp">Annuaire de clients</a>
                             </li>
                             <li>
-                                <a class="active" href="creationPersonne.html">Nouveau client</a>
+                                <a class="active" href="creationPersonne.jsp">Nouveau client</a>
                             </li>
                             <li>
-                                <a href="recherchePersonne.html">Rechercher client</a>
+                                <a href="recherchePersonne.jsp">Rechercher client</a>
                             </li>
                             <li class="side-content-header">Compte</li>
                             <li>
@@ -43,7 +49,7 @@
             <header id="header-navbar">
                 <ul class="pull-right">
                     <li>
-                        Connect&eacute; en tant que [Pr&eacute;nom Nom]
+                        Connect&eacute; en tant que <%= Services.getNomCommercial(username) %>
                     </li>
                 </ul>
                 <!--<ul class="pull-left">
@@ -126,3 +132,4 @@
         <script src="assets/js/bootstrap.min.js"></script>
     </body>
 </html>
+

@@ -253,7 +253,7 @@ input[type="text"].form-control,input[type="password"].form-control,input[type="
 
 
 
-#page-footer {overflow-x: hidden; position: absolute; bottom: 0px; width: calc(100% - 230px); margin:0 auto; padding:13px 30px; max-width:100%}
+#page-footer {overflow-x: hidden; position: fixed; bottom: 0px; width: calc(100% - 230px); margin:0 auto; padding:13px 30px; max-width:100%}
 @media screen and (max-width:767px) {
     #page-footer {width: 100%};
 }
@@ -261,7 +261,7 @@ input[type="text"].form-control,input[type="password"].form-control,input[type="
 
 
 
-#main-container {padding-top:60px; background-color:#f5f5f5; overflow-x:hidden}
+#main-container {padding-top:60px; padding-bottom:40px; background-color:#f5f5f5; overflow-x:hidden}
 .content {margin:0 auto; padding:16px 14px 1px; max-width:100%; overflow-x:visible}
 .content p,.content .push,.content .block,.content .items-push>div {margin-bottom:16px}
 .content .items-push-2x>div {margin-bottom:32px}

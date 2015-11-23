@@ -7,6 +7,10 @@
 <%@page import="ch.hearc.ig.ta.business.Achievement"%>
 <%@page import="ch.hearc.ig.ta.services.Services"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%
+    HttpSession s = request.getSession(true);
+    String username = s.getAttribute("username").toString();
+%>
 <!DOCTYPE html>
 <html lang="fr">
     <head>
@@ -18,10 +22,6 @@
         <link rel="stylesheet" href="assets/css/style.css">
     </head>
     <body>
-        <%
-            HttpSession s = request.getSession(true);
-            String username = s.getAttribute("username").toString();
-        %>
         <div id="page-container">
             <nav id="sidebar">
                 <div class="sidebar-content">
@@ -37,10 +37,10 @@
                                 <a href="annuairePersonnes.jsp">Annuaire de clients</a>
                             </li>
                             <li>
-                                <a href="creationPersonne.html">Nouveau client</a>
+                                <a href="creationPersonne.jsp">Nouveau client</a>
                             </li>
                             <li>
-                                <a href="recherchePersonne.html">Rechercher client</a>
+                                <a href="recherchePersonne.jsp">Rechercher client</a>
                             </li>
                             <li class="side-content-header">Compte</li>
                             <li>
@@ -56,7 +56,7 @@
             <header id="header-navbar">
                 <ul class="pull-right">
                     <li>
-                        Connect&eacute; en tant que <%out.print(Services.getNomCommercial(username));%>
+                        Connect&eacute; en tant que <%= Services.getNomCommercial(username) %>
                     </li>
                 </ul>
                 <!--<ul class="pull-left">
@@ -73,7 +73,7 @@
                     <div class="row">
                         <div class="col-xs-12 page-heading">
                             <h1>
-                                Profil <small><%out.print(Services.getNomCommercial(username));%></small>
+                                Profil <small><%= Services.getNomCommercial(username) %></small>
                             </h1>
                         </div>
                     </div>
@@ -82,12 +82,12 @@
                     <div class="row items-push text-uppercase">
                         <div class="col-xs-6 col-sm-4">
                             <div class="font-w700 text-gray-darker">Level</div>
-                            <div class="h2 font-w300 text-primary"><%out.print(Services.getLevelName(username));%></div>
+                            <div class="h2 font-w300 text-primary"><%= Services.getLevelName(username) %></div>
                             <div class="text-muted"><small>Niveau suivant dans 123 points</small></div>
                         </div>
                         <div class="col-xs-6 col-sm-4">
                             <div class="font-w700 text-gray-darker">Points</div>
-                            <div class="h2 font-w300 text-primary"><%out.print(Services.getLevel(username));%></div>
+                            <div class="h2 font-w300 text-primary"><%= Services.getLevel(username) %></div>
                             <div class="text-muted"><small>sur 246 points</small></div>
                         </div>
 
@@ -102,7 +102,7 @@
                                 </div>
                                 <div class="block-content bg-gray-lighter">
                                     <div class="row items-push">
-                                        <div class="col-xs-12 h1 font-w300 text-left"><%out.print(Services.getNomCommercial(username));%></div>
+                                        <div class="col-xs-12 h1 font-w300 text-left"><%= Services.getNomCommercial(username) %></div>
                                     </div>
                                 </div>
                                 <div class="block-content">
@@ -137,13 +137,11 @@
                                         <div class="block-content">
                                             <div class="row items-push text-center">
                                                 <div class="col-xs-6">
-                                                        <div class="h1 font-w700"><%
-                                                        out.print(Services.getAchievementsNumber(username));%></div>
+                                                    <div class="h1 font-w700"><%= Services.getAchievementsNumber(username) %></div>
                                                     <div class="h5 font-w300 text-muted">Nombre de badges gagn&eacute;s</div>
                                                 </div>
                                                 <div class="col-xs-6">
-                                                        <div class="h1 font-w700"><%int nbBadges = 12 - Services.getAchievementsNumber(username);
-                                                        out.print(nbBadges);%></div>
+                                                    <div class="h1 font-w700"><%= 12 - Services.getAchievementsNumber(username) %></div>
                                                     <div class="h5 font-w300 text-muted">Nombre de badges restants</div>
                                                 </div>
                                             </div>
@@ -151,18 +149,16 @@
                                     </div>
                                     <div class="col-xs-12">
                                         <div class="row">
-                                            <%
-                                                for (Achievement achievement : Services.getUserAchievements(username)) {%>
-                                            <div class="col-sm-6 block-content bg-muted sub-block">
+                                            <% for (Achievement achievement : Services.getUserAchievements(username)) { %>
+                                            <div class="col-sm-6 block-content sub-block bg-white">
                                                 <div class="row items-push text-center">
                                                     <div class="col-xs-12">
-                                                        <div class="h1 font-w300"><%out.print(achievement.getLibelle());%></div>
+                                                        <div class="h1 font-w300"><%= achievement.getLibelle() %></div>
                                                     </div>
                                                 </div>
                                             </div>
-                                            <% }%>
-
-
+                                            <% } %>
+                                                            
                                         </div>
                                     </div>
                                 </div>
