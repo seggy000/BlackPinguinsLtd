@@ -39,6 +39,9 @@
                             <li>
                                 <a href="creationPersonne.html">Nouveau client</a>
                             </li>
+                            <li>
+                                <a href="recherchePersonne.html">Rechercher client</a>
+                            </li>
                             <li class="side-content-header">Compte</li>
                             <li>
                                 <a class="active" href="profil.jsp">Profil</a>

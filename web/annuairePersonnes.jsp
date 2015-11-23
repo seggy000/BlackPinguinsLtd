@@ -51,6 +51,9 @@
                             <li>
                                 <a href="creationPersonne.html">Nouveau client</a>
                             </li>
+                            <li>
+                                <a href="recherchePersonne.html">Rechercher client</a>
+                            </li>
                             <li class="side-content-header">Compte</li>
                             <li>
                                 <a href="profil.jsp">Profil</a>
@@ -103,16 +106,19 @@
                 <div class="content">
                     <div class="row">
                         <div class="col-xs-12">
-                            <div class="block">
-                                <div class="block-content remove-padding">
-                                    <form class="form-horizontal form-group" action="Servlet" method="post">
+                            <div class="block bg-gray-light">
+                                <div class="block-content remove-padding bg-white">
+                                    <form class="form-horizontal form-group remove-margin" action="Servlet" method="post">
                                         <div class="input-group">
-                                            <input class="form-control pad-10-l" name="search" placeholder="Chercher..." type="text">
+                                            <input class="form-control pad-10-l" name="search" placeholder="Rechercher..." type="text">
                                             <span class="input-group-btn">
                                                 <button type="submit" class="btn btn-default"><span class="glyphicon glyphicon-search"></span></button>
                                             </span>
                                         </div>
                                     </form>
+                                </div>
+                                <div class="block-footer remove-margin">
+                                    <a class="text-gray-dark" href="recherchePersonne.html"><small>Recherche avanc&eacute;e...</small></a>
                                 </div>
                             </div>
                         </div>
