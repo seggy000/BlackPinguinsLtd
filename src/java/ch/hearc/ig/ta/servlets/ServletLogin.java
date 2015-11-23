@@ -78,9 +78,7 @@ public class ServletLogin extends HttpServlet {
             }
 
             if (errorlogin) {
-                out.println("<p>Erreur d'authentification, veuillez préciser username , password</p>");
-                out.println("<a href='login.jsp'>reessayer</a>");
-                out.println("</body></html>");
+                response.sendRedirect("login.jsp?failed=1");
             }
 
         } catch (Exception ex) {

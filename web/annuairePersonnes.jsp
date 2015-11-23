@@ -87,25 +87,30 @@
                         </div>
                     </div>
                 </div>
-                <div class="alert alert-success alert-dismissible" role="alert">
-                    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                    <span class="glyphicon glyphicon-ok"></span>&emsp;Message de succ&egrave;s.
-                </div>
-                <div class="alert alert-danger alert-dismissible" role="alert">
-                    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                    <span class="glyphicon glyphicon-remove"></span>&emsp;Message d'&eacute;chec.
-                </div>
+                <%
+                    if (request.getParameter("failed") != null && request.getParameter("failed").equals("0")) {
+                        out.println("<div class=\"alert alert-success alert-dismissible\" role=\"alert\">");
+                        out.println("<button type=\"button\" class=\"close\" data-dismiss=\"alert\" aria-label=\"Close\"><span aria-hidden=\"true\">&times;</span></button>");
+                        out.println("<span class=\"glyphicon glyphicon-ok\"></span>&emsp;" + request.getParameter("msg"));
+                        out.println("</div>");
+                    } else if (request.getParameter("failed") != null && request.getParameter("failed").equals("1")) {
+                        out.println("<div class=\"alert alert-danger alert-dismissible\" role=\"alert\">");
+                        out.println("<button type=\"button\" class=\"close\" data-dismiss=\"alert\" aria-label=\"Close\"><span aria-hidden=\"true\">&times;</span></button>");
+                        out.println("<span class=\"glyphicon glyphicon-remove\"></span>&emsp;" + request.getParameter("msg"));
+                        out.println("</div>");
+                    }
+                %>
                 <div class="content">
                     <div class="row">
                         <div class="col-xs-12">
                             <div class="block">
-                                <div class="block-content">
-                                    <form class="form-horizontal" action="customers.html" method="post">
-                                        <div class="form-group">
-                                            <div class="col-sm-12">
-                                                <input class="form-control" type="text" id="search" name="search" placeholder="Chercher..." required>
-                                                <input class="btn btn-default pull-right" type="submit" value="Rechercher">
-                                            </div>
+                                <div class="block-content remove-padding">
+                                    <form class="form-horizontal form-group" action="Servlet" method="post">
+                                        <div class="input-group">
+                                            <input class="form-control pad-10-l" name="search" placeholder="Chercher..." type="text">
+                                            <span class="input-group-btn">
+                                                <button type="submit" class="btn btn-default"><span class="glyphicon glyphicon-search"></span></button>
+                                            </span>
                                         </div>
                                     </form>
                                 </div>
@@ -211,13 +216,13 @@
                 </div>
             </footer>
         </div>
-        
+
         <!-- Bootstrap core JavaScript-->
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
         <script src="assets/js/bootstrap.min.js"></script>
-        
+
         <script>
-            $('#confirm-delete').on('show.bs.modal', function(e) {
+            $('#confirm-delete').on('show.bs.modal', function (e) {
                 $(this).find('.btn-ok').attr('href', $(e.relatedTarget).data('href'));
             });
         </script>

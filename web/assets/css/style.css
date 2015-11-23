@@ -367,6 +367,7 @@ input[type="text"].form-control,input[type="password"].form-control,input[type="
 .push-150-t {margin-top:150px !important}
 .push-150-r {margin-right:150px !important}
 .push-150-l {margin-left:150px !important}
+.pad-10-l {padding-left:10px !important}
 .pulldown {position:relative; top:50px}
 @media screen and (min-width:992px) {
     .pulldown {top:150px}

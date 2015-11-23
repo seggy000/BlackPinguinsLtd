@@ -67,10 +67,14 @@
                                 <div class="block-header">
                                     <h3 class="block-title"><span class="glyphicon glyphicon-lock"></span>&emsp;Login</h3>
                                 </div>
-                                <div class="alert alert-danger alert-dismissible" role="alert">
-                                    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                                    <span class="glyphicon glyphicon-remove"></span>&emsp;Nom d'utilisateur et/ou Mot de passe incorrecte/s.
-                                </div>
+                                <%
+                                    if (request.getParameter("failed") != null && request.getParameter("failed").equals("1")) {
+                                        out.println("<div class=\"alert alert-danger alert-dismissible\" role=\"alert\">");
+                                        out.println("<button type=\"button\" class=\"close\" data-dismiss=\"alert\" aria-label=\"Close\"><span aria-hidden=\"true\">&times;</span></button>");
+                                        out.println("<span class=\"glyphicon glyphicon-remove\"></span>&emsp;Nom d'utilisateur et/ou Mot de passe incorrecte/s.");
+                                        out.println("</div>");
+                                    }
+                                %>
                                 <div class="block-content block-content-narrow">
                                     <form class="form-horizontal" action="ServletLogin" method="post">
                                         <div class="form-group">
