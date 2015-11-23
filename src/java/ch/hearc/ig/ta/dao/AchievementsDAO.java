@@ -91,14 +91,14 @@ public class AchievementsDAO extends DAO {
 
         int nbAchievements = 0;
 
-        String query = "SELECT COUNT(a.numero) FROM achievements a INNER JOIN REL_COM_ACH rca on rca.ACH_Numero = a.numero INNER JOIN Commerciaux c on rca.COMM_Numero = c.numero WHERE UPPER(username) = UPPER(?)";
+        String query = "SELECT COUNT(a.numero) nbAchievements FROM achievements a INNER JOIN REL_COM_ACH rca on rca.ACH_Numero = a.numero INNER JOIN Commerciaux c on rca.COMM_Numero = c.numero WHERE UPPER(username) = UPPER(?)";
         try {
             stmt = c.prepareStatement(query);
             stmt.setString(1, username);
             achievementsCount = stmt.executeQuery();
 
             while (achievementsCount.next()) {
-                nbAchievements = achievementsCount.getInt("a.numero");
+                nbAchievements = achievementsCount.getInt("nbAchievements");
             }
         } catch (SQLException ex) {
             logger.log(Level.SEVERE, null, ex);
