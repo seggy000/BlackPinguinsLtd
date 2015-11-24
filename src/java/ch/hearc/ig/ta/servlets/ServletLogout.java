@@ -11,6 +11,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /**
  *
@@ -29,19 +30,13 @@ public class ServletLogout extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
-        PrintWriter out = response.getWriter();
-
-        try {
-            request.getSession(true).invalidate();
-            DAO.closeConnection();
-        } finally {
-            out.close();
-            //request.getRequestDispatcher("login.jsp").forward(request,response);
-            //response.sendRedirect("login.jsp");
-        }
         
-        request.getRequestDispatcher("login.jsp").forward(request,response);
+        HttpSession session = request.getSession(false);
+        
+        if(session.getId() != null){
+            session.invalidate();
+            response.sendRedirect("login.jsp");
+        }
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
