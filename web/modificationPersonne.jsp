@@ -1,3 +1,6 @@
+<%@page import="ch.hearc.ig.ta.dao.PersonneDAO"%>
+<%@page import="java.util.Vector"%>
+<%@page import="ch.hearc.ig.ta.business.Personne"%>
 <%@page import="ch.hearc.ig.ta.servlets.HtmlHttpUtils"%>
 <%@page import="ch.hearc.ig.ta.services.Services"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
@@ -8,6 +11,20 @@
     
     HttpSession s = request.getSession(true);
     String username = s.getAttribute("username").toString();
+    
+    Long id = Long.valueOf(request.getParameter("id"));
+    Personne personne = null;
+    
+    if (id != null) {
+        if (!id.equals("")) {
+            PersonneDAO pdao = new PersonneDAO();
+
+            Vector<Personne> v = pdao.research(new Personne(new Long(id), null, null, null, null));
+            personne = v.elementAt(0);
+        }
+    } else {
+        request.getRequestDispatcher("annuairePersonnes.jsp").forward(request,response);
+    }
 %>
 <!DOCTYPE html>
 <html lang="fr">
@@ -84,29 +101,29 @@
                                     <h3 class="block-title">Fiche client</h3>
                                 </div>
                                 <div class="block-content block-content-narrow">
-                                    <form class="form-horizontal push-10-t" action="ServletModificationPersonne" method="post">
+                                    <form class="form-horizontal push-10-t" action="ServletFaireMAJPersonne?id=<%= personne.getId() %>" method="post">
                                         <div class="form-group">
                                             <div class="col-sm-12">
                                                 <label for="firstname">Pr&eacute;nom <span class="text-danger">*</span></label>
-                                                <input class="form-control" type="text" id="firstname" name="firstname" placeholder="Pr&eacute;nom du client..." value="Pr&eacute;nom" required>
+                                                <input class="form-control" type="text" id="firstname" name="firstname" placeholder="Pr&eacute;nom du client..." value="<%= personne.getPrenom() %>" required>
                                             </div>
                                         </div>
                                         <div class="form-group">
                                             <div class="col-sm-12">
                                                 <label for="lastname">Nom <span class="text-danger">*</span></label>
-                                                <input class="form-control" type="text" id="lastname" name="lastname" placeholder="Nom du client..." value="Nom" required>
+                                                <input class="form-control" type="text" id="lastname" name="lastname" placeholder="Nom du client..." value="<%= personne.getNom() %>" required>
                                             </div>
                                         </div>
                                         <div class="form-group">
                                             <div class="col-sm-12">
                                                 <label for="address">Adresse <span class="text-danger">*</span></label>
-                                                <input class="form-control" type="text" id="address" name="address" placeholder="Adresse du client..." value="Adresse" required>
+                                                <input class="form-control" type="text" id="address" name="address" placeholder="Adresse du client..." value="<%= personne.getAdresse() %>" required>
                                             </div>
                                         </div>
                                         <div class="form-group">
                                             <div class="col-sm-12">
                                                 <label for="city">Ville <span class="text-danger">*</span></label>
-                                                <input class="form-control" type="text" id="city" name="city" placeholder="Ville du client..." value="Ville" required>
+                                                <input class="form-control" type="text" id="city" name="city" placeholder="Ville du client..." value="<%= personne.getVille() %>" required>
                                             </div>
                                         </div>
                                         <div class="form-group">
