@@ -1,6 +1,14 @@
+<%@page import="ch.hearc.ig.ta.servlets.HtmlHttpUtils"%>
+<%@page import="java.util.List"%>
+<%@page import="ch.hearc.ig.ta.dao.PersonneDAO"%>
+<%@page import="ch.hearc.ig.ta.business.Personne"%>
 <%@page import="ch.hearc.ig.ta.services.Services"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%
+    if (!HtmlHttpUtils.isAuthenticate(request)) {
+        request.getRequestDispatcher("login.jsp").forward(request,response);
+    }
+    
     HttpSession s = request.getSession(true);
     String username = s.getAttribute("username").toString();
 %>
@@ -138,71 +146,34 @@
                                                 </tr>
                                             </thead>
                                             <tbody>
+                                                <% 
+                                                    PersonneDAO personneDAO = new PersonneDAO();
+                                                    List<Personne> personnes = personneDAO.research();
+                                                    for (Personne personne : personnes) { 
+                                                %>
                                                 <tr>
-                                                    <td class="text-primary">Bla bla...</td>
-                                                    <td class="text-primary">Bla bla...</td>
-                                                    <td class="text-muted">Bla bla...</td>
-                                                    <td class="text-muted">Bla bla...</td>
+                                                    <td class="text-primary"><%= personne.getPrenom() %></td>
+                                                    <td class="text-primary"><%= personne.getNom() %></td>
+                                                    <td class="text-muted"><%= personne.getAdresse() %></td>
+                                                    <td class="text-muted"><%= personne.getVille() %></td>
                                                     <td class="dropdown">
                                                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><span class="glyphicon glyphicon-cog text-muted pull-right"></span></a>
                                                         <ul class="dropdown-menu">
-                                                            <li><a href="modificationPersonne.jsp">Modifier</a></li>
-                                                            <li><a href="#" data-href="ServletEffacerPersonne" data-toggle="modal" data-target="#confirm-delete">Supprimer</a></li>
+                                                            <li><a href="modificationPersonne.jsp?id=<%= personne.getId() %>">Modifier</a></li>
+                                                            <li><a href="#" data-href="ServletEffacerPersonne?id=<%= personne.getId() %>" data-toggle="modal" data-target="#confirm-delete">Supprimer</a></li>
                                                         </ul>
                                                     </td>
                                                 </tr>
+                                                <% 
+                                                    } 
+                                                    if (personnes == null) {
+                                                %>
                                                 <tr>
-                                                    <td class="text-primary">Bla bla...</td>
-                                                    <td class="text-primary">Bla bla...</td>
-                                                    <td class="text-muted">Bla bla...</td>
-                                                    <td class="text-muted">Bla bla...</td>
-                                                    <td class="dropdown">
-                                                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><span class="glyphicon glyphicon-cog text-muted pull-right"></span></a>
-                                                        <ul class="dropdown-menu">
-                                                            <li><a href="modificationPersonne.jsp">Modifier</a></li>
-                                                            <li><a href="#" data-href="ServletEffacerPersonne" data-toggle="modal" data-target="#confirm-delete">Supprimer</a></li>
-                                                        </ul>
-                                                    </td>
+                                                    <td class="text-center" colspan="5">Aucun client trouv&eacute;.</td>
                                                 </tr>
-                                                <tr>
-                                                    <td class="text-primary">Bla bla...</td>
-                                                    <td class="text-primary">Bla bla...</td>
-                                                    <td class="text-muted">Bla bla...</td>
-                                                    <td class="text-muted">Bla bla...</td>
-                                                    <td class="dropdown">
-                                                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><span class="glyphicon glyphicon-cog text-muted pull-right"></span></a>
-                                                        <ul class="dropdown-menu">
-                                                            <li><a href="modificationPersonne.jsp">Modifier</a></li>
-                                                            <li><a href="#" data-href="ServletEffacerPersonne" data-toggle="modal" data-target="#confirm-delete">Supprimer</a></li>
-                                                        </ul>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td class="text-primary">Bla bla...</td>
-                                                    <td class="text-primary">Bla bla...</td>
-                                                    <td class="text-muted">Bla bla...</td>
-                                                    <td class="text-muted">Bla bla...</td>
-                                                    <td class="dropdown">
-                                                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><span class="glyphicon glyphicon-cog text-muted pull-right"></span></a>
-                                                        <ul class="dropdown-menu">
-                                                            <li><a href="modificationPersonne.jsp">Modifier</a></li>
-                                                            <li><a href="#" data-href="ServletEffacerPersonne" data-toggle="modal" data-target="#confirm-delete">Supprimer</a></li>
-                                                        </ul>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td class="text-primary">Bla bla...</td>
-                                                    <td class="text-primary">Bla bla...</td>
-                                                    <td class="text-muted">Bla bla...</td>
-                                                    <td class="text-muted">Bla bla...</td>
-                                                    <td class="dropdown">
-                                                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><span class="glyphicon glyphicon-cog text-muted pull-right"></span></a>
-                                                        <ul class="dropdown-menu">
-                                                            <li><a href="modificationPersonne.jsp">Modifier</a></li>
-                                                            <li><a href="#" data-href="ServletEffacerPersonne" data-toggle="modal" data-target="#confirm-delete">Supprimer</a></li>
-                                                        </ul>
-                                                    </td>
-                                                </tr>
+                                                <%
+                                                    }
+                                                %>
                                             </tbody>
                                         </table>
                                     </div>

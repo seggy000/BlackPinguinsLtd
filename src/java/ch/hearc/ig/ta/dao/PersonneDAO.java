@@ -1,11 +1,15 @@
 package ch.hearc.ig.ta.dao;
 
+import ch.hearc.ig.ta.business.Achievement;
 import ch.hearc.ig.ta.business.Personne;
+import static ch.hearc.ig.ta.dao.DAO.c;
 import java.sql.Statement;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Vector;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -21,9 +25,37 @@ public class PersonneDAO {
     private static final Logger logger = Logger.getLogger(PersonneDAO.class.getName());
 
     public PersonneDAO() {
-    }
+    };
+    
+    public List<Personne> research() {
+        Connection conn = DBDataSource.getJDBCConnection();
+        PreparedStatement stmt = null;
+        ResultSet personnesFound = null;
 
-    ;
+        List<Personne> listPersonnes = new ArrayList<>();
+
+        String query = "SELECT numero, prenom, nom, adresse, ville FROM personne";
+
+        try {
+            stmt = conn.prepareStatement(query);
+            personnesFound = stmt.executeQuery();
+
+            while (personnesFound.next()) {
+                listPersonnes.add(new Personne(personnesFound.getLong("numero"), personnesFound.getString("prenom"), personnesFound.getString("nom"), personnesFound.getString("adresse"), personnesFound.getString("ville")));
+            }
+        } catch (SQLException ex) {
+            logger.log(Level.SEVERE, null, ex);
+        } finally {
+            try {
+                personnesFound.close();
+                stmt.close();
+                conn.close();
+            } catch (SQLException ex) {
+                logger.log(Level.SEVERE, null, ex);
+            }
+        }
+        return listPersonnes;
+    }
 
     public Vector<Personne> research(Personne p) {
         Connection conn = DBDataSource.getJDBCConnection();

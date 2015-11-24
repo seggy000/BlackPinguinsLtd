@@ -1,13 +1,12 @@
-<%-- 
-    Document   : profil
-    Created on : Nov 3, 2015, 10:44:34 AM
-    Author     : Loïc Megert <loic.megert@he-arc.ch>
---%>
-
+<%@page import="ch.hearc.ig.ta.servlets.HtmlHttpUtils"%>
 <%@page import="ch.hearc.ig.ta.business.Achievement"%>
 <%@page import="ch.hearc.ig.ta.services.Services"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%
+    if (!HtmlHttpUtils.isAuthenticate(request)) {
+        request.getRequestDispatcher("login.jsp").forward(request,response);
+    }
+    
     HttpSession s = request.getSession(true);
     String username = s.getAttribute("username").toString();
 %>
