@@ -1,6 +1,5 @@
 package ch.hearc.ig.ta.dao;
 
-import ch.hearc.ig.ta.business.Achievement;
 import ch.hearc.ig.ta.business.Personne;
 import static ch.hearc.ig.ta.dao.DAO.c;
 import java.sql.Statement;
@@ -27,7 +26,6 @@ public class PersonneDAO extends DAO {
     };
     
     public List<Personne> research() {
-        Connection conn = DBDataSource.getJDBCConnection();
         PreparedStatement stmt = null;
         ResultSet personnesFound = null;
 
@@ -36,7 +34,7 @@ public class PersonneDAO extends DAO {
         String query = "SELECT numero, prenom, nom, adresse, ville FROM personne";
 
         try {
-            stmt = conn.prepareStatement(query);
+            stmt = c.prepareStatement(query);
             personnesFound = stmt.executeQuery();
 
             while (personnesFound.next()) {
@@ -48,7 +46,6 @@ public class PersonneDAO extends DAO {
             try {
                 personnesFound.close();
                 stmt.close();
-                conn.close();
             } catch (SQLException ex) {
                 logger.log(Level.SEVERE, null, ex);
             }
