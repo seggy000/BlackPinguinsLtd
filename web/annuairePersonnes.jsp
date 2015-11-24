@@ -115,7 +115,7 @@
                         <div class="col-xs-12">
                             <div class="block bg-gray-light">
                                 <div class="block-content remove-padding bg-white">
-                                    <form class="form-horizontal form-group remove-margin" action="Servlet" method="post">
+                                    <form class="form-horizontal form-group remove-margin" action="annuairePersonnes.jsp" method="post">
                                         <div class="input-group">
                                             <input class="form-control pad-10-l" name="search" placeholder="Rechercher..." type="text">
                                             <span class="input-group-btn">
@@ -147,8 +147,18 @@
                                             </thead>
                                             <tbody>
                                                 <% 
+                                                    List<Personne> personnes = null;
                                                     PersonneDAO personneDAO = new PersonneDAO();
-                                                    List<Personne> personnes = personneDAO.research();
+                                                    if(request.getParameter("element") != null){
+                                                        //TODO Recherche Simple
+                                                        personnes = personneDAO.research(/* TO DO Recherche SIMPLE */);
+                                                    } else if (request.getParameter("nom") != null || request.getParameter("prenom") != null || request.getParameter("adresse") != null || request.getParameter("ville") != null) {
+                                                        Personne pers = new Personne(request.getParameter("nom"),request.getParameter("prenom"),request.getParameter("adresse"),request.getParameter("ville"));
+                                                        personnes = personneDAO.research(pers);
+                                                    } else {
+                                                        personnes = personneDAO.research();
+                                                    }
+      
                                                     for (Personne personne : personnes) { 
                                                 %>
                                                 <tr>
