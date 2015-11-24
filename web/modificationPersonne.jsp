@@ -1,8 +1,36 @@
+<%@page import="ch.hearc.ig.ta.dao.PersonneDAO"%>
+<%@page import="java.util.Vector"%>
+<%@page import="ch.hearc.ig.ta.business.Personne"%>
+<%@page import="ch.hearc.ig.ta.servlets.HtmlHttpUtils"%>
+<%@page import="ch.hearc.ig.ta.services.Services"%>
+<%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%
+    if (!HtmlHttpUtils.isAuthenticate(request)) {
+        request.getRequestDispatcher("login.jsp").forward(request,response);
+    }
+    
+    HttpSession s = request.getSession(true);
+    String username = s.getAttribute("username").toString();
+    
+    Long id = Long.valueOf(request.getParameter("id"));
+    Personne personne = null;
+    
+    if (id != null) {
+        if (!id.equals("")) {
+            PersonneDAO pdao = new PersonneDAO();
+
+            Vector<Personne> v = pdao.research(new Personne(new Long(id), null, null, null, null));
+            personne = v.elementAt(0);
+        }
+    } else {
+        request.getRequestDispatcher("annuairePersonnes.jsp").forward(request,response);
+    }
+%>
 <!DOCTYPE html>
 <html lang="fr">
     <head>
         <meta charset="utf-8">
-        <title>Nouveau client - Portail commecial</title>
+        <title>Modifier client - Portail commecial</title>
         <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1.0">
         <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400italic,600,700%7COpen+Sans:300,400,400italic,600,700">
         <link rel="stylesheet" href="assets/css/bootstrap.min.css">
@@ -24,7 +52,10 @@
                                 <a href="annuairePersonnes.jsp">Annuaire de clients</a>
                             </li>
                             <li>
-                                <a class="active" href="creationPersonne.html">Nouveau client</a>
+                                <a href="creationPersonne.jsp">Nouveau client</a>
+                            </li>
+                            <li>
+                                <a href="recherchePersonne.jsp">Rechercher client</a>
                             </li>
                             <li class="side-content-header">Compte</li>
                             <li>
@@ -40,7 +71,7 @@
             <header id="header-navbar">
                 <ul class="pull-right">
                     <li>
-                        Connect&eacute; en tant que [Pr&eacute;nom Nom]
+                        Connect&eacute; en tant que <%= Services.getNomCommercial(username) %>
                     </li>
                 </ul>
                 <!--<ul class="pull-left">
@@ -57,7 +88,7 @@
                     <div class="row">
                         <div class="col-xs-12 page-heading">
                             <h1>
-                                Nouveau client
+                                Modifier client
                             </h1>
                         </div>
                     </div>
@@ -67,37 +98,37 @@
                         <div class="col-lg-offset-4 col-lg-4">
                             <div class="block">
                                 <div class="block-header">
-                                    <h3 class="block-title">Formulaire d'ajout de client</h3>
+                                    <h3 class="block-title">Fiche client</h3>
                                 </div>
                                 <div class="block-content block-content-narrow">
-                                    <form class="form-horizontal push-10-t" action="ServletCreationPersonne" method="post">
+                                    <form class="form-horizontal push-10-t" action="ServletFaireMAJPersonne?id=<%= personne.getId() %>" method="post">
                                         <div class="form-group">
                                             <div class="col-sm-12">
                                                 <label for="firstname">Pr&eacute;nom <span class="text-danger">*</span></label>
-                                                <input class="form-control" type="text" id="firstname" name="firstname" placeholder="Pr&eacute;nom du client..." required>
+                                                <input class="form-control" type="text" id="firstname" name="firstname" placeholder="Pr&eacute;nom du client..." value="<%= personne.getPrenom() %>" required>
                                             </div>
                                         </div>
                                         <div class="form-group">
                                             <div class="col-sm-12">
                                                 <label for="lastname">Nom <span class="text-danger">*</span></label>
-                                                <input class="form-control" type="text" id="lastname" name="lastname" placeholder="Nom du client..." required>
+                                                <input class="form-control" type="text" id="lastname" name="lastname" placeholder="Nom du client..." value="<%= personne.getNom() %>" required>
                                             </div>
                                         </div>
                                         <div class="form-group">
                                             <div class="col-sm-12">
                                                 <label for="address">Adresse <span class="text-danger">*</span></label>
-                                                <input class="form-control" type="text" id="address" name="address" placeholder="Adresse du client..." required>
+                                                <input class="form-control" type="text" id="address" name="address" placeholder="Adresse du client..." value="<%= personne.getAdresse() %>" required>
                                             </div>
                                         </div>
                                         <div class="form-group">
                                             <div class="col-sm-12">
                                                 <label for="city">Ville <span class="text-danger">*</span></label>
-                                                <input class="form-control" type="text" id="city" name="city" placeholder="Ville du client..." required>
+                                                <input class="form-control" type="text" id="city" name="city" placeholder="Ville du client..." value="<%= personne.getVille() %>" required>
                                             </div>
                                         </div>
                                         <div class="form-group">
                                             <div class="col-sm-12">
-                                                <input class="btn btn-default pull-right" type="submit" value="Ajouter">
+                                                <input class="btn btn-default pull-right" type="submit" value="Modifier">
                                                 <a class="btn btn-default pull-left" href="annuairePersonnes.jsp">Annuler</a>
                                             </div>
                                         </div>
@@ -123,3 +154,4 @@
         <script src="assets/js/bootstrap.min.js"></script>
     </body>
 </html>
+

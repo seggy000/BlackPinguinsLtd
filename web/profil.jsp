@@ -1,10 +1,15 @@
-<%-- 
-    Document   : profil
-    Created on : Nov 3, 2015, 10:44:34 AM
-    Author     : Loïc Megert <loic.megert@he-arc.ch>
---%>
-
+<%@page import="ch.hearc.ig.ta.servlets.HtmlHttpUtils"%>
+<%@page import="ch.hearc.ig.ta.business.Achievement"%>
+<%@page import="ch.hearc.ig.ta.services.Services"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%
+    if (!HtmlHttpUtils.isAuthenticate(request)) {
+        request.getRequestDispatcher("login.jsp").forward(request,response);
+    }
+    
+    HttpSession s = request.getSession(true);
+    String username = s.getAttribute("username").toString();
+%>
 <!DOCTYPE html>
 <html lang="fr">
     <head>
@@ -31,7 +36,10 @@
                                 <a href="annuairePersonnes.jsp">Annuaire de clients</a>
                             </li>
                             <li>
-                                <a href="creationPersonne.html">Nouveau client</a>
+                                <a href="creationPersonne.jsp">Nouveau client</a>
+                            </li>
+                            <li>
+                                <a href="recherchePersonne.jsp">Rechercher client</a>
                             </li>
                             <li class="side-content-header">Compte</li>
                             <li>
@@ -47,7 +55,7 @@
             <header id="header-navbar">
                 <ul class="pull-right">
                     <li>
-                        Connect&eacute; en tant que [Pr&eacute;nom Nom]
+                        Connect&eacute; en tant que <%= Services.getNomCommercial(username) %>
                     </li>
                 </ul>
                 <!--<ul class="pull-left">
@@ -64,7 +72,7 @@
                     <div class="row">
                         <div class="col-xs-12 page-heading">
                             <h1>
-                                Profil <small>[Pr&eacute;nom Nom]</small>
+                                Profil <small><%= Services.getNomCommercial(username) %></small>
                             </h1>
                         </div>
                     </div>
@@ -73,19 +81,15 @@
                     <div class="row items-push text-uppercase">
                         <div class="col-xs-6 col-sm-4">
                             <div class="font-w700 text-gray-darker">Level</div>
-                            <div class="h2 font-w300 text-primary">D&eacute;butant</div>
+                            <div class="h2 font-w300 text-primary"><%= Services.getLevelName(username) %></div>
                             <div class="text-muted"><small>Niveau suivant dans 123 points</small></div>
                         </div>
                         <div class="col-xs-6 col-sm-4">
                             <div class="font-w700 text-gray-darker">Points</div>
-                            <div class="h2 font-w300 text-primary">123</div>
+                            <div class="h2 font-w300 text-primary"><%= Services.getLevel(username) %></div>
                             <div class="text-muted"><small>sur 246 points</small></div>
                         </div>
-                        <div class="col-xs-6 col-sm-4">
-                            <div class="font-w700 text-gray-darker">Rang</div>
-                            <div class="h2 font-w300 text-primary">100</div    >
-                            <div class="text-muted"><small>sur 123</small></div>
-                        </div>
+
                     </div>
                 </div>
                 <div class="content">
@@ -97,7 +101,7 @@
                                 </div>
                                 <div class="block-content bg-gray-lighter">
                                     <div class="row items-push">
-                                        <div class="col-xs-12 h1 font-w300 text-left">[Pr&eacute;nom Nom]</div>
+                                        <div class="col-xs-12 h1 font-w300 text-left"><%= Services.getNomCommercial(username) %></div>
                                     </div>
                                 </div>
                                 <div class="block-content">
@@ -132,11 +136,11 @@
                                         <div class="block-content">
                                             <div class="row items-push text-center">
                                                 <div class="col-xs-6">
-                                                    <div class="h1 font-w700">1</div>
+                                                    <div class="h1 font-w700"><%= Services.getAchievementsNumber(username) %></div>
                                                     <div class="h5 font-w300 text-muted">Nombre de badges gagn&eacute;s</div>
                                                 </div>
                                                 <div class="col-xs-6">
-                                                    <div class="h1 font-w700">12</div>
+                                                    <div class="h1 font-w700"><%= 12 - Services.getAchievementsNumber(username) %></div>
                                                     <div class="h5 font-w300 text-muted">Nombre de badges restants</div>
                                                 </div>
                                             </div>
@@ -144,38 +148,16 @@
                                     </div>
                                     <div class="col-xs-12">
                                         <div class="row">
-                                            <div class="col-sm-6 block-content bg-muted sub-block">
+                                            <% for (Achievement achievement : Services.getUserAchievements(username)) { %>
+                                            <div class="col-sm-6 block-content sub-block bg-white">
                                                 <div class="row items-push text-center">
                                                     <div class="col-xs-12">
-                                                        <div class="h1 font-w300">Badge#1</div>
-                                                        <div class="h5 font-w300 text-uppercase">Bla bla...</div>
+                                                        <div class="h1 font-w300"><%= achievement.getLibelle() %></div>
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div class="col-sm-6 block-content bg-white sub-block">
-                                                <div class="row items-push text-center">
-                                                    <div class="col-xs-12">
-                                                        <div class="h1 font-w300 text-primary">Premiers pas</div>
-                                                        <div class="h5 font-w300 text-muted text-uppercase">Avoir cr&eacute;&eacute; un compte</div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="col-sm-6 block-content bg-muted sub-block">
-                                                <div class="row items-push text-center">
-                                                    <div class="col-xs-12">
-                                                        <div class="h1 font-w300">Badge#3</div>
-                                                        <div class="h5 font-w300 text-uppercase">Bla bla...</div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="col-sm-6 block-content bg-muted sub-block">
-                                                <div class="row items-push text-center">
-                                                    <div class="col-xs-12">
-                                                        <div class="h1 font-w300">Badge#4</div>
-                                                        <div class="h5 font-w300 text-uppercase">Bla bla...</div>
-                                                    </div>
-                                                </div>
-                                            </div>
+                                            <% } %>
+                                                            
                                         </div>
                                     </div>
                                 </div>
@@ -193,7 +175,7 @@
                 </div>
             </footer>
         </div>
-        
+
         <!-- Bootstrap core JavaScript-->
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
         <script src="assets/js/bootstrap.min.js"></script>

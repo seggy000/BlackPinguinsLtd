@@ -1,10 +1,17 @@
-<%-- 
-    Document   : annuairePersonnes
-    Created on : Nov 16, 2015, 10:26:27 PM
-    Author     : Loïc Megert <loic.megert@he-arc.ch>
---%>
-
+<%@page import="ch.hearc.ig.ta.servlets.HtmlHttpUtils"%>
+<%@page import="java.util.List"%>
+<%@page import="ch.hearc.ig.ta.dao.PersonneDAO"%>
+<%@page import="ch.hearc.ig.ta.business.Personne"%>
+<%@page import="ch.hearc.ig.ta.services.Services"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%
+    if (!HtmlHttpUtils.isAuthenticate(request)) {
+        request.getRequestDispatcher("login.jsp").forward(request,response);
+    }
+    
+    HttpSession s = request.getSession(true);
+    String username = s.getAttribute("username").toString();
+%>
 <!DOCTYPE html>
 <html lang="fr">
     <head>
@@ -49,7 +56,10 @@
                                 <a class="active" href="annuairePersonnes.jsp">Annuaire de clients</a>
                             </li>
                             <li>
-                                <a href="creationPersonne.html">Nouveau client</a>
+                                <a href="creationPersonne.jsp">Nouveau client</a>
+                            </li>
+                            <li>
+                                <a href="recherchePersonne.jsp">Rechercher client</a>
                             </li>
                             <li class="side-content-header">Compte</li>
                             <li>
@@ -65,7 +75,7 @@
             <header id="header-navbar">
                 <ul class="pull-right">
                     <li>
-                        Connect&eacute; en tant que [Pr&eacute;nom Nom]
+                        Connect&eacute; en tant que <%= Services.getNomCommercial(username) %>
                     </li>
                 </ul>
                 <!--<ul class="pull-left">
@@ -87,27 +97,35 @@
                         </div>
                     </div>
                 </div>
-                <div class="alert alert-success alert-dismissible" role="alert">
-                    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                    <span class="glyphicon glyphicon-ok"></span>&emsp;Message de succ&egrave;s.
-                </div>
-                <div class="alert alert-danger alert-dismissible" role="alert">
-                    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                    <span class="glyphicon glyphicon-remove"></span>&emsp;Message d'&eacute;chec.
-                </div>
+                <%
+                    if (request.getParameter("failed") != null && request.getParameter("failed").equals("0")) {
+                        out.println("<div class=\"alert alert-success alert-dismissible\" role=\"alert\">");
+                        out.println("<button type=\"button\" class=\"close\" data-dismiss=\"alert\" aria-label=\"Close\"><span aria-hidden=\"true\">&times;</span></button>");
+                        out.println("<span class=\"glyphicon glyphicon-ok\"></span>&emsp;" + request.getParameter("msg"));
+                        out.println("</div>");
+                    } else if (request.getParameter("failed") != null && request.getParameter("failed").equals("1")) {
+                        out.println("<div class=\"alert alert-danger alert-dismissible\" role=\"alert\">");
+                        out.println("<button type=\"button\" class=\"close\" data-dismiss=\"alert\" aria-label=\"Close\"><span aria-hidden=\"true\">&times;</span></button>");
+                        out.println("<span class=\"glyphicon glyphicon-remove\"></span>&emsp;" + request.getParameter("msg"));
+                        out.println("</div>");
+                    }
+                %>
                 <div class="content">
                     <div class="row">
                         <div class="col-xs-12">
-                            <div class="block">
-                                <div class="block-content">
-                                    <form class="form-horizontal" action="customers.html" method="post">
-                                        <div class="form-group">
-                                            <div class="col-sm-12">
-                                                <input class="form-control" type="text" id="search" name="search" placeholder="Chercher..." required>
-                                                <input class="btn btn-default pull-right" type="submit" value="Rechercher">
-                                            </div>
+                            <div class="block bg-gray-light">
+                                <div class="block-content remove-padding bg-white">
+                                    <form class="form-horizontal form-group remove-margin" action="Servlet" method="post">
+                                        <div class="input-group">
+                                            <input class="form-control pad-10-l" name="search" placeholder="Rechercher..." type="text">
+                                            <span class="input-group-btn">
+                                                <button type="submit" class="btn btn-default"><span class="glyphicon glyphicon-search"></span></button>
+                                            </span>
                                         </div>
                                     </form>
+                                </div>
+                                <div class="block-footer remove-margin">
+                                    <a class="text-gray-dark" href="recherchePersonne.jsp"><small>Recherche avanc&eacute;e...</small></a>
                                 </div>
                             </div>
                         </div>
@@ -128,71 +146,34 @@
                                                 </tr>
                                             </thead>
                                             <tbody>
+                                                <% 
+                                                    PersonneDAO personneDAO = new PersonneDAO();
+                                                    List<Personne> personnes = personneDAO.research();
+                                                    for (Personne personne : personnes) { 
+                                                %>
                                                 <tr>
-                                                    <td class="text-primary">Bla bla...</td>
-                                                    <td class="text-primary">Bla bla...</td>
-                                                    <td class="text-muted">Bla bla...</td>
-                                                    <td class="text-muted">Bla bla...</td>
+                                                    <td class="text-primary"><%= personne.getPrenom() %></td>
+                                                    <td class="text-primary"><%= personne.getNom() %></td>
+                                                    <td class="text-muted"><%= personne.getAdresse() %></td>
+                                                    <td class="text-muted"><%= personne.getVille() %></td>
                                                     <td class="dropdown">
                                                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><span class="glyphicon glyphicon-cog text-muted pull-right"></span></a>
                                                         <ul class="dropdown-menu">
-                                                            <li><a href="modificationPersonne.html">Modifier</a></li>
-                                                            <li><a href="#" data-href="ServletEffacerPersonne" data-toggle="modal" data-target="#confirm-delete">Supprimer</a></li>
+                                                            <li><a href="modificationPersonne.jsp?id=<%= personne.getId() %>">Modifier</a></li>
+                                                            <li><a href="#" data-href="ServletFaireEffacementPersonne?id=<%= personne.getId() %>" data-toggle="modal" data-target="#confirm-delete">Supprimer</a></li>
                                                         </ul>
                                                     </td>
                                                 </tr>
+                                                <% 
+                                                    } 
+                                                    if (personnes == null) {
+                                                %>
                                                 <tr>
-                                                    <td class="text-primary">Bla bla...</td>
-                                                    <td class="text-primary">Bla bla...</td>
-                                                    <td class="text-muted">Bla bla...</td>
-                                                    <td class="text-muted">Bla bla...</td>
-                                                    <td class="dropdown">
-                                                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><span class="glyphicon glyphicon-cog text-muted pull-right"></span></a>
-                                                        <ul class="dropdown-menu">
-                                                            <li><a href="modificationPersonne.html">Modifier</a></li>
-                                                            <li><a href="#" data-href="ServletEffacerPersonne" data-toggle="modal" data-target="#confirm-delete">Supprimer</a></li>
-                                                        </ul>
-                                                    </td>
+                                                    <td class="text-center" colspan="5">Aucun client trouv&eacute;.</td>
                                                 </tr>
-                                                <tr>
-                                                    <td class="text-primary">Bla bla...</td>
-                                                    <td class="text-primary">Bla bla...</td>
-                                                    <td class="text-muted">Bla bla...</td>
-                                                    <td class="text-muted">Bla bla...</td>
-                                                    <td class="dropdown">
-                                                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><span class="glyphicon glyphicon-cog text-muted pull-right"></span></a>
-                                                        <ul class="dropdown-menu">
-                                                            <li><a href="modificationPersonne.html">Modifier</a></li>
-                                                            <li><a href="#" data-href="ServletEffacerPersonne" data-toggle="modal" data-target="#confirm-delete">Supprimer</a></li>
-                                                        </ul>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td class="text-primary">Bla bla...</td>
-                                                    <td class="text-primary">Bla bla...</td>
-                                                    <td class="text-muted">Bla bla...</td>
-                                                    <td class="text-muted">Bla bla...</td>
-                                                    <td class="dropdown">
-                                                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><span class="glyphicon glyphicon-cog text-muted pull-right"></span></a>
-                                                        <ul class="dropdown-menu">
-                                                            <li><a href="modificationPersonne.html">Modifier</a></li>
-                                                            <li><a href="#" data-href="ServletEffacerPersonne" data-toggle="modal" data-target="#confirm-delete">Supprimer</a></li>
-                                                        </ul>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td class="text-primary">Bla bla...</td>
-                                                    <td class="text-primary">Bla bla...</td>
-                                                    <td class="text-muted">Bla bla...</td>
-                                                    <td class="text-muted">Bla bla...</td>
-                                                    <td class="dropdown">
-                                                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><span class="glyphicon glyphicon-cog text-muted pull-right"></span></a>
-                                                        <ul class="dropdown-menu">
-                                                            <li><a href="modificationPersonne.html">Modifier</a></li>
-                                                            <li><a href="#" data-href="ServletEffacerPersonne" data-toggle="modal" data-target="#confirm-delete">Supprimer</a></li>
-                                                        </ul>
-                                                    </td>
-                                                </tr>
+                                                <%
+                                                    }
+                                                %>
                                             </tbody>
                                         </table>
                                     </div>
@@ -211,13 +192,13 @@
                 </div>
             </footer>
         </div>
-        
+
         <!-- Bootstrap core JavaScript-->
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
         <script src="assets/js/bootstrap.min.js"></script>
-        
+
         <script>
-            $('#confirm-delete').on('show.bs.modal', function(e) {
+            $('#confirm-delete').on('show.bs.modal', function (e) {
                 $(this).find('.btn-ok').attr('href', $(e.relatedTarget).data('href'));
             });
         </script>

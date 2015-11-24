@@ -33,12 +33,15 @@ public class ServletLogout extends HttpServlet {
         PrintWriter out = response.getWriter();
 
         try {
-            request.getSession(false).invalidate();
+            request.getSession(true).invalidate();
             DAO.closeConnection();
-            response.sendRedirect("login.jsp");
         } finally {
             out.close();
+            //request.getRequestDispatcher("login.jsp").forward(request,response);
+            //response.sendRedirect("login.jsp");
         }
+        
+        request.getRequestDispatcher("login.jsp").forward(request,response);
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

@@ -28,9 +28,8 @@ public class Services {
     }
 
     public static String getNomCommercial(final String username) {
-        if (commercial == null) {
-            getCommercial(username);
-        }
+
+        getCommercial(username);
 
         StringBuilder sb = new StringBuilder();
 
@@ -42,17 +41,15 @@ public class Services {
     }
 
     public static int getLevel(final String username) {
-        if (commercial == null) {
-            getCommercial(username);
-        }
+
+        getCommercial(username);
 
         return commercial.getLevel();
     }
 
     public static String getLevelName(final String username) {
-        if (commercial == null) {
-            getCommercial(username);
-        }
+
+        getCommercial(username);
 
         String levelName;
         int level = getLevel(username);
@@ -77,9 +74,8 @@ public class Services {
     }
 
     public static boolean addPoints(final String username, final int points) {
-        if (commercial == null) {
-            getCommercial(username);
-        }
+
+        getCommercial(username);
 
         int result = commerciauxDao.updatePoints(username, points);
 
@@ -94,6 +90,7 @@ public class Services {
         }
     }
 
+   
     public static int getAchievementsNumber(final String username) {
         return achievementsDao.countAchievementsByCommercial(username);
     }
