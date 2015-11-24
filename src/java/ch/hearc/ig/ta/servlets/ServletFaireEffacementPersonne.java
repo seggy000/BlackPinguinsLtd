@@ -52,7 +52,7 @@ public class ServletFaireEffacementPersonne extends HttpServlet {
                         }
                     }
                 }
-                request.getRequestDispatcher("/index.jsp").forward(request, response);
+                request.getRequestDispatcher("/annuairePersonnes.jsp").forward(request, response);
             }
         } finally {
             out.close();

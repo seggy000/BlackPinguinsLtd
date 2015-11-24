@@ -84,29 +84,29 @@
                                     <h3 class="block-title">Recherche avanc&eacute;e</h3>
                                 </div>
                                 <div class="block-content block-content-narrow">
-                                    <form class="form-horizontal push-10-t" action="ServletListePersonne" method="post">
+                                    <form class="form-horizontal push-10-t" action="annuairePersonnes.jsp" method="post">
                                         <div class="form-group">
                                             <div class="col-sm-12">
                                                 <label for="firstname">Pr&eacute;nom</label>
-                                                <input class="form-control" type="text" id="firstname" name="firstname" placeholder="Pr&eacute;nom du client...">
+                                                <input class="form-control" type="text" id="firstname" name="prenom" placeholder="Pr&eacute;nom du client...">
                                             </div>
                                         </div>
                                         <div class="form-group">
                                             <div class="col-sm-12">
                                                 <label for="lastname">Nom</label>
-                                                <input class="form-control" type="text" id="lastname" name="lastname" placeholder="Nom du client...">
+                                                <input class="form-control" type="text" id="lastname" name="nom" placeholder="Nom du client...">
                                             </div>
                                         </div>
                                         <div class="form-group">
                                             <div class="col-sm-12">
                                                 <label for="address">Adresse</label>
-                                                <input class="form-control" type="text" id="address" name="address" placeholder="Adresse du client..." required>
+                                                <input class="form-control" type="text" id="address" name="adresse" placeholder="Adresse du client..." required>
                                             </div>
                                         </div>
                                         <div class="form-group">
                                             <div class="col-sm-12">
                                                 <label for="city">Ville</label>
-                                                <input class="form-control" type="text" id="city" name="city" placeholder="Ville du client..." required>
+                                                <input class="form-control" type="text" id="city" name="ville" placeholder="Ville du client..." required>
                                             </div>
                                         </div>
                                         <div class="form-group">

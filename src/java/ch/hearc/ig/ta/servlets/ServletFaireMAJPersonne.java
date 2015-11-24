@@ -61,7 +61,7 @@ public class ServletFaireMAJPersonne extends HttpServlet {
                     out.println("<p>Une erreur s'est produite lors de l'ajout des points pour la modification de données client.</p>");
                 }
 
-                request.getRequestDispatcher("/index.jsp").forward(request, response);
+                request.getRequestDispatcher("/annuairePersonnes.jsp").forward(request, response);
             }
         } finally {
             out.close();
