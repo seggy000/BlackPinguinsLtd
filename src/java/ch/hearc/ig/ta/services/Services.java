@@ -5,7 +5,7 @@ import ch.hearc.ig.ta.business.Commercial;
 import ch.hearc.ig.ta.dao.AchievementsDAO;
 import ch.hearc.ig.ta.dao.CommerciauxDAO;
 import ch.hearc.ig.ta.dao.DAO;
-import ch.hearc.ig.ta.dao.RelComAchDao;
+import ch.hearc.ig.ta.dao.ObtentionsDao;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -20,7 +20,7 @@ public class Services {
 
     private static final CommerciauxDAO commerciauxDao = new CommerciauxDAO();
     private static final AchievementsDAO achievementsDao = new AchievementsDAO();
-    private static final RelComAchDao relComAchDao = new RelComAchDao();
+    private static final ObtentionsDao obtentionsDao = new ObtentionsDao();
     private static Commercial commercial;
 
     private static void getCommercial(final String username) {
@@ -28,7 +28,6 @@ public class Services {
     }
 
     public static String getNomCommercial(final String username) {
-
         getCommercial(username);
 
         StringBuilder sb = new StringBuilder();
@@ -41,14 +40,12 @@ public class Services {
     }
 
     public static int getLevel(final String username) {
-
         getCommercial(username);
 
         return commercial.getLevel();
     }
 
     public static String getLevelName(final String username) {
-
         getCommercial(username);
 
         String levelName;
@@ -74,7 +71,6 @@ public class Services {
     }
 
     public static boolean addPoints(final String username, final int points) {
-
         getCommercial(username);
 
         int result = commerciauxDao.updatePoints(username, points);
@@ -104,9 +100,10 @@ public class Services {
     }
 
     public static boolean addAchievement(final String username, final String achievementLabel) {
-        int result = relComAchDao.insert(username, achievementLabel);
+        int result = obtentionsDao.insert(username, achievementLabel);
 
         if (result > 0) {
+            getLevelAchievement(username);
             DAO.commit();
             return true;
         } else {
@@ -127,27 +124,5 @@ public class Services {
                 logger.log(Level.SEVERE, "Une erreur s'est produite lors de l'attribution de la récompense \"" + achievement + "\".");
             }
         }
-
-        /*        int level = getLevel(username);
-         String achievement;
-
-         switch (level) {
-         case 1:
-         case 5:
-         case 10:
-         case 15:
-         case 25:
-         case 50:
-         achievement = "Niveau " + level + " atteint !";
-
-         if (!checkUserAchievement(username, achievement)) {
-         boolean achievementOK = addAchievement(username, achievement);
-
-         if (!achievementOK) {
-         logger.log(Level.SEVERE, "Une erreur s'est produite lors de l'attribution de la récompense \"" + achievement + "\".");
-         }
-         }
-         break;
-         }*/
     }
 }

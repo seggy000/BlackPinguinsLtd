@@ -10,12 +10,12 @@ import java.util.logging.Logger;
  *
  * @author Geoffroy Megert <geoffroy.megert@he-arc.ch>
  */
-public class RelComAchDao extends DAO {
+public class ObtentionsDao extends DAO {
     
-    private static final Logger logger = Logger.getLogger(RelComAchDao.class.getName());
+    private static final Logger logger = Logger.getLogger(ObtentionsDao.class.getName());
     
     public int insert(final String username, final String achievementLabel) {
-        try(PreparedStatement pstmt = c.prepareStatement("INSERT INTO rel_com_ach(date_obtention, comm_numero, ach_numero) "
+        try(PreparedStatement pstmt = c.prepareStatement("INSERT INTO obtentions(date_obtention, comm_numero, ach_numero) "
                                                          + "VALUES (sysdate, (SELECT numero FROM commerciaux WHERE UPPER(username) = UPPER(?)), "
                                                                 + "(SELECT numero FROM achievements WHERE UPPER(libelle) = UPPER(?)))")) {
             pstmt.setString(1, username);

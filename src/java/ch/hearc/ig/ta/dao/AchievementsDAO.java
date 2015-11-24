@@ -61,7 +61,7 @@ public class AchievementsDAO extends DAO {
 
         List<Achievement> listAchievements = new ArrayList<>();
 
-        String query = "SELECT a.libelle, rca.date_obtention FROM achievements a INNER JOIN REL_COM_ACH rca on rca.ACH_Numero = a.numero INNER JOIN Commerciaux c on rca.COMM_Numero = c.numero WHERE UPPER(username) = UPPER(?)";
+        String query = "SELECT a.libelle, o.date_obtention FROM achievements a INNER JOIN obtentions o on o.ACH_Numero = a.numero INNER JOIN Commerciaux c on o.COMM_Numero = c.numero WHERE UPPER(c.username) = UPPER(?)";
         try {
             stmt = c.prepareStatement(query);
             stmt.setString(1, username);
@@ -91,7 +91,7 @@ public class AchievementsDAO extends DAO {
 
         int nbAchievements = 0;
 
-        String query = "SELECT COUNT(a.numero) nbAchievements FROM achievements a INNER JOIN REL_COM_ACH rca on rca.ACH_Numero = a.numero INNER JOIN Commerciaux c on rca.COMM_Numero = c.numero WHERE UPPER(username) = UPPER(?)";
+        String query = "SELECT COUNT(a.numero) nbAchievements FROM achievements a INNER JOIN obtentions o on o.ACH_Numero = a.numero INNER JOIN Commerciaux c on o.COMM_Numero = c.numero WHERE UPPER(c.username) = UPPER(?)";
         try {
             stmt = c.prepareStatement(query);
             stmt.setString(1, username);
@@ -116,11 +116,11 @@ public class AchievementsDAO extends DAO {
     public boolean checkUserAchievement(final String username, final String achievementLabel) {
         try (PreparedStatement pstmt = c.prepareStatement("SELECT 1 "
                                                           + "FROM achievements a "
-                                                            + "INNER JOIN REL_COM_ACH rca "
-                                                              + "ON rca.ACH_Numero = a.numero "
+                                                            + "INNER JOIN obtentions o "
+                                                              + "ON o.ACH_Numero = a.numero "
                                                             + "INNER JOIN Commerciaux c "
-                                                              + "ON rca.COMM_Numero = c.numero "
-                                                          + "WHERE UPPER(username) = UPPER(?) AND UPPER(libelle) = UPPER(?)")) {
+                                                              + "ON o.COMM_Numero = c.numero "
+                                                          + "WHERE UPPER(c.username) = UPPER(?) AND UPPER(a.libelle) = UPPER(?)")) {
             pstmt.setString(1, username);
             pstmt.setString(2, achievementLabel);
 
