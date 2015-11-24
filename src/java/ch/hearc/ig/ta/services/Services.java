@@ -5,7 +5,7 @@ import ch.hearc.ig.ta.business.Commercial;
 import ch.hearc.ig.ta.dao.AchievementsDAO;
 import ch.hearc.ig.ta.dao.CommerciauxDAO;
 import ch.hearc.ig.ta.dao.DAO;
-import ch.hearc.ig.ta.dao.RelComAchDao;
+import ch.hearc.ig.ta.dao.ObtentionsDao;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -20,7 +20,7 @@ public class Services {
 
     private static final CommerciauxDAO commerciauxDao = new CommerciauxDAO();
     private static final AchievementsDAO achievementsDao = new AchievementsDAO();
-    private static final RelComAchDao relComAchDao = new RelComAchDao();
+    private static final ObtentionsDao obtentionsDao = new ObtentionsDao();
     private static Commercial commercial;
 
     private static void getCommercial(final String username) {
@@ -104,7 +104,7 @@ public class Services {
     }
 
     public static boolean addAchievement(final String username, final String achievementLabel) {
-        int result = relComAchDao.insert(username, achievementLabel);
+        int result = obtentionsDao.insert(username, achievementLabel);
 
         if (result > 0) {
             DAO.commit();
