@@ -28,7 +28,6 @@ public class Services {
     }
 
     public static String getNomCommercial(final String username) {
-
         getCommercial(username);
 
         StringBuilder sb = new StringBuilder();
@@ -41,14 +40,12 @@ public class Services {
     }
 
     public static int getLevel(final String username) {
-
         getCommercial(username);
 
         return commercial.getLevel();
     }
 
     public static String getLevelName(final String username) {
-
         getCommercial(username);
 
         String levelName;
@@ -74,7 +71,6 @@ public class Services {
     }
 
     public static boolean addPoints(final String username, final int points) {
-
         getCommercial(username);
 
         int result = commerciauxDao.updatePoints(username, points);
@@ -107,6 +103,7 @@ public class Services {
         int result = obtentionsDao.insert(username, achievementLabel);
 
         if (result > 0) {
+            getLevelAchievement(username);
             DAO.commit();
             return true;
         } else {
@@ -127,27 +124,5 @@ public class Services {
                 logger.log(Level.SEVERE, "Une erreur s'est produite lors de l'attribution de la récompense \"" + achievement + "\".");
             }
         }
-
-        /*        int level = getLevel(username);
-         String achievement;
-
-         switch (level) {
-         case 1:
-         case 5:
-         case 10:
-         case 15:
-         case 25:
-         case 50:
-         achievement = "Niveau " + level + " atteint !";
-
-         if (!checkUserAchievement(username, achievement)) {
-         boolean achievementOK = addAchievement(username, achievement);
-
-         if (!achievementOK) {
-         logger.log(Level.SEVERE, "Une erreur s'est produite lors de l'attribution de la récompense \"" + achievement + "\".");
-         }
-         }
-         break;
-         }*/
     }
 }
