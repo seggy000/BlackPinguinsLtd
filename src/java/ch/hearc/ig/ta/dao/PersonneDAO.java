@@ -1,10 +1,8 @@
 package ch.hearc.ig.ta.dao;
 
-import ch.hearc.ig.ta.business.Achievement;
 import ch.hearc.ig.ta.business.Personne;
 import static ch.hearc.ig.ta.dao.DAO.c;
 import java.sql.Statement;
-import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -20,7 +18,7 @@ import oracle.jdbc.OracleTypes;
  *
  * @author termine
  */
-public class PersonneDAO {
+public class PersonneDAO extends DAO {
 
     private static final Logger logger = Logger.getLogger(PersonneDAO.class.getName());
 
@@ -28,7 +26,6 @@ public class PersonneDAO {
     };
     
     public List<Personne> research() {
-        Connection conn = DBDataSource.getJDBCConnection();
         PreparedStatement stmt = null;
         ResultSet personnesFound = null;
 
@@ -37,7 +34,7 @@ public class PersonneDAO {
         String query = "SELECT numero, prenom, nom, adresse, ville FROM personne";
 
         try {
-            stmt = conn.prepareStatement(query);
+            stmt = c.prepareStatement(query);
             personnesFound = stmt.executeQuery();
 
             while (personnesFound.next()) {
@@ -49,7 +46,6 @@ public class PersonneDAO {
             try {
                 personnesFound.close();
                 stmt.close();
-                conn.close();
             } catch (SQLException ex) {
                 logger.log(Level.SEVERE, null, ex);
             }
@@ -58,7 +54,6 @@ public class PersonneDAO {
     }
 
     public Vector<Personne> research(Personne p) {
-        Connection conn = DBDataSource.getJDBCConnection();
         Statement stmt = null;
         ResultSet rs = null;
         Vector<Personne> resultList = new Vector();
@@ -123,7 +118,7 @@ public class PersonneDAO {
             }
 
             System.out.println(query);
-            stmt = conn.createStatement(); //create a statement
+            stmt = c.createStatement(); //create a statement
             rs = stmt.executeQuery(query);
 
             while (rs.next()) {
@@ -147,7 +142,6 @@ public class PersonneDAO {
             try {
                 rs.close();
                 stmt.close();
-                conn.close();
                 return resultList;
             } catch (SQLException ex) {
                 logger.log(Level.SEVERE, null, ex);
@@ -158,7 +152,6 @@ public class PersonneDAO {
     }
 
     public Long create(Personne p) {
-        Connection conn = DBDataSource.getJDBCConnection();
         OraclePreparedStatement pstmt = null;
         ResultSet rs = null;
         Long returnNumero = null;
@@ -167,7 +160,7 @@ public class PersonneDAO {
             String query = "insert into Personne(nom,prenom,adresse,ville) values (?,?,?,?) returning numero into ?";
             System.out.println("insertquery ->" + query);
 
-            pstmt = (OraclePreparedStatement) conn.prepareStatement(query); //create a statement
+            pstmt = (OraclePreparedStatement) c.prepareStatement(query); //create a statement
             pstmt.setString(1, p.getNom());
             pstmt.setString(2, p.getPrenom());
             pstmt.setString(3, p.getAdresse());
@@ -175,7 +168,7 @@ public class PersonneDAO {
             pstmt.registerReturnParameter(5, OracleTypes.NUMBER);
 
             int count = pstmt.executeUpdate();
-            conn.commit();
+            DAO.commit();
 
             if (count > 0) {
                 rs = pstmt.getReturnResultSet(); //rest is not null and not empty
@@ -191,7 +184,6 @@ public class PersonneDAO {
             try {
                 rs.close();
                 pstmt.close();
-                conn.close();
                 return returnNumero;
             } catch (SQLException ex) {
                 logger.log(Level.SEVERE, null, ex);
@@ -204,7 +196,6 @@ public class PersonneDAO {
         int executeUpdate = 0;
         
         if (p.getId() != null) {//update via l'identifiant numero
-            Connection conn = DBDataSource.getJDBCConnection();
             Statement stmt = null;
             
             try {
@@ -258,16 +249,15 @@ public class PersonneDAO {
                 System.out.println("updatequery ->" + query);
 
                 //create a statement
-                stmt = conn.createStatement();
+                stmt = c.createStatement();
                 executeUpdate = stmt.executeUpdate(query);
-                conn.commit();
+                DAO.commit();
                 System.out.println(executeUpdate + " Rows modified");
             } catch (Exception ex) {
                 logger.log(Level.SEVERE, null, ex);
             } finally {
                 try {
                     stmt.close();
-                    conn.close();
                     return new Long(executeUpdate);
                 } catch (SQLException ex) {
                     logger.log(Level.SEVERE, null, ex);
@@ -283,7 +273,6 @@ public class PersonneDAO {
         int executeUpdate = 0;
         
         if (p.getId() != null) {//update via l'identifiant numero
-            Connection conn = DBDataSource.getJDBCConnection();
             PreparedStatement pstmt = null;
 
             try {
@@ -291,18 +280,17 @@ public class PersonneDAO {
 
                 System.out.println("deletequery ->" + q);
 
-                pstmt = conn.prepareStatement(q); //create a statement
+                pstmt = c.prepareStatement(q); //create a statement
                 //create a statement
                 pstmt.setLong(1, p.getId());
                 executeUpdate = pstmt.executeUpdate();
-                conn.commit();
+                DAO.commit();
                 System.out.println(executeUpdate + " Rows modified");
             } catch (Exception ex) {
                 logger.log(Level.SEVERE, null, ex);
             } finally {
                 try {
                     pstmt.close();
-                    conn.close();
                     return new Long(executeUpdate);
                 } catch (SQLException ex) {
                     logger.log(Level.SEVERE, null, ex);
