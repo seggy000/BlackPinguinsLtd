@@ -11,6 +11,17 @@
     
     HttpSession s = request.getSession(true);
     String username = s.getAttribute("username").toString();
+    
+    List<Personne> personnes = null;
+    PersonneDAO personneDAO = new PersonneDAO();
+    if(request.getParameter("search") != null) {
+        personnes = personneDAO.research(request.getParameter("search"));
+    } else if (request.getParameter("nom") != null || request.getParameter("prenom") != null || request.getParameter("adresse") != null || request.getParameter("ville") != null) {
+        Personne pers = new Personne(request.getParameter("nom"),request.getParameter("prenom"),request.getParameter("adresse"),request.getParameter("ville"));
+        personnes = personneDAO.research(pers);
+    } else {
+        personnes = personneDAO.research();
+    }
 %>
 <!DOCTYPE html>
 <html lang="fr">
@@ -92,7 +103,21 @@
                     <div class="row">
                         <div class="col-xs-12 page-heading">
                             <h1>
+                                <%
+                                    if(request.getParameter("search") != null) {
+                                %>
+                                Annuaire de clients <small>Recherche simple</small>
+                                <%
+                                    } else if (request.getParameter("nom") != null || request.getParameter("prenom") != null || request.getParameter("adresse") != null || request.getParameter("ville") != null) {
+                                %>
+                                Annuaire de clients <small>Recherche avanc&eacute;e</small>
+                                <%
+                                    } else {
+                                %>
                                 Annuaire de clients
+                                <%
+                                    }
+                                %>
                             </h1>
                         </div>
                     </div>
@@ -113,11 +138,14 @@
                 <div class="content">
                     <div class="row">
                         <div class="col-xs-12">
+                            <%        
+                                if (request.getParameter("nom") != null || request.getParameter("prenom") != null || request.getParameter("adresse") != null || request.getParameter("ville") != null) {
+                            %>
                             <div class="block bg-gray-light">
                                 <div class="block-content remove-padding bg-white">
                                     <form class="form-horizontal form-group remove-margin" action="annuairePersonnes.jsp" method="post">
                                         <div class="input-group">
-                                            <input class="form-control pad-10-l" name="search" placeholder="Rechercher..." type="text">
+                                            <input class="form-control pad-10-l" name="search" placeholder="<%= (request.getParameter("search") != null) ? request.getParameter("search") : "Rechercher..." %>" type="text">
                                             <span class="input-group-btn">
                                                 <button type="submit" class="btn btn-default"><span class="glyphicon glyphicon-search"></span></button>
                                             </span>
@@ -125,9 +153,46 @@
                                     </form>
                                 </div>
                                 <div class="block-footer remove-margin">
+                                    <small>Recherche avanc&eacute;e sur&emsp;<%= (!request.getParameter("prenom").isEmpty()) ? "pr&eacute;nom: <span class=\"label label-default\">" + request.getParameter("prenom") + "</span>&emsp;" : "" %><%= (!request.getParameter("nom").isEmpty()) ? "nom: <span class=\"label label-default\">" + request.getParameter("nom") + "</span>&emsp;" : "" %><%= (!request.getParameter("adresse").isEmpty()) ? "adresse: <span class=\"label label-default\">" + request.getParameter("adresse") + "</span>&emsp;" : "" %><%= (!request.getParameter("ville").isEmpty()) ? "ville: <span class=\"label label-default\">" + request.getParameter("ville") + "</span>&emsp;" : "" %></small>
+                                    <small>&emsp;|&emsp;&emsp;</small>
+                                    <small><span class="badge"><%= personnes.size() %></span> résultat<%= (personnes.size() > 1) ? "s" : "" %></small>
+                                    <small>&emsp;&emsp;|&emsp;&emsp;</small>
+                                    <small><a href="annuairePersonnes.jsp">Effacer le résultat</a></small>
+                                    <br>
+                                    <small><a class="text-gray-dark" href="recherchePersonne.jsp">Nouvelle recherche avanc&eacute;e...</a></small>
+                                </div>
+                            </div>
+                            <%
+                                } else {
+                            %>
+                            <div class="block bg-gray-light">
+                                <div class="block-content remove-padding bg-white">
+                                    <form class="form-horizontal form-group remove-margin" action="annuairePersonnes.jsp" method="post">
+                                        <div class="input-group">
+                                            <input class="form-control pad-10-l" name="search" placeholder="<%= (request.getParameter("search") != null) ? request.getParameter("search") : "Rechercher..." %>" type="text">
+                                            <span class="input-group-btn">
+                                                <button type="submit" class="btn btn-default"><span class="glyphicon glyphicon-search"></span></button>
+                                            </span>
+                                        </div>
+                                    </form>
+                                </div>
+                                <div class="block-footer remove-margin">
+                                    <%
+                                        if (request.getParameter("search") != null) {
+                                    %>
+                                    <small><span class="badge"><%= personnes.size() %></span> résultat<%= (personnes.size() > 1) ? "s" : "" %></small>
+                                    <small>&emsp;&emsp;|&emsp;&emsp;</small>
+                                    <small><a href="annuairePersonnes.jsp">Effacer le résultat</a></small>
+                                    <br>
+                                    <%
+                                        }
+                                    %>
                                     <a class="text-gray-dark" href="recherchePersonne.jsp"><small>Recherche avanc&eacute;e...</small></a>
                                 </div>
                             </div>
+                            <%
+                                }
+                            %>
                         </div>
                     </div>
                     <div class="row">
@@ -147,18 +212,6 @@
                                             </thead>
                                             <tbody>
                                                 <% 
-                                                    List<Personne> personnes = null;
-                                                    PersonneDAO personneDAO = new PersonneDAO();
-                                                    if(request.getParameter("element") != null){
-                                                        //TODO Recherche Simple
-                                                        personnes = personneDAO.research(/* TO DO Recherche SIMPLE */);
-                                                    } else if (request.getParameter("nom") != null || request.getParameter("prenom") != null || request.getParameter("adresse") != null || request.getParameter("ville") != null) {
-                                                        Personne pers = new Personne(request.getParameter("nom"),request.getParameter("prenom"),request.getParameter("adresse"),request.getParameter("ville"));
-                                                        personnes = personneDAO.research(pers);
-                                                    } else {
-                                                        personnes = personneDAO.research();
-                                                    }
-      
                                                     for (Personne personne : personnes) { 
                                                 %>
                                                 <tr>
@@ -176,7 +229,7 @@
                                                 </tr>
                                                 <% 
                                                     } 
-                                                    if (personnes == null) {
+                                                    if (personnes.isEmpty()) {
                                                 %>
                                                 <tr>
                                                     <td class="text-center" colspan="5">Aucun client trouv&eacute;.</td>

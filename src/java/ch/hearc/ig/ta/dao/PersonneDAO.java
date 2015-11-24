@@ -52,6 +52,35 @@ public class PersonneDAO extends DAO {
         }
         return listPersonnes;
     }
+    
+    public List<Personne> research(String search) {
+        PreparedStatement stmt = null;
+        ResultSet personnesFound = null;
+
+        List<Personne> listPersonnes = new ArrayList<>();
+
+        //String query = "SELECT numero, prenom, nom, adresse, ville FROM personne WHERE INSTR(UPPER(prenom), UPPER('" + search + "')) > 0 OR INSTR(UPPER(nom), UPPER('" + search + "')) > 0 OR INSTR(UPPER(adresse), UPPER('" + search + "')) > 0 OR INSTR(UPPER(ville), UPPER('" + search + "')) > 0";
+        String query = "SELECT numero, prenom, nom, adresse, ville FROM personne WHERE prenom like '%" + search + "%' OR nom like '%" + search + "%' OR adresse like '%" + search + "%' OR ville like '%" + search + "%'";
+                
+        try {
+            stmt = c.prepareStatement(query);
+            personnesFound = stmt.executeQuery();
+
+            while (personnesFound.next()) {
+                listPersonnes.add(new Personne(personnesFound.getLong("numero"), personnesFound.getString("prenom"), personnesFound.getString("nom"), personnesFound.getString("adresse"), personnesFound.getString("ville")));
+            }
+        } catch (SQLException ex) {
+            logger.log(Level.SEVERE, null, ex);
+        } finally {
+            try {
+                personnesFound.close();
+                stmt.close();
+            } catch (SQLException ex) {
+                logger.log(Level.SEVERE, null, ex);
+            }
+        }
+        return listPersonnes;
+    }
 
     public Vector<Personne> research(Personne p) {
         Statement stmt = null;

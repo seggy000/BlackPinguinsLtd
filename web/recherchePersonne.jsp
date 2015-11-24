@@ -100,13 +100,13 @@
                                         <div class="form-group">
                                             <div class="col-sm-12">
                                                 <label for="address">Adresse</label>
-                                                <input class="form-control" type="text" id="address" name="adresse" placeholder="Adresse du client..." required>
+                                                <input class="form-control" type="text" id="address" name="adresse" placeholder="Adresse du client...">
                                             </div>
                                         </div>
                                         <div class="form-group">
                                             <div class="col-sm-12">
                                                 <label for="city">Ville</label>
-                                                <input class="form-control" type="text" id="city" name="ville" placeholder="Ville du client..." required>
+                                                <input class="form-control" type="text" id="city" name="ville" placeholder="Ville du client...">
                                             </div>
                                         </div>
                                         <div class="form-group">
