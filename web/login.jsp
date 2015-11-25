@@ -1,10 +1,10 @@
-<%-- 
-    Document   : login
-    Created on : 6 janv. 2010, 14:19:14
-    Author     : termine
---%>
-
+<%@page import="ch.hearc.ig.ta.servlets.HtmlHttpUtils"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%
+    if (HtmlHttpUtils.isAuthenticate(request)) {
+        request.getRequestDispatcher("annuairePersonnes.jsp").forward(request,response);
+    }
+%>
 <!DOCTYPE html>
 <html lang="fr">
     <head>

@@ -60,7 +60,7 @@ public class PersonneDAO extends DAO {
         List<Personne> listPersonnes = new ArrayList<>();
 
         //String query = "SELECT numero, prenom, nom, adresse, ville FROM personne WHERE INSTR(UPPER(prenom), UPPER('" + search + "')) > 0 OR INSTR(UPPER(nom), UPPER('" + search + "')) > 0 OR INSTR(UPPER(adresse), UPPER('" + search + "')) > 0 OR INSTR(UPPER(ville), UPPER('" + search + "')) > 0";
-        String query = "SELECT numero, prenom, nom, adresse, ville FROM personne WHERE prenom like '%" + search + "%' OR nom like '%" + search + "%' OR adresse like '%" + search + "%' OR ville like '%" + search + "%'";
+        String query = "SELECT numero, prenom, nom, adresse, ville FROM personne WHERE UPPER(prenom) like UPPER('%" + search + "%') OR UPPER(nom) like UPPER('%" + search + "%') OR UPPER(adresse) like UPPER('%" + search + "%') OR UPPER(ville) like UPPER('%" + search + "%')";
                 
         try {
             stmt = c.prepareStatement(query);
@@ -97,16 +97,16 @@ public class PersonneDAO extends DAO {
                 sn = " numero=" + p.getId();
             }
             if (p.getNom() != null) {
-                snom = " NOM like '%" + p.getNom() + "%' ";
+                snom = " UPPER(NOM) like UPPER('%" + p.getNom() + "%') ";
             }
             if (p.getPrenom() != null) {
-                sprenom = " PRENOM like '%" + p.getPrenom() + "%' ";
+                sprenom = " UPPER(PRENOM) like UPPER('%" + p.getPrenom() + "%') ";
             }
             if (p.getAdresse() != null) {
-                sadr = " ADRESSE like '%" + p.getAdresse() + "%' ";
+                sadr = " UPPER(ADRESSE) like UPPER('%" + p.getAdresse() + "%') ";
             }
             if (p.getVille() != null) {
-                sville = " VILLE like '%" + p.getVille() + "%' ";
+                sville = " UPPER(VILLE) like UPPER('%" + p.getVille() + "%') ";
             }
             //si critères, contruire la clause where
             if (sn != null || snom != null || sprenom != null || sadr != null || sville != null) {
