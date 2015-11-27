@@ -32,6 +32,7 @@
         <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400italic,600,700%7COpen+Sans:300,400,400italic,600,700">
         <link rel="stylesheet" href="assets/css/bootstrap.min.css">
         <link rel="stylesheet" href="assets/css/style.css">
+        <link rel="stylesheet" href="assets/css/pnotify.custom.min.css">
     </head>
     <body>
         <div class="modal fade" id="confirm-delete" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
@@ -259,10 +260,24 @@
         <!-- Bootstrap core JavaScript-->
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
         <script src="assets/js/bootstrap.min.js"></script>
+        <script src="assets/js/pnotify.custom.min.js"></script>
 
         <script>
             $('#confirm-delete').on('show.bs.modal', function (e) {
                 $(this).find('.btn-ok').attr('href', $(e.relatedTarget).data('href'));
+            });
+        </script>
+        <script>
+            $(function () {
+                new PNotify({
+                    title: 'Premier pas (D&eacute;bloqu&eacute;)',
+                    text: 'F&eacute;licitation! Vous venez de gagner un nouveau badge.<br><small><i>Vous vous &ecirc;tes connect&eacute; pour la premi&egrave;re fois.</i></small>',
+                    delay: 8000,
+                    buttons: {
+                        closer: false,
+                        sticker: false
+                    }
+                });
             });
         </script>
     </body>
