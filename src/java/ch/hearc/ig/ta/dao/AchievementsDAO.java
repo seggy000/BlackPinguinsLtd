@@ -10,6 +10,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -37,8 +38,9 @@ public class AchievementsDAO extends DAO {
             stmt = c.prepareStatement(query);
             achievementsFound = stmt.executeQuery();
 
+            String libelle;
             while (achievementsFound.next()) {
-                String libelle = achievementsFound.getString("libelle");
+                libelle = achievementsFound.getString("libelle");
                 Achievement achievement = new Achievement(libelle);
                 listAchievements.add(achievement);
             }
@@ -56,61 +58,109 @@ public class AchievementsDAO extends DAO {
     }
 
     public List getAchievementsByCommercial(String username) {
-        PreparedStatement stmt = null;
-        ResultSet achievementsFound = null;
+        try(PreparedStatement pstmt = c.prepareStatement("SELECT a.libelle, o.date_obtention "
+                                                         + "FROM achievements a "
+                                                           + "INNER JOIN obtentions o "
+                                                             + "ON o.ACH_Numero = a.numero "
+                                                           + "INNER JOIN Commerciaux c "
+                                                             + "ON o.COMM_Numero = c.numero "
+                                                         + "WHERE UPPER(c.username) = UPPER(?)")) {
+            pstmt.setString(1, username);
+            
+            try(ResultSet achievementsFound = pstmt.executeQuery()) {
+                String libelle;
+                Date obtentionDate;
+                List<Achievement> listAchievements = new ArrayList<>();
+                
+                while (achievementsFound.next()) {
+                    libelle = achievementsFound.getString("libelle");
+                    obtentionDate = achievementsFound.getDate("date_obtention");
 
-        List<Achievement> listAchievements = new ArrayList<>();
-
-        String query = "SELECT a.libelle, o.date_obtention FROM achievements a INNER JOIN obtentions o on o.ACH_Numero = a.numero INNER JOIN Commerciaux c on o.COMM_Numero = c.numero WHERE UPPER(c.username) = UPPER(?)";
-        try {
-            stmt = c.prepareStatement(query);
-            stmt.setString(1, username);
-            achievementsFound = stmt.executeQuery();
-
-            while (achievementsFound.next()) {
-                String libelle = achievementsFound.getString("libelle");
-                Achievement achievement = new Achievement(libelle);
-                listAchievements.add(achievement);
+                    Achievement achievement = new Achievement(libelle, obtentionDate);
+                    listAchievements.add(achievement);
+                }
+                
+                return listAchievements;
             }
         } catch (SQLException ex) {
             logger.log(Level.SEVERE, null, ex);
-        } finally {
-            try {
-                achievementsFound.close();
-                stmt.close();
-            } catch (SQLException ex) {
-                logger.log(Level.SEVERE, null, ex);
-            }
+            return null;
         }
-        return listAchievements;
+    }
+    
+    public List getNotAchievedAchievementsByCommercial(String username) {
+        try(PreparedStatement pstmt = c.prepareStatement("SELECT libelle "
+                                                         + "FROM achievements "
+                                                         + "WHERE numero NOT IN (SELECT a.numero "
+                                                                                 + "FROM achievements a "
+                                                                                   + "INNER JOIN obtentions o "
+                                                                                     + "ON o.ACH_Numero = a.numero "
+                                                                                   + "INNER JOIN Commerciaux c "
+                                                                                     + "ON o.COMM_Numero = c.numero "
+                                                                                 + "WHERE UPPER(c.username) = UPPER(?))")) {
+            pstmt.setString(1, username);
+            
+            try(ResultSet achievementsFound = pstmt.executeQuery()) {
+                String libelle;
+                List<Achievement> listAchievements = new ArrayList<>();
+                
+                while (achievementsFound.next()) {
+                    libelle = achievementsFound.getString("libelle");
+
+                    Achievement achievement = new Achievement(libelle);
+                    listAchievements.add(achievement);
+                }
+                
+                return listAchievements;
+            }
+        } catch (SQLException ex) {
+            logger.log(Level.SEVERE, null, ex);
+            return null;
+        }
     }
 
     public int countAchievementsByCommercial(String username) {
-        PreparedStatement stmt = null;
-        ResultSet achievementsCount = null;
+        try(PreparedStatement pstmt = c.prepareStatement("SELECT COUNT(a.numero) nbAchievements "
+                                                         + "FROM achievements a "
+                                                           + "INNER JOIN obtentions o "
+                                                             + "ON o.ACH_Numero = a.numero "
+                                                           + "INNER JOIN Commerciaux c "
+                                                             + "ON o.COMM_Numero = c.numero "
+                                                         + "WHERE UPPER(c.username) = UPPER(?)")) {
+            pstmt.setString(1, username);
+            
+            try(ResultSet achievementsCount = pstmt.executeQuery()) {
 
-        int nbAchievements = 0;
-
-        String query = "SELECT COUNT(a.numero) nbAchievements FROM achievements a INNER JOIN obtentions o on o.ACH_Numero = a.numero INNER JOIN Commerciaux c on o.COMM_Numero = c.numero WHERE UPPER(c.username) = UPPER(?)";
-        try {
-            stmt = c.prepareStatement(query);
-            stmt.setString(1, username);
-            achievementsCount = stmt.executeQuery();
-
-            while (achievementsCount.next()) {
-                nbAchievements = achievementsCount.getInt("nbAchievements");
+                achievementsCount.next();
+                return achievementsCount.getInt("nbAchievements");
             }
         } catch (SQLException ex) {
             logger.log(Level.SEVERE, null, ex);
-        } finally {
-            try {
-                achievementsCount.close();
-                stmt.close();
-            } catch (SQLException ex) {
-                logger.log(Level.SEVERE, null, ex);
-            }
+            return -1;
         }
-        return nbAchievements;
+    }
+    
+    public int countNotAchievedAchievementsByCommercial(String username) {
+        try(PreparedStatement pstmt = c.prepareStatement("SELECT COUNT(numero) nbAchievementsNonObtenus "
+                                                         + "FROM achievements "
+                                                         + "WHERE numero NOT IN (SELECT a.numero "
+                                                                                + "FROM achievements a "
+                                                                                  + "INNER JOIN obtentions o "
+                                                                                    + "ON o.ACH_Numero = a.numero "
+                                                                                  + "INNER JOIN Commerciaux c "
+                                                                                    + "ON o.COMM_Numero = c.numero "
+                                                                                + "WHERE UPPER(c.username) = UPPER(?))")) {
+            pstmt.setString(1, username);
+            
+            try(ResultSet notAchievedAchievementsCount = pstmt.executeQuery()) {
+
+                notAchievedAchievementsCount.next();
+                return notAchievedAchievementsCount.getInt("nbAchievementsNonObtenus");
+            }
+        } catch (SQLException ex) {
+            logger.log(Level.SEVERE, null, ex);
+            return -1;
+        }
     }
 
     public boolean checkUserAchievement(final String username, final String achievementLabel) {

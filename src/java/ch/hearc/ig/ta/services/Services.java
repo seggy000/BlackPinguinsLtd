@@ -70,6 +70,12 @@ public class Services {
         return levelName;
     }
 
+    public static int getPoints(final String username) {
+        getCommercial(username);
+        
+        return commercial.getPoints();
+    }
+    
     public static boolean addPoints(final String username, final int points) {
         getCommercial(username);
 
@@ -89,6 +95,10 @@ public class Services {
    
     public static int getAchievementsNumber(final String username) {
         return achievementsDao.countAchievementsByCommercial(username);
+    }
+    
+    public static int getNotAchievedAchievementsNumber(final String username) {
+        return achievementsDao.countNotAchievedAchievementsByCommercial(username);
     }
 
     public static List<Achievement> getUserAchievements(final String username) {

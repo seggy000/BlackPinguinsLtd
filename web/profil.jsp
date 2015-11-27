@@ -86,7 +86,7 @@
                         </div>
                         <div class="col-xs-6 col-sm-4">
                             <div class="font-w700 text-gray-darker">Points</div>
-                            <div class="h2 font-w300 text-primary"><%= Services.getLevel(username) %></div>
+                            <div class="h2 font-w300 text-primary"><%= Services.getPoints(username) %></div>
                             <div class="text-muted"><small>sur 246 points</small></div>
                         </div>
 
@@ -140,7 +140,7 @@
                                                     <div class="h5 font-w300 text-muted">Nombre de badges gagn&eacute;s</div>
                                                 </div>
                                                 <div class="col-xs-6">
-                                                    <div class="h1 font-w700"><%= 12 - Services.getAchievementsNumber(username) %></div>
+                                                    <div class="h1 font-w700"><%= 12 - Services.getNotAchievedAchievementsNumber(username) %></div>
                                                     <div class="h5 font-w300 text-muted">Nombre de badges restants</div>
                                                 </div>
                                             </div>
