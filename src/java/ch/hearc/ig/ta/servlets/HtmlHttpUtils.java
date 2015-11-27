@@ -24,7 +24,7 @@ public class HtmlHttpUtils {
     }
 
     public static void doFooter(PrintWriter out) {
-        out.println("<div><a href='index.jsp'>index</a> &nbsp;<a href='ServletLogout'>logout</a></div>");
+        out.println("<div><a href='annuairePersonnes.jsp'>Retour à l'annuaire</a></div>");
         out.println("</body>");
         out.println("</html>");
     }

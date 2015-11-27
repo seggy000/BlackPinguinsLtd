@@ -30,16 +30,16 @@ public class ServletFaireMAJPersonne extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         PrintWriter out = response.getWriter();
         String id = null, nom = null, prenom = null, adresse = null, ville = null;
-
+       
         try {
             if (HtmlHttpUtils.isAuthenticate(request)) {
                 request.setCharacterEncoding("UTF-8");
                 id = request.getParameter("id");
-                nom = request.getParameter("nom");
-                prenom = request.getParameter("prenom");
-                adresse = request.getParameter("adresse");
-                ville = request.getParameter("ville");
-
+                nom = request.getParameter("lastname");
+                prenom = request.getParameter("firstname");
+                adresse = request.getParameter("address");
+                ville = request.getParameter("city");
+                
                 Personne p = new Personne(Long.parseLong(id), nom, prenom, adresse, ville);
 
                 PersonneDAO pdao = new PersonneDAO();

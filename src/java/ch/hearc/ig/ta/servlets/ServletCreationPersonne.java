@@ -74,6 +74,7 @@ public class ServletCreationPersonne extends HttpServlet {
                  out.println("<h1>Servlet ServletCreationPersonne at " + request.getContextPath () + "</h1>");
                  */
             }
+            request.getRequestDispatcher("/annuairePersonnes.jsp").forward(request, response);
             HtmlHttpUtils.doFooter(out);
         } finally {
             out.close();
