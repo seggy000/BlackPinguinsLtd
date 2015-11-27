@@ -38,7 +38,7 @@ public class PersonneDAO extends DAO {
             personnesFound = stmt.executeQuery();
 
             while (personnesFound.next()) {
-                listPersonnes.add(new Personne(personnesFound.getLong("numero"), personnesFound.getString("prenom"), personnesFound.getString("nom"), personnesFound.getString("adresse"), personnesFound.getString("ville")));
+                listPersonnes.add(new Personne(personnesFound.getLong("numero"), personnesFound.getString("nom"), personnesFound.getString("prenom"), personnesFound.getString("adresse"), personnesFound.getString("ville")));
             }
         } catch (SQLException ex) {
             logger.log(Level.SEVERE, null, ex);
@@ -67,7 +67,7 @@ public class PersonneDAO extends DAO {
             personnesFound = stmt.executeQuery();
 
             while (personnesFound.next()) {
-                listPersonnes.add(new Personne(personnesFound.getLong("numero"), personnesFound.getString("prenom"), personnesFound.getString("nom"), personnesFound.getString("adresse"), personnesFound.getString("ville")));
+                listPersonnes.add(new Personne(personnesFound.getLong("numero"), personnesFound.getString("nom"), personnesFound.getString("prenom"), personnesFound.getString("adresse"), personnesFound.getString("ville")));
             }
         } catch (SQLException ex) {
             logger.log(Level.SEVERE, null, ex);
