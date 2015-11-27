@@ -35,6 +35,7 @@ public class ServletCreationPersonne extends HttpServlet {
             HtmlHttpUtils.doHeader("creation personne", out);
 
             if (HtmlHttpUtils.isAuthenticate(request)) {
+                request.setCharacterEncoding("UTF-8");
                 nom = request.getParameter("lastname");
                 prenom = request.getParameter("firstname");
                 adresse = request.getParameter("address");

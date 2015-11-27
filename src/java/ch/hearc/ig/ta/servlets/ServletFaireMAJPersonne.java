@@ -33,6 +33,7 @@ public class ServletFaireMAJPersonne extends HttpServlet {
 
         try {
             if (HtmlHttpUtils.isAuthenticate(request)) {
+                request.setCharacterEncoding("UTF-8");
                 id = request.getParameter("id");
                 nom = request.getParameter("nom");
                 prenom = request.getParameter("prenom");
