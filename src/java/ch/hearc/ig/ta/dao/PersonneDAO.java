@@ -27,7 +27,7 @@ public class PersonneDAO extends DAO {
     
     public List<Personne> research() {
         PreparedStatement stmt = null;
-        ResultSet personnesFound = null;
+        ResultSet peopleFound = null;
 
         List<Personne> listPersonnes = new ArrayList<>();
 
@@ -35,16 +35,16 @@ public class PersonneDAO extends DAO {
 
         try {
             stmt = c.prepareStatement(query);
-            personnesFound = stmt.executeQuery();
+            peopleFound = stmt.executeQuery();
 
-            while (personnesFound.next()) {
-                listPersonnes.add(new Personne(personnesFound.getLong("numero"), personnesFound.getString("nom"), personnesFound.getString("prenom"), personnesFound.getString("adresse"), personnesFound.getString("ville")));
+            while (peopleFound.next()) {
+                listPersonnes.add(new Personne(peopleFound.getLong("numero"), peopleFound.getString("nom"), peopleFound.getString("prenom"), peopleFound.getString("adresse"), peopleFound.getString("ville")));
             }
         } catch (SQLException ex) {
             logger.log(Level.SEVERE, null, ex);
         } finally {
             try {
-                personnesFound.close();
+                peopleFound.close();
                 stmt.close();
             } catch (SQLException ex) {
                 logger.log(Level.SEVERE, null, ex);
@@ -55,7 +55,7 @@ public class PersonneDAO extends DAO {
     
     public List<Personne> research(String search) {
         PreparedStatement stmt = null;
-        ResultSet personnesFound = null;
+        ResultSet peopleFound = null;
 
         List<Personne> listPersonnes = new ArrayList<>();
 
@@ -64,16 +64,16 @@ public class PersonneDAO extends DAO {
                 
         try {
             stmt = c.prepareStatement(query);
-            personnesFound = stmt.executeQuery();
+            peopleFound = stmt.executeQuery();
 
-            while (personnesFound.next()) {
-                listPersonnes.add(new Personne(personnesFound.getLong("numero"), personnesFound.getString("nom"), personnesFound.getString("prenom"), personnesFound.getString("adresse"), personnesFound.getString("ville")));
+            while (peopleFound.next()) {
+                listPersonnes.add(new Personne(peopleFound.getLong("numero"), peopleFound.getString("nom"), peopleFound.getString("prenom"), peopleFound.getString("adresse"), peopleFound.getString("ville")));
             }
         } catch (SQLException ex) {
             logger.log(Level.SEVERE, null, ex);
         } finally {
             try {
-                personnesFound.close();
+                peopleFound.close();
                 stmt.close();
             } catch (SQLException ex) {
                 logger.log(Level.SEVERE, null, ex);
@@ -84,7 +84,7 @@ public class PersonneDAO extends DAO {
 
     public Vector<Personne> research(Personne p) {
         Statement stmt = null;
-        ResultSet rs = null;
+        ResultSet peopleFound = null;
         Vector<Personne> resultList = new Vector();
         
         try {
@@ -148,14 +148,14 @@ public class PersonneDAO extends DAO {
 
             System.out.println(query);
             stmt = c.createStatement(); //create a statement
-            rs = stmt.executeQuery(query);
+            peopleFound = stmt.executeQuery(query);
 
-            while (rs.next()) {
-                Long n = rs.getLong("NUMERO");
-                String nom = rs.getString("NOM");
-                String prenom = rs.getString("PRENOM");
-                String adresse = rs.getString("ADRESSE");
-                String ville = rs.getString("VILLE");
+            while (peopleFound.next()) {
+                Long n = peopleFound.getLong("NUMERO");
+                String nom = peopleFound.getString("NOM");
+                String prenom = peopleFound.getString("PRENOM");
+                String adresse = peopleFound.getString("ADRESSE");
+                String ville = peopleFound.getString("VILLE");
                 Personne pers = new Personne();
                 pers.setId(n);
                 pers.setNom(nom);
@@ -169,7 +169,7 @@ public class PersonneDAO extends DAO {
             logger.log(Level.SEVERE, null, ex);
         } finally {
             try {
-                rs.close();
+                peopleFound.close();
                 stmt.close();
                 return resultList;
             } catch (SQLException ex) {
