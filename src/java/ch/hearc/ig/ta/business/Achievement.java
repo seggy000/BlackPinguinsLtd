@@ -10,16 +10,19 @@ public class Achievement {
 
     private int numero;
     private String libelle;
+    private String description;
     private Date obtentionDate;
     private boolean achieved;
 
-    public Achievement(final String libelle) {
-        this(libelle, null);
+    public Achievement(final String libelle, final String description) {
+        this(libelle, description, null);
     }
 
-    public Achievement(final String libelle, final Date obtentionDate) {
+    public Achievement(final String libelle, final String description, final Date obtentionDate) {
         this.libelle = libelle;
+        this.description = description;
         this.obtentionDate = obtentionDate;
+        
         if (obtentionDate == null) {
             this.achieved = false;
         } else {
@@ -41,6 +44,14 @@ public class Achievement {
 
     public void setLibelle(final String libelle) {
         this.libelle = libelle;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(final String description) {
+        this.description = description;
     }
 
     public Date getObtentionDate() {

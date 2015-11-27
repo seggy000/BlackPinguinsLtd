@@ -32,16 +32,18 @@ public class AchievementsDAO extends DAO {
 
         List<Achievement> listAchievements = new ArrayList<>();
 
-        String query = "SELECT libelle FROM achievements";
+        String query = "SELECT libelle, description FROM achievements";
 
         try {
             stmt = c.prepareStatement(query);
             achievementsFound = stmt.executeQuery();
 
             String libelle;
+            String description;
             while (achievementsFound.next()) {
                 libelle = achievementsFound.getString("libelle");
-                Achievement achievement = new Achievement(libelle);
+                description = achievementsFound.getString("description");
+                Achievement achievement = new Achievement(libelle, description);
                 listAchievements.add(achievement);
             }
         } catch (SQLException ex) {
@@ -58,25 +60,28 @@ public class AchievementsDAO extends DAO {
     }
 
     public List getAchievementsByCommercial(String username) {
-        try(PreparedStatement pstmt = c.prepareStatement("SELECT a.libelle, o.date_obtention "
+        try(PreparedStatement pstmt = c.prepareStatement("SELECT a.libelle, a.description, o.date_obtention "
                                                          + "FROM achievements a "
                                                            + "INNER JOIN obtentions o "
                                                              + "ON o.ACH_Numero = a.numero "
                                                            + "INNER JOIN Commerciaux c "
                                                              + "ON o.COMM_Numero = c.numero "
-                                                         + "WHERE UPPER(c.username) = UPPER(?)")) {
+                                                         + "WHERE UPPER(c.username) = UPPER(?) "
+                                                         + "ORDER BY a.libelle")) {
             pstmt.setString(1, username);
             
             try(ResultSet achievementsFound = pstmt.executeQuery()) {
                 String libelle;
+                String description;
                 Date obtentionDate;
                 List<Achievement> listAchievements = new ArrayList<>();
                 
                 while (achievementsFound.next()) {
                     libelle = achievementsFound.getString("libelle");
+                    description = achievementsFound.getString("description");
                     obtentionDate = achievementsFound.getDate("date_obtention");
 
-                    Achievement achievement = new Achievement(libelle, obtentionDate);
+                    Achievement achievement = new Achievement(libelle, description, obtentionDate);
                     listAchievements.add(achievement);
                 }
                 
@@ -89,7 +94,7 @@ public class AchievementsDAO extends DAO {
     }
     
     public List getNotAchievedAchievementsByCommercial(String username) {
-        try(PreparedStatement pstmt = c.prepareStatement("SELECT libelle "
+        try(PreparedStatement pstmt = c.prepareStatement("SELECT libelle, description "
                                                          + "FROM achievements "
                                                          + "WHERE numero NOT IN (SELECT a.numero "
                                                                                  + "FROM achievements a "
@@ -97,17 +102,20 @@ public class AchievementsDAO extends DAO {
                                                                                      + "ON o.ACH_Numero = a.numero "
                                                                                    + "INNER JOIN Commerciaux c "
                                                                                      + "ON o.COMM_Numero = c.numero "
-                                                                                 + "WHERE UPPER(c.username) = UPPER(?))")) {
+                                                                                 + "WHERE UPPER(c.username) = UPPER(?)) "
+                                                         + "ORDER BY libelle")) {
             pstmt.setString(1, username);
             
             try(ResultSet achievementsFound = pstmt.executeQuery()) {
                 String libelle;
+                String description;
                 List<Achievement> listAchievements = new ArrayList<>();
                 
                 while (achievementsFound.next()) {
                     libelle = achievementsFound.getString("libelle");
+                    description = achievementsFound.getString("description");
 
-                    Achievement achievement = new Achievement(libelle);
+                    Achievement achievement = new Achievement(libelle, description);
                     listAchievements.add(achievement);
                 }
                 

@@ -6,6 +6,7 @@ import ch.hearc.ig.ta.dao.AchievementsDAO;
 import ch.hearc.ig.ta.dao.CommerciauxDAO;
 import ch.hearc.ig.ta.dao.DAO;
 import ch.hearc.ig.ta.dao.ObtentionsDao;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -102,7 +103,12 @@ public class Services {
     }
 
     public static List<Achievement> getUserAchievements(final String username) {
-        return achievementsDao.getAchievementsByCommercial(username);
+        List<Achievement> achievements = new LinkedList<>();
+        
+        achievements.addAll(achievementsDao.getAchievementsByCommercial(username));
+        achievements.addAll(achievementsDao.getNotAchievedAchievementsByCommercial(username));
+        
+        return achievements;
     }
 
     public static boolean checkUserAchievement(final String username, final String achievementLabel) {
