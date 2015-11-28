@@ -38,12 +38,12 @@ public class AchievementsDAO extends DAO {
             stmt = c.prepareStatement(query);
             achievementsFound = stmt.executeQuery();
 
-            String libelle;
+            String label;
             String description;
             while (achievementsFound.next()) {
-                libelle = achievementsFound.getString("libelle");
+                label = achievementsFound.getString("libelle");
                 description = achievementsFound.getString("description");
-                Achievement achievement = new Achievement(libelle, description);
+                Achievement achievement = new Achievement(label, description);
                 listAchievements.add(achievement);
             }
         } catch (SQLException ex) {
@@ -58,6 +58,29 @@ public class AchievementsDAO extends DAO {
         }
         return listAchievements;
     }
+    
+    public Achievement getAchievementByLabel(final String label) {
+        try(PreparedStatement pstmt = c.prepareStatement("SELECT libelle, description "
+                                                         + "FROM achievements "
+                                                         + "WHERE UPPER(libelle) = UPPER(?)")) {
+            pstmt.setString(1, label);
+            
+            try(ResultSet achievementFound = pstmt.executeQuery()) {
+                String description;
+                Achievement achievement = null;
+                
+                if (achievementFound.next()) {
+                    description = achievementFound.getString("description");
+                    achievement = new Achievement(label, description);
+                }
+                
+                return achievement;
+            }
+        } catch (SQLException ex) {
+            logger.log(Level.SEVERE, null, ex);
+            return null;
+        }
+    }
 
     public List getAchievementsByCommercial(String username) {
         try(PreparedStatement pstmt = c.prepareStatement("SELECT a.libelle, a.description, o.date_obtention "
@@ -71,17 +94,17 @@ public class AchievementsDAO extends DAO {
             pstmt.setString(1, username);
             
             try(ResultSet achievementsFound = pstmt.executeQuery()) {
-                String libelle;
+                String label;
                 String description;
                 Date obtentionDate;
                 List<Achievement> listAchievements = new ArrayList<>();
                 
                 while (achievementsFound.next()) {
-                    libelle = achievementsFound.getString("libelle");
+                    label = achievementsFound.getString("libelle");
                     description = achievementsFound.getString("description");
                     obtentionDate = achievementsFound.getDate("date_obtention");
 
-                    Achievement achievement = new Achievement(libelle, description, obtentionDate);
+                    Achievement achievement = new Achievement(label, description, obtentionDate);
                     listAchievements.add(achievement);
                 }
                 
@@ -107,15 +130,15 @@ public class AchievementsDAO extends DAO {
             pstmt.setString(1, username);
             
             try(ResultSet achievementsFound = pstmt.executeQuery()) {
-                String libelle;
+                String label;
                 String description;
                 List<Achievement> listAchievements = new ArrayList<>();
                 
                 while (achievementsFound.next()) {
-                    libelle = achievementsFound.getString("libelle");
+                    label = achievementsFound.getString("libelle");
                     description = achievementsFound.getString("description");
 
-                    Achievement achievement = new Achievement(libelle, description);
+                    Achievement achievement = new Achievement(label, description);
                     listAchievements.add(achievement);
                 }
                 

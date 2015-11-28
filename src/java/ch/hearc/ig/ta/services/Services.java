@@ -154,17 +154,23 @@ public abstract class Services {
         return achievementsDao.checkUserAchievement(username, achievementLabel);
     }
 
-    public static boolean addAchievement(final String username, final String achievementLabel) {
+    public static Achievement addAchievement(final String username, final String achievementLabel) {
         int result = obtentionsDao.insert(username, achievementLabel);
-
+        
         if (result > 0) {
             getLevelAchievement(username);
             DAO.commit();
-            return true;
+            
+            Achievement achievement = achievementsDao.getAchievementByLabel(achievementLabel);
+            
+            if(achievement != null) {
+                return achievement;
+            }
         } else {
             DAO.rollback();
-            return false;
         }
+        
+        return null;
     }
 
     public static void getLevelAchievement(final String username) {
@@ -173,9 +179,7 @@ public abstract class Services {
         String achievement = "Niveau " + levelName + " atteint !";
 
         if (!checkUserAchievement(username, achievement)) {
-            boolean achievementOK = addAchievement(username, achievement);
-
-            if (!achievementOK) {
+            if (addAchievement(username, achievement) == null) {
                 logger.log(Level.SEVERE, "Une erreur s'est produite lors de l'attribution de la récompense \"" + achievement + "\".");
             }
         }
