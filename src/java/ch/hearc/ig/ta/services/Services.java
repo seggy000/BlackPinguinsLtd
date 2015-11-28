@@ -15,7 +15,7 @@ import java.util.logging.Logger;
  *
  * @author Geoffroy Megert <geoffroy.megert@he-arc.ch>
  */
-public class Services {
+public abstract class Services {
 
     private static final Logger logger = Logger.getLogger(Services.class.getName());
 
@@ -46,31 +46,70 @@ public class Services {
         return commercial.getLevel();
     }
 
-    public static String getLevelName(final String username) {
+    private static String getLevelInformation(final String username, final String requiredInformation) {
         getCommercial(username);
-
+        
+        final int MULTIPLIER = 100;
         String levelName;
+        int levelPoints;
+        int levelPointsGap;
         int level = getLevel(username);
-
+        int points = getPoints(username);
+        
         if (level < 5) {
             levelName = "Débutant";
+            levelPoints = 5 * MULTIPLIER;
+            levelPointsGap = levelPoints - points;
         } else if (level < 10) {
             levelName = "Initié";
+            levelPoints = 10 * MULTIPLIER;
+            levelPointsGap = levelPoints - points;
         } else if (level < 15) {
             levelName = "Professionnel";
+            levelPoints = 15 * MULTIPLIER;
+            levelPointsGap = levelPoints - points;
         } else if (level < 25) {
             levelName = "Connaisseur";
+            levelPoints = 25 * MULTIPLIER;
+            levelPointsGap = levelPoints - points;
         } else if (level < 50) {
             levelName = "Confirmé";
+            levelPoints = 50 * MULTIPLIER;
+            levelPointsGap = levelPoints - points;
         } else if (level < 100) {
             levelName = "Expert";
+            levelPoints = 100 * MULTIPLIER;
+            levelPointsGap = levelPoints - points;
         } else {
             levelName = "Légendaire";
+            levelPoints = Integer.MAX_VALUE;
+            levelPointsGap = levelPoints - points;
         }
-
-        return levelName;
+        
+        switch(requiredInformation) {
+            case "levelName":
+                return levelName;
+            case "levelPoints":
+                return String.valueOf(levelPoints);
+            case "levelPointsGap":
+                return String.valueOf(levelPointsGap);
+            default:
+                return "Cette information est inexistante";
+        }
     }
-
+    
+    public static String getLevelName(final String username) {
+        return getLevelInformation(username, "levelName");
+    }
+    
+    public static int getLevelPoints(final String username) {
+        return Integer.valueOf(getLevelInformation(username, "levelPoints"));
+    }
+    
+    public static int getLevelPointsGap(final String username) {
+        return Integer.valueOf(getLevelInformation(username, "levelPointsGap"));
+    }
+    
     public static int getPoints(final String username) {
         getCommercial(username);
         

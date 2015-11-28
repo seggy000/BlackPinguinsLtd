@@ -82,12 +82,12 @@
                         <div class="col-xs-6 col-sm-4">
                             <div class="font-w700 text-gray-darker">Level</div>
                             <div class="h2 font-w300 text-primary"><%= Services.getLevelName(username) %></div>
-                            <div class="text-muted"><small>Niveau suivant dans 123 points</small></div>
+                            <div class="text-muted"><small>Niveau suivant dans <%= Services.getLevelPointsGap(username) %> points</small></div>
                         </div>
                         <div class="col-xs-6 col-sm-4">
                             <div class="font-w700 text-gray-darker">Points</div>
                             <div class="h2 font-w300 text-primary"><%= Services.getPoints(username) %></div>
-                            <div class="text-muted"><small>sur 246 points</small></div>
+                            <div class="text-muted"><small>sur <%= Services.getLevelPoints(username) %> points</small></div>
                         </div>
 
                     </div>
