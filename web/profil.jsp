@@ -14,8 +14,12 @@
 <html lang="fr">
     <head>
         <meta charset="utf-8">
-        <title>Profil - Portail commecial</title>
         <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1.0">
+        <meta name="description" content="Portail commecial, Haute &eacute;cole de gestion Arc, 635-1.1 Technologies actuelles, 3-IG-PT">
+        <meta name="author" content="BlackPinguinsLtd Team (Geoffroy Megert, Loïc Megert, Thierry Hubmann, Steve Julmy, Thomas Rüegsegger)">
+        <link rel="icon" type="image/png" href="assets/img/favicons/favicon.png">
+        <!--[if IE]><link rel="shortcut icon" type="image/x-icon" href="assets/img/favicons/favicon.ico"><![endif]-->
+        <title>Profil - Portail commecial</title>
         <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400italic,600,700%7COpen+Sans:300,400,400italic,600,700">
         <link rel="stylesheet" href="assets/css/bootstrap.min.css">
         <link rel="stylesheet" href="assets/css/style.css">
@@ -89,7 +93,6 @@
                             <div class="h2 font-w300 text-primary"><%= Services.getPoints(username) %></div>
                             <div class="text-muted"><small>sur <%= Services.getLevelPoints(username) %> points</small></div>
                         </div>
-
                     </div>
                 </div>
                 <div class="content">
@@ -152,7 +155,9 @@
                                             <div class="col-sm-6 block-content sub-block <%= (achievement.isAchieved() ? "bg-white" : "bg-muted") %>">
                                                 <div class="row items-push text-center">
                                                     <div class="col-xs-12">
-                                                        <div class="h1 font-w300"><%= achievement.getLibelle() %></div>
+                                                        <div class="h1 font-w300 <%= (achievement.isAchieved() ? "text-primary" : "") %>"><%= achievement.getLibelle() %></div>
+                                                        <div class="h5 font-w300 text-muted text-uppercase"><%= achievement.getDescription() %></div>
+                                                        <div><small class="h6 font-w300 font-s12 text-muted"><%= (achievement.getObtentionDate() != null) ? achievement.getObtentionDate() : "" %></small></div>
                                                     </div>
                                                 </div>
                                             </div>

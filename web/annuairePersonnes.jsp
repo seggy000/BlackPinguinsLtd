@@ -1,3 +1,6 @@
+<%@page import="ch.hearc.ig.ta.business.AlertMessage"%>
+<%@page import="java.util.ArrayList"%>
+<%@page import="ch.hearc.ig.ta.business.Achievement"%>
 <%@page import="ch.hearc.ig.ta.servlets.HtmlHttpUtils"%>
 <%@page import="java.util.List"%>
 <%@page import="ch.hearc.ig.ta.dao.PersonneDAO"%>
@@ -11,6 +14,20 @@
     
     HttpSession s = request.getSession(true);
     String username = s.getAttribute("username").toString();
+    
+    ArrayList<Achievement> lastUnlockedAchievements = (ArrayList<Achievement>) s.getAttribute("lastUnlockedAchievements");
+    ArrayList<AlertMessage> alertMessages = (ArrayList<AlertMessage>) s.getAttribute("alertMessages");
+    
+    String achievementName = "Premier coup d'oeil";
+    if (!Services.checkUserAchievement(username, achievementName)) {
+        Achievement achievement = Services.addAchievement(username, achievementName);
+
+        if (achievement == null) {
+            alertMessages.add(new AlertMessage(true, "Une erreur s'est produite lors de l'attribution de la récompense \"" + achievementName + "\"."));
+        } else {
+            lastUnlockedAchievements.add(achievement);
+        }
+    }
     
     List<Personne> personnes = null;
     PersonneDAO personneDAO = new PersonneDAO();
@@ -124,17 +141,16 @@
                     </div>
                 </div>
                 <%
-                    if (request.getParameter("failed") != null && request.getParameter("failed").equals("0")) {
-                        out.println("<div class=\"alert alert-success alert-dismissible\" role=\"alert\">");
-                        out.println("<button type=\"button\" class=\"close\" data-dismiss=\"alert\" aria-label=\"Close\"><span aria-hidden=\"true\">&times;</span></button>");
-                        out.println("<span class=\"glyphicon glyphicon-ok\"></span>&emsp;" + request.getParameter("msg"));
-                        out.println("</div>");
-                    } else if (request.getParameter("failed") != null && request.getParameter("failed").equals("1")) {
-                        out.println("<div class=\"alert alert-danger alert-dismissible\" role=\"alert\">");
-                        out.println("<button type=\"button\" class=\"close\" data-dismiss=\"alert\" aria-label=\"Close\"><span aria-hidden=\"true\">&times;</span></button>");
-                        out.println("<span class=\"glyphicon glyphicon-remove\"></span>&emsp;" + request.getParameter("msg"));
-                        out.println("</div>");
+                    for (AlertMessage alertMessage : alertMessages) {
+                %>
+                <div class="alert <%= (alertMessage.isFailed()) ? "alert-danger" : "alert-success" %> alert-dismissible" role="alert">
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <span class="glyphicon <%= (alertMessage.isFailed()) ? "glyphicon-remove" : "glyphicon-ok" %>"></span>&emsp;<%= alertMessage.getMessage() %>
+                </div>
+                <%
                     }
+                    alertMessages.clear();
+                    s.setAttribute("alertMessages", alertMessages);
                 %>
                 <div class="content">
                     <div class="row">
@@ -267,11 +283,14 @@
                 $(this).find('.btn-ok').attr('href', $(e.relatedTarget).data('href'));
             });
         </script>
+        <% 
+            for (Achievement lastUnlockedAchievement : lastUnlockedAchievements) {
+        %>
         <script>
             $(function () {
                 new PNotify({
-                    title: 'Premier pas (D&eacute;bloqu&eacute;)',
-                    text: 'F&eacute;licitation! Vous venez de gagner un nouveau badge.<br><small><i>Vous vous &ecirc;tes connect&eacute; pour la premi&egrave;re fois.</i></small>',
+                    title: '<%= lastUnlockedAchievement.getLibelle() %> (D&eacute;bloqu&eacute;)',
+                    text: 'F&eacute;licitation! Vous venez de gagner un nouveau badge.<br><small><i><%= lastUnlockedAchievement.getDescription() %></i></small>',
                     delay: 8000,
                     buttons: {
                         closer: false,
@@ -280,5 +299,10 @@
                 });
             });
         </script>
+        <% 
+            } 
+            lastUnlockedAchievements.clear();
+            s.setAttribute("lastUnlockedAchievements", lastUnlockedAchievements);
+        %>
     </body>
 </html>

@@ -2,10 +2,6 @@ package ch.hearc.ig.ta.business;
 
 import java.util.Date;
 
-/**
- *
- * @author JulmyS
- */
 public class Achievement {
 
     private int numero;

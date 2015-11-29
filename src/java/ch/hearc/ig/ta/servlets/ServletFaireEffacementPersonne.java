@@ -1,14 +1,18 @@
 package ch.hearc.ig.ta.servlets;
 
+import ch.hearc.ig.ta.business.Achievement;
+import ch.hearc.ig.ta.business.AlertMessage;
 import ch.hearc.ig.ta.dao.PersonneDAO;
 import ch.hearc.ig.ta.business.Personne;
 import ch.hearc.ig.ta.services.Services;
+import java.util.ArrayList;
 import java.io.IOException;
 import java.io.PrintWriter;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /**
  *
@@ -28,32 +32,54 @@ public class ServletFaireEffacementPersonne extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
+        request.setCharacterEncoding("UTF-8");
+        
         PrintWriter out = response.getWriter();
         String id = null;
 
         try {
-            if (HtmlHttpUtils.isAuthenticate(request)) {
-                id = request.getParameter("id");
-
-                if (id != null) {
-                    if (!id.equals("")) {
-                        PersonneDAO pdao = new PersonneDAO();
-                        pdao.delete(new Personne(Long.parseLong(id), null, null, null, null));
-
-                        String username = (String) request.getSession(false).getAttribute("username");
-                        String achievement = "Première suppression";
-
-                        if (!Services.checkUserAchievement(username, achievement)) {
-                            boolean achievementOK = Services.addAchievement(username, achievement);
-
-                            if (!achievementOK) {
-                                out.println("<p>Une erreur s'est produite lors de l'attribution de la récompense \"" + achievement + "\".</p>");
-                            }
-                        }
-                    }
-                }
-                request.getRequestDispatcher("/annuairePersonnes.jsp").forward(request, response);
+            if (!HtmlHttpUtils.isAuthenticate(request)) {
+                request.getRequestDispatcher("login.jsp").forward(request,response);
             }
+            
+            id = request.getParameter("id");
+
+            if (id != null) {
+                if (!id.equals("")) {
+                    PersonneDAO pdao = new PersonneDAO();
+                    Long errorCode = pdao.delete(new Personne(Long.parseLong(id), null, null, null, null));
+
+                    HttpSession s = request.getSession(true);
+                    ArrayList<AlertMessage> alertMessages = (ArrayList<AlertMessage>) s.getAttribute("alertMessages");
+
+                    if (errorCode == 0l) {
+                        alertMessages.add(new AlertMessage(true, "Une erreur s'est produite lors de l'effacement du client. Veuillez ressayer plus tard."));
+                        s.setAttribute("alertMessages", alertMessages);
+                        request.getRequestDispatcher("/annuairePersonnes.jsp").forward(request, response);
+                    } else {
+                        alertMessages.add(new AlertMessage(false, "Client effac&eacute; avec succ&egrave;s."));
+                    }
+
+                    String username = (String) request.getSession(false).getAttribute("username");
+                    String achievementName = "Première suppression";
+
+                    if (!Services.checkUserAchievement(username, achievementName)) {
+                        Achievement achievement = Services.addAchievement(username, achievementName);
+
+                        if (achievement == null) {
+                            alertMessages.add(new AlertMessage(true, "Une erreur s'est produite lors de l'attribution de la récompense \"" + achievementName + "\"."));
+                        }
+
+                        ArrayList<Achievement> lastUnlockedAchievements = (ArrayList<Achievement>) s.getAttribute("lastUnlockedAchievements");
+                        lastUnlockedAchievements.add(achievement);
+                        s.setAttribute("lastUnlockedAchievements", lastUnlockedAchievements);
+                    }
+
+                    s.setAttribute("alertMessages", alertMessages);
+                }
+            }
+
+            request.getRequestDispatcher("/annuairePersonnes.jsp").forward(request, response);
         } finally {
             out.close();
         }

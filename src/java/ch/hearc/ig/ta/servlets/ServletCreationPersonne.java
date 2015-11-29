@@ -1,14 +1,18 @@
 package ch.hearc.ig.ta.servlets;
 
+import ch.hearc.ig.ta.business.Achievement;
+import ch.hearc.ig.ta.business.AlertMessage;
 import ch.hearc.ig.ta.business.Personne;
 import ch.hearc.ig.ta.dao.PersonneDAO;
 import ch.hearc.ig.ta.services.Services;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /**
  *
@@ -28,54 +32,66 @@ public class ServletCreationPersonne extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
+        request.setCharacterEncoding("UTF-8");
+        
         PrintWriter out = response.getWriter();
         String nom = null, prenom = null, adresse = null, ville = null;
 
         try {
-            HtmlHttpUtils.doHeader("creation personne", out);
+            if (!HtmlHttpUtils.isAuthenticate(request)) {
+                request.getRequestDispatcher("login.jsp").forward(request,response);
+            }
+            
+            HttpSession s = request.getSession(true);
+            ArrayList<AlertMessage> alertMessages = (ArrayList<AlertMessage>) s.getAttribute("alertMessages");
 
-            if (HtmlHttpUtils.isAuthenticate(request)) {
-                request.setCharacterEncoding("UTF-8");
-                nom = request.getParameter("lastname");
-                prenom = request.getParameter("firstname");
-                adresse = request.getParameter("address");
-                ville = request.getParameter("city");
+            nom = request.getParameter("lastname");
+            prenom = request.getParameter("firstname");
+            adresse = request.getParameter("address");
+            ville = request.getParameter("city");
 
-                if (nom != null && prenom != null) {
-                    if (!nom.equals("") && !prenom.equals("")) {
-                        PersonneDAO p = new PersonneDAO();
-                        Long id = p.create(new Personne(nom, prenom, adresse, ville));
+            if (nom != null && prenom != null) {
+                if (!nom.equals("") && !prenom.equals("")) {
+                    PersonneDAO p = new PersonneDAO();
+                    Long errorCode = p.create(new Personne(nom, prenom, adresse, ville));
 
-                        out.println("<p>" + id + "/" + nom + "/" + prenom + "/" + adresse + "/" + ville + "</p>");
-
-                        String username = (String) request.getSession(false).getAttribute("username");
-                        String achievement = "Premier client";
-
-                        if (!Services.checkUserAchievement(username, achievement)) {
-                            boolean achievementOK = Services.addAchievement(username, achievement);
-
-                            if (!achievementOK) {
-                                out.println("<p>Une erreur s'est produite lors de l'attribution de la récompense \"" + achievement + "\".</p>");
-                            }
-                        }
-
-                        boolean addingOK = Services.addPoints(username, 10);
-
-                        if (!addingOK) {
-                            out.println("<p>Une erreur s'est produite lors de l'ajout des points pour la création d'un nouveau client.</p>");
-                        }
+                    if (errorCode == 0l) {
+                        alertMessages.add(new AlertMessage(true, "Une erreur s'est produite lors de la cr&eacute;ation du client. Veuillez ressayer plus tard."));
+                        s.setAttribute("alertMessages", alertMessages);
+                        request.getRequestDispatcher("/annuairePersonnes.jsp").forward(request, response);
                     } else {
-                        out.println("<p>nom et prenom ne doivent pas etre null !!</p>");
+                        alertMessages.add(new AlertMessage(false, "Client cr&eacute;&eacute; avec succ&egrave;s."));
+                    }
+
+                    String username = (String) request.getSession(false).getAttribute("username");
+                    String achievementName = "Premier client";
+
+                    if (!Services.checkUserAchievement(username, achievementName)) {
+                        Achievement achievement = Services.addAchievement(username, achievementName);
+
+                        if (achievement == null) {
+                            alertMessages.add(new AlertMessage(true, "Une erreur s'est produite lors de l'attribution de la récompense \"" + achievementName + "\"."));
+                        }
+
+                        ArrayList<Achievement> lastUnlockedAchievements = (ArrayList<Achievement>) s.getAttribute("lastUnlockedAchievements");
+                        lastUnlockedAchievements.add(achievement);
+                        s.setAttribute("lastUnlockedAchievements", lastUnlockedAchievements);
+                    }
+
+                    boolean addingOK = Services.addPoints(username, 10);
+
+                    if (!addingOK) {
+                        alertMessages.add(new AlertMessage(true, "Une erreur s'est produite lors de l'ajout des points pour la cr&eacute;ation d'un nouveau client."));
                     }
                 } else {
-                    out.println("<p>nom et prenom ne doivent pas etre null !!</p>");
+                    alertMessages.add(new AlertMessage(true, "Une erreur s'est produite lors de la cr&eacute;ation du client. Veuillez ressayer plus tard."));
                 }
-                /* TODO output your page here
-                 out.println("<h1>Servlet ServletCreationPersonne at " + request.getContextPath () + "</h1>");
-                 */
+            } else {
+                alertMessages.add(new AlertMessage(true, "Une erreur s'est produite lors de la cr&eacute;ation du client. Veuillez ressayer plus tard."));
             }
+            
+            s.setAttribute("alertMessages", alertMessages);
             request.getRequestDispatcher("/annuairePersonnes.jsp").forward(request, response);
-            HtmlHttpUtils.doFooter(out);
         } finally {
             out.close();
         }

@@ -5,18 +5,6 @@
         <servlet-class>ch.hearc.ig.ta.servlets.ServletCreationPersonne</servlet-class>
     </servlet>
     <servlet>
-        <servlet-name>ServletListePersonne</servlet-name>
-        <servlet-class>ch.hearc.ig.ta.servlets.ServletListePersonne</servlet-class>
-    </servlet>
-    <servlet>
-        <servlet-name>ServletEffacerPersonne</servlet-name>
-        <servlet-class>ch.hearc.ig.ta.servlets.ServletEffacerPersonne</servlet-class>
-    </servlet>
-    <servlet>
-        <servlet-name>ServletMAJPersonne</servlet-name>
-        <servlet-class>ch.hearc.ig.ta.servlets.ServletMAJPersonne</servlet-class>
-    </servlet>
-    <servlet>
         <servlet-name>ServletFaireEffacementPersonne</servlet-name>
         <servlet-class>ch.hearc.ig.ta.servlets.ServletFaireEffacementPersonne</servlet-class>
     </servlet>
@@ -35,18 +23,6 @@
     <servlet-mapping>
         <servlet-name>ServletCreationPersonne</servlet-name>
         <url-pattern>/ServletCreationPersonne</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
-        <servlet-name>ServletListePersonne</servlet-name>
-        <url-pattern>/ServletListePersonne</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
-        <servlet-name>ServletEffacerPersonne</servlet-name>
-        <url-pattern>/ServletEffacerPersonne</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
-        <servlet-name>ServletMAJPersonne</servlet-name>
-        <url-pattern>/ServletMAJPersonne</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>ServletFaireEffacementPersonne</servlet-name>
@@ -71,5 +47,5 @@
     </session-config>
     <welcome-file-list>
         <welcome-file>annuairePersonnes.jsp</welcome-file>
-        </welcome-file-list>
-    </web-app>
+    </welcome-file-list>
+</web-app>

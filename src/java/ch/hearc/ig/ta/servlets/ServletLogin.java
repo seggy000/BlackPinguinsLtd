@@ -1,10 +1,13 @@
 package ch.hearc.ig.ta.servlets;
 
+import ch.hearc.ig.ta.business.Achievement;
+import ch.hearc.ig.ta.business.AlertMessage;
 import ch.hearc.ig.ta.dao.DAO;
 import ch.hearc.ig.ta.memoryuser.Utilisateurs;
 import ch.hearc.ig.ta.services.Services;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -35,12 +38,12 @@ public class ServletLogin extends HttpServlet {
             throws ServletException, IOException {
 
         response.setContentType("text/html;charset=UTF-8");
+        request.setCharacterEncoding("UTF-8");
+        
         PrintWriter out = response.getWriter();
         String username = null, password = null;
 
         try {
-            HtmlHttpUtils.doHeader("Login Page - Gestion de personnes (CRUD)", out);
-
             username = request.getParameter("username");
             password = request.getParameter("password");
             boolean errorlogin = false;
@@ -56,14 +59,24 @@ public class ServletLogin extends HttpServlet {
                         s.setAttribute("username", username);
                         s.setAttribute("date_connexion", new Date());
                         s.setAttribute("navigateur", request.getHeader("User-Agent"));
+                        s.setAttribute("lastUnlockedAchievements", new ArrayList<Achievement>());
+                        s.setAttribute("alertMessages", new ArrayList<AlertMessage>());
+                        
+                        String achievementName = "Première connexion";
+                        if (!Services.checkUserAchievement(username, achievementName)) {
+                            Achievement achievement = Services.addAchievement(username, achievementName);
 
-                        String achievement = "Première connexion";
-                        if (!Services.checkUserAchievement(username, achievement)) {
-                            boolean achievementOK = Services.addAchievement(username, achievement);
-
-                            if (!achievementOK) {
-                                out.println("<p>Une erreur s'est produite lors de l'attribution de la récompense \"" + achievement + "\".</p>");
+                            if (achievement == null) {
+                                ArrayList<AlertMessage> alertMessages = (ArrayList<AlertMessage>) s.getAttribute("alertMessages");
+                                alertMessages.add(new AlertMessage(true, "Une erreur s'est produite lors de l'attribution de la récompense \"" + achievementName + "\"."));
+                                s.setAttribute("alertMessages", alertMessages);
+                            
+                                response.sendRedirect("annuairePersonnes.jsp");
                             }
+                            
+                            ArrayList<Achievement> lastUnlockedAchievements = (ArrayList<Achievement>) s.getAttribute("lastUnlockedAchievements");
+                            lastUnlockedAchievements.add(achievement);
+                            s.setAttribute("lastUnlockedAchievements", lastUnlockedAchievements);
                         }
 
                         response.sendRedirect("annuairePersonnes.jsp");
