@@ -64,15 +64,15 @@ public class ServletFaireEffacementPersonne extends HttpServlet {
                     String achievementName = "Première suppression";
 
                     if (!Services.checkUserAchievement(username, achievementName)) {
-                        Achievement achievement = Services.addAchievement(username, achievementName);
+                        Achievement achievement = Services.addAchievement(username, achievementName, s);
 
                         if (achievement == null) {
                             alertMessages.add(new AlertMessage(true, "Une erreur s'est produite lors de l'attribution de la récompense \"" + achievementName + "\"."));
+                        } else {
+                            ArrayList<Achievement> lastUnlockedAchievements = (ArrayList<Achievement>) s.getAttribute("lastUnlockedAchievements");
+                            lastUnlockedAchievements.add(achievement);
+                            s.setAttribute("lastUnlockedAchievements", lastUnlockedAchievements);
                         }
-
-                        ArrayList<Achievement> lastUnlockedAchievements = (ArrayList<Achievement>) s.getAttribute("lastUnlockedAchievements");
-                        lastUnlockedAchievements.add(achievement);
-                        s.setAttribute("lastUnlockedAchievements", lastUnlockedAchievements);
                     }
 
                     s.setAttribute("alertMessages", alertMessages);

@@ -68,18 +68,18 @@ public class ServletFaireMAJPersonne extends HttpServlet {
             String achievementName = "Première modification";
 
             if (!Services.checkUserAchievement(username, achievementName)) {
-                Achievement achievement = Services.addAchievement(username, achievementName);
+                Achievement achievement = Services.addAchievement(username, achievementName, s);
 
                 if (achievement == null) {
                     alertMessages.add(new AlertMessage(true, "Une erreur s'est produite lors de l'attribution de la récompense \"" + achievementName + "\"."));
+                } else {
+                    ArrayList<Achievement> lastUnlockedAchievements = (ArrayList<Achievement>) s.getAttribute("lastUnlockedAchievements");
+                    lastUnlockedAchievements.add(achievement);
+                    s.setAttribute("lastUnlockedAchievements", lastUnlockedAchievements);
                 }
-
-                ArrayList<Achievement> lastUnlockedAchievements = (ArrayList<Achievement>) s.getAttribute("lastUnlockedAchievements");
-                lastUnlockedAchievements.add(achievement);
-                s.setAttribute("lastUnlockedAchievements", lastUnlockedAchievements);
             }
 
-            boolean addingOK = Services.addPoints(username, 5);
+            boolean addingOK = Services.addPoints(username, 5, s);
 
             if (!addingOK) {
                 alertMessages.add(new AlertMessage(true, "Une erreur s'est produite lors de l'ajout des points pour la modification de données client."));

@@ -63,7 +63,10 @@
             <header id="header-navbar">
                 <ul class="pull-right">
                     <li>
-                        Connect&eacute; en tant que <%= Services.getNomCommercial(username) %>
+                        Connect&eacute; en tant que <a href="profil.jsp" class="font-w600 text-gray-darker"><%= Services.getNomCommercial(username) %></a>
+                    </li>
+                    <li>
+                        <a href="ServletLogout" id="logout-btn" class="text-gray-darker" data-toggle="tooltip" data-placement="left" title="Se d&eacute;connecter"><span class="glyphicon glyphicon-log-out" aria-hidden="true"></span></a>
                     </li>
                 </ul>
                 <!--<ul class="pull-left">
@@ -166,6 +169,11 @@
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
         <script src="assets/js/bootstrap.min.js"></script>
         
+        <script>
+            $(document).ready(function(){
+                $('[data-toggle="tooltip"]').tooltip();   
+            });
+        </script>
         <script>
             $('#search-form').submit(function () {
                 $('#waiting-modal').modal('show');

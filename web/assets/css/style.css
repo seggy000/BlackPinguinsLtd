@@ -47,6 +47,13 @@ h6,.h6 {font-size:14px}
 }
 
 
+/* FOOTING */
+#page-footer {overflow-x: hidden; position: fixed; bottom: 0px; width: calc(100% - 230px); margin:0 auto; padding:13px 30px; max-width:100%}
+@media screen and (max-width:767px) {
+    #page-footer {width: 100%};
+}
+
+
 /* TEXTS */
 .text-muted           {color:#999}
 
@@ -218,6 +225,7 @@ input[type="text"].form-control,input[type="password"].form-control,input[type="
 .table-responsive {-webkit-overflow-scrolling:touch}
 
 
+/* MODALS */
 #main-container .modal, #main-container .modal-backdrop {position: absolute !important; margin: 60px 0px 43px 230px}
 .modal-content {border:none; border-radius:0; -webkit-box-shadow:none; box-shadow:none}
 .modal-backdrop.in {opacity:.25}
@@ -225,43 +233,11 @@ input[type="text"].form-control,input[type="password"].form-control,input[type="
 .modal-body {padding:20px}
 .modal-footer {padding:12px 20px; border-top-color:#eee}
 .modal-title {font-weight:normal}
-.fade.fade-up {opacity:0; -webkit-transition:all .25s ease-out; transition:all .25s ease-out; -webkit-transform:translateY(100px); -ms-transform:translateY(100px); transform:translateY(100px)}
-.fade.fade-up.in {opacity:1; -webkit-transform:translateY(0); -ms-transform:translateY(0); transform:translateY(0)}
-.fade.fade-right {opacity:0; -webkit-transition:all .25s ease-out; transition:all .25s ease-out; -webkit-transform:translateX(-100px); -ms-transform:translateX(-100px); transform:translateX(-100px)}
-.fade.fade-right.in {opacity:1; -webkit-transform:translateX(0); -ms-transform:translateX(0); transform:translateX(0)}
-.fade.fade-left {opacity:0; -webkit-transition:all .25s ease-out; transition:all .25s ease-out; -webkit-transform:translateX(100px); -ms-transform:translateX(100px); transform:translateX(100px)}
-.fade.fade-left.in {opacity:1; -webkit-transform:translateX(0); -ms-transform:translateX(0); transform:translateX(0)}
-@font-face {font-family:'FontAwesome'; src:url('../fonts/fontawesome-webfont.eot?v=4.4.0'); src:url('../fonts/fontawesome-webfont.eot?#iefix&v=4.4.0') format('embedded-opentype'),url('../fonts/fontawesome-webfont.woff2?v=4.4.0') format('woff2'),url('../fonts/fontawesome-webfont.woff?v=4.4.0') format('woff'),url('../fonts/fontawesome-webfont.ttf?v=4.4.0') format('truetype'),url('../fonts/fontawesome-webfont.svg?v=4.4.0#fontawesomeregular') format('svg'); font-weight:normal; font-style:normal}
-.pull-right {float:right}
-.pull-left {float:left}
-@font-face {font-family:Simple-Line-Icons; src:url(../fonts/Simple-Line-Icons.eot); src:url(../fonts/Simple-Line-Icons.eot?#iefix) format('embedded-opentype'),url(../fonts/Simple-Line-Icons.woff) format('woff'),url(../fonts/Simple-Line-Icons.ttf) format('truetype'),url(../fonts/Simple-Line-Icons.svg#Simple-Line-Icons) format('svg'); font-weight:400; font-style:normal}
 
 
-
-
-
-
-#page-container {
-	padding-left: 230px;
-	margin: 0 auto;
-   	width: 100%;
-    	min-width: 320px;
-	min-height: 100%;
-}
-
-
-
-
-
-#page-footer {overflow-x: hidden; position: fixed; bottom: 0px; width: calc(100% - 230px); margin:0 auto; padding:13px 30px; max-width:100%}
-@media screen and (max-width:767px) {
-    #page-footer {width: 100%};
-}
-
-
-
-
+/* CONTAINERS */
 #main-container {padding-top:60px; padding-bottom:43px; background-color:#f5f5f5; overflow-x:hidden}
+#page-container {padding-left: 230px; margin: 0 auto; width: 100%; min-width: 320px; min-height: 100%}
 .content {margin:0 auto; padding:16px 14px 1px; max-width:100%; overflow-x:visible}
 .content p,.content .push,.content .block,.content .items-push>div {margin-bottom:16px}
 .content .items-push-2x>div {margin-bottom:32px}
@@ -290,7 +266,7 @@ input[type="text"].form-control,input[type="password"].form-control,input[type="
 .content-grid .row>div[class*="col"] {padding-left:3px; padding-right:3px}
 
 
-
+/* BLOCKS */
 .block {margin-bottom:30px; background-color:#fff; -webkit-box-shadow:0 2px rgba(0,0,0,0.01); box-shadow:0 2px rgba(0,0,0,0.01)}
 .side-content .block {-webkit-box-shadow:none; box-shadow:none}
 .block-header {padding:15px 20px; -webkit-transition:opacity .2s ease-out; transition:opacity .2s ease-out}
@@ -313,6 +289,10 @@ input[type="text"].form-control,input[type="password"].form-control,input[type="
 @media screen and (min-width:1200px) {
     .block-content.block-content-narrow {padding-left:10%; padding-right:10%}
 }
+.sub-block {margin: 3px;}
+@media screen and (min-width:768px) {
+    .sub-block {width: calc(50% - 6px);}
+}
 
 
 /* SIDEBAR */
@@ -334,7 +314,9 @@ input[type="text"].form-control,input[type="password"].form-control,input[type="
 #header-navbar>ul.pull-right>li {margin-top: 5px; margin-right:0; margin-left:12px; float:left}
 
 
-
+/* POSITIONING */
+.pull-right {float:right}
+.pull-left {float:left}
 .push-5 {margin-bottom:5px !important}
 .push-5-t {margin-top:5px !important}
 .push-5-r {margin-right:5px !important}
@@ -400,9 +382,6 @@ input[type="text"].form-control,input[type="password"].form-control,input[type="
 .pad-150-r {padding-right:150px !important}
 .pad-150-l {padding-left:150px !important}
 .pulldown {position:relative; top:50px}
-@media screen and (min-width:992px) {
-    .pulldown {top:150px}
-}
 .remove-margin {margin:0 !important}
 .remove-margin-t {margin-top:0 !important}
 .remove-margin-r {margin-right:0 !important}
@@ -413,8 +392,6 @@ input[type="text"].form-control,input[type="password"].form-control,input[type="
 .remove-padding-r {padding-right:0 !important}
 .remove-padding-b {padding-bottom:0 !important}
 .remove-padding-l {padding-left:0 !important}
-.align-v {position:absolute; top:50%; -webkit-transform:translateY(-50%); -ms-transform:translateY(-50%); transform:translateY(-50%)}
-.align-v.align-v-fwidth {width:100%}
 .border {border:1px solid #e9e9e9}
 .border-t {border-top:1px solid #e9e9e9}
 .border-r {border-right:1px solid #e9e9e9}
@@ -422,23 +399,15 @@ input[type="text"].form-control,input[type="password"].form-control,input[type="
 .border-l {border-left:1px solid #e9e9e9}
 
 
-.sub-block {margin: 3px;}
-@media screen and (min-width:768px) {
-    .sub-block {width: calc(50% - 6px);}
-}
-//.td-small {width: 33px}
-
-
+/* ANIMATIONS */
 .glyphicon-refresh-animate {
     -animation: spin .7s infinite linear;
     -webkit-animation: spin2 .7s infinite linear;
 }
-
 @-webkit-keyframes spin2 {
     from { -webkit-transform: rotate(0deg);}
     to { -webkit-transform: rotate(360deg);}
 }
-
 @keyframes spin {
     from { transform: scale(1) rotate(0deg);}
     to { transform: scale(1) rotate(360deg);}

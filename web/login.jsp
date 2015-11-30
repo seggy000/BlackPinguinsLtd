@@ -93,13 +93,13 @@
                                         <div class="form-group">
                                             <div class="col-sm-12">
                                                 <label for="username">Nom d'utilisateur</label>
-                                                <input class="form-control" type="text" id="username" name="username" placeholder="Nom d'utilisateur..." required>
+                                                <input class="form-control" type="text" id="username" name="username" placeholder="Nom d'utilisateur..." required="true">
                                             </div>
                                         </div>
                                         <div class="form-group">
                                             <div class="col-sm-12">
                                                 <label for="password">Mot de passe</label>
-                                                <input class="form-control" type="password" id="password" name="password" placeholder="Mot de passe..." required>
+                                                <input class="form-control" type="password" id="password" name="password" placeholder="Mot de passe..." required="true">
                                             </div>
                                         </div>
                                         <div class="form-group">

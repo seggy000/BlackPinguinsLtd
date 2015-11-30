@@ -64,19 +64,17 @@ public class ServletLogin extends HttpServlet {
                         
                         String achievementName = "Première connexion";
                         if (!Services.checkUserAchievement(username, achievementName)) {
-                            Achievement achievement = Services.addAchievement(username, achievementName);
+                            Achievement achievement = Services.addAchievement(username, achievementName, s);
 
                             if (achievement == null) {
                                 ArrayList<AlertMessage> alertMessages = (ArrayList<AlertMessage>) s.getAttribute("alertMessages");
                                 alertMessages.add(new AlertMessage(true, "Une erreur s'est produite lors de l'attribution de la récompense \"" + achievementName + "\"."));
                                 s.setAttribute("alertMessages", alertMessages);
-                            
-                                response.sendRedirect("annuairePersonnes.jsp");
+                            } else {
+                                ArrayList<Achievement> lastUnlockedAchievements = (ArrayList<Achievement>) s.getAttribute("lastUnlockedAchievements");
+                                lastUnlockedAchievements.add(achievement);
+                                s.setAttribute("lastUnlockedAchievements", lastUnlockedAchievements);
                             }
-                            
-                            ArrayList<Achievement> lastUnlockedAchievements = (ArrayList<Achievement>) s.getAttribute("lastUnlockedAchievements");
-                            lastUnlockedAchievements.add(achievement);
-                            s.setAttribute("lastUnlockedAchievements", lastUnlockedAchievements);
                         }
 
                         response.sendRedirect("annuairePersonnes.jsp");

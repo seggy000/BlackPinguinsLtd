@@ -63,7 +63,10 @@
             <header id="header-navbar">
                 <ul class="pull-right">
                     <li>
-                        Connect&eacute; en tant que <%= Services.getNomCommercial(username) %>
+                        Connect&eacute; en tant que <a href="profil.jsp" class="font-w600 text-gray-darker"><%= Services.getNomCommercial(username) %></a>
+                    </li>
+                    <li>
+                        <a href="ServletLogout" id="logout-btn" class="text-gray-darker" data-toggle="tooltip" data-placement="left" title="Se d&eacute;connecter"><span class="glyphicon glyphicon-log-out" aria-hidden="true"></span></a>
                     </li>
                 </ul>
                 <!--<ul class="pull-left">
@@ -138,15 +141,15 @@
                                             <tbody>
                                                 <tr>
                                                     <td class="font-w600">Inscrit(e) depuis</td>
-                                                    <td class="text-muted text-right" style="width: 70px;">23/10/2015</td>
+                                                    <td class="text-muted text-right">23/10/2015</td>
                                                 </tr>
                                                 <tr>
                                                     <td class="font-w600">Adresse</td>
-                                                    <td class="text-muted text-right" style="width: 70px;">Holzstrasse 1<br>6436 Muotathal</td>
+                                                    <td class="text-muted text-right">Holzstrasse 1<br>6436 Muotathal</td>
                                                 </tr>
                                                 <tr>
                                                     <td class="font-w600">E-mail</td>
-                                                    <td class="text-muted text-right" style="width: 70px;">colibri36@hotmail.com</td>
+                                                    <td class="text-muted text-right">colibri36@hotmail.com</td>
                                                 </tr>
                                             </tbody>
                                         </table>
@@ -168,7 +171,7 @@
                                                     <div class="h5 font-w300 text-muted">Nombre de badges gagn&eacute;s</div>
                                                 </div>
                                                 <div class="col-xs-6">
-                                                    <div class="h1 font-w700"><%= 12 - Services.getNotAchievedAchievementsNumber(username) %></div>
+                                                    <div class="h1 font-w700"><%= Services.getNotAchievedAchievementsNumber(username) %></div>
                                                     <div class="h5 font-w300 text-muted">Nombre de badges restants</div>
                                                 </div>
                                             </div>
@@ -177,7 +180,7 @@
                                     <div class="col-xs-12">
                                         <div class="row">
                                             <% for (Achievement achievement : Services.getUserAchievements(username)) { %>
-                                            <div style="height: 160px;" class="col-sm-6 block-content sub-block <%= (achievement.isAchieved() ? "bg-white" : "bg-muted") %>">
+                                            <div class="col-sm-6 block-content sub-block <%= (achievement.isAchieved() ? "bg-white" : "bg-muted") %>" style="height: 140px">
                                                 <div class="row items-push text-center">
                                                     <div class="col-xs-12">
                                                         <div class="h1 font-w300 <%= (achievement.isAchieved() ? "text-primary" : "") %>"><%= achievement.getLibelle() %></div>
@@ -200,7 +203,7 @@
                     Haute &eacute;cole de gestion Arc, 635-1.1 Technologies actuelles, 3-IG-PT
                 </div>
                 <div class="pull-left">
-                    BlackPinguinsLtd Project (Thierry Hubmann, Steve Julmy, Thomas Rüegsegger, Geoffroy Megert, Loïc Megert)
+                    BlackPinguinsLtd Project (Geoffroy Megert, Loïc Megert, Thierry Hubmann, Steve Julmy, Thomas Rüegsegger)
                 </div>
             </footer>
         </div>
@@ -209,6 +212,11 @@
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
         <script src="assets/js/bootstrap.min.js"></script>
         
+        <script>
+            $(document).ready(function(){
+                $('[data-toggle="tooltip"]').tooltip();   
+            });
+        </script>
         <script>
             $('#logout-btn').on('click', function () {
                 $('#waiting-modal').modal('show');

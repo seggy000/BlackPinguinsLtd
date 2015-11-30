@@ -67,18 +67,18 @@ public class ServletCreationPersonne extends HttpServlet {
                     String achievementName = "Premier client";
 
                     if (!Services.checkUserAchievement(username, achievementName)) {
-                        Achievement achievement = Services.addAchievement(username, achievementName);
+                        Achievement achievement = Services.addAchievement(username, achievementName, s);
 
                         if (achievement == null) {
                             alertMessages.add(new AlertMessage(true, "Une erreur s'est produite lors de l'attribution de la récompense \"" + achievementName + "\"."));
+                        } else {
+                            ArrayList<Achievement> lastUnlockedAchievements = (ArrayList<Achievement>) s.getAttribute("lastUnlockedAchievements");
+                            lastUnlockedAchievements.add(achievement);
+                            s.setAttribute("lastUnlockedAchievements", lastUnlockedAchievements);
                         }
-
-                        ArrayList<Achievement> lastUnlockedAchievements = (ArrayList<Achievement>) s.getAttribute("lastUnlockedAchievements");
-                        lastUnlockedAchievements.add(achievement);
-                        s.setAttribute("lastUnlockedAchievements", lastUnlockedAchievements);
                     }
 
-                    boolean addingOK = Services.addPoints(username, 10);
+                    boolean addingOK = Services.addPoints(username, 10, s);
 
                     if (!addingOK) {
                         alertMessages.add(new AlertMessage(true, "Une erreur s'est produite lors de l'ajout des points pour la cr&eacute;ation d'un nouveau client."));

@@ -1,15 +1,18 @@
 package ch.hearc.ig.ta.services;
 
 import ch.hearc.ig.ta.business.Achievement;
+import ch.hearc.ig.ta.business.AlertMessage;
 import ch.hearc.ig.ta.business.Commercial;
 import ch.hearc.ig.ta.dao.AchievementsDAO;
 import ch.hearc.ig.ta.dao.CommerciauxDAO;
 import ch.hearc.ig.ta.dao.DAO;
 import ch.hearc.ig.ta.dao.ObtentionsDao;
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.servlet.http.HttpSession;
 
 /**
  *
@@ -56,27 +59,27 @@ public abstract class Services {
         int level = getLevel(username);
         int points = getPoints(username);
         
-        if (level < 5) {
+        if (level <= 5) {
             levelName = "Débutant";
             levelPoints = 5 * MULTIPLIER;
             levelPointsGap = levelPoints - points;
-        } else if (level < 10) {
+        } else if (level <= 10) {
             levelName = "Initié";
             levelPoints = 10 * MULTIPLIER;
             levelPointsGap = levelPoints - points;
-        } else if (level < 15) {
+        } else if (level <= 15) {
             levelName = "Professionnel";
             levelPoints = 15 * MULTIPLIER;
             levelPointsGap = levelPoints - points;
-        } else if (level < 25) {
+        } else if (level <= 25) {
             levelName = "Connaisseur";
             levelPoints = 25 * MULTIPLIER;
             levelPointsGap = levelPoints - points;
-        } else if (level < 50) {
+        } else if (level <= 50) {
             levelName = "Confirmé";
             levelPoints = 50 * MULTIPLIER;
             levelPointsGap = levelPoints - points;
-        } else if (level < 100) {
+        } else if (level <= 100) {
             levelName = "Expert";
             levelPoints = 100 * MULTIPLIER;
             levelPointsGap = levelPoints - points;
@@ -116,14 +119,14 @@ public abstract class Services {
         return commercial.getPoints();
     }
     
-    public static boolean addPoints(final String username, final int points) {
+    public static boolean addPoints(final String username, final int points, final HttpSession session) {
         getCommercial(username);
 
         int result = commerciauxDao.updatePoints(username, points);
 
         if (result > 0) {
             commercial.setPoints(commercial.getPoints() + points);
-            getLevelAchievement(username);
+            getLevelAchievement(username, session);
             DAO.commit();
             return true;
         } else {
@@ -154,11 +157,11 @@ public abstract class Services {
         return achievementsDao.checkUserAchievement(username, achievementLabel);
     }
 
-    public static Achievement addAchievement(final String username, final String achievementLabel) {
+    public static Achievement addAchievement(final String username, final String achievementLabel, final HttpSession session) {
         int result = obtentionsDao.insert(username, achievementLabel);
         
         if (result > 0) {
-            getLevelAchievement(username);
+            getLevelAchievement(username, session);
             DAO.commit();
             
             Achievement achievement = achievementsDao.getAchievementByLabel(achievementLabel);
@@ -173,14 +176,21 @@ public abstract class Services {
         return null;
     }
 
-    public static void getLevelAchievement(final String username) {
+    public static void getLevelAchievement(final String username, final HttpSession session) {
         String levelName = getLevelName(username);
+        String achievementName = "Niveau " + levelName + " atteint !";
 
-        String achievement = "Niveau " + levelName + " atteint !";
+        if (!checkUserAchievement(username, achievementName)) {
+            Achievement achievement = addAchievement(username, achievementName, session);
 
-        if (!checkUserAchievement(username, achievement)) {
-            if (addAchievement(username, achievement) == null) {
-                logger.log(Level.SEVERE, "Une erreur s'est produite lors de l'attribution de la récompense \"" + achievement + "\".");
+            if (achievement == null) {
+                ArrayList<AlertMessage> alertMessages = (ArrayList<AlertMessage>) session.getAttribute("alertMessages");
+                alertMessages.add(new AlertMessage(true, "Une erreur s'est produite lors de l'attribution de la récompense \"" + achievementName + "\"."));
+                session.setAttribute("alertMessages", alertMessages);
+            } else {
+                ArrayList<Achievement> lastUnlockedAchievements = (ArrayList<Achievement>) session.getAttribute("lastUnlockedAchievements");
+                lastUnlockedAchievements.add(achievement);
+                session.setAttribute("lastUnlockedAchievements", lastUnlockedAchievements);
             }
         }
     }

@@ -80,7 +80,10 @@
             <header id="header-navbar">
                 <ul class="pull-right">
                     <li>
-                        Connect&eacute; en tant que <%= Services.getNomCommercial(username) %>
+                        Connect&eacute; en tant que <a href="profil.jsp" class="font-w600 text-gray-darker"><%= Services.getNomCommercial(username) %></a>
+                    </li>
+                    <li>
+                        <a href="ServletLogout" id="logout-btn" class="text-gray-darker" data-toggle="tooltip" data-placement="left" title="Se d&eacute;connecter"><span class="glyphicon glyphicon-log-out" aria-hidden="true"></span></a>
                     </li>
                 </ul>
                 <!--<ul class="pull-left">
@@ -135,25 +138,25 @@
                                         <div class="form-group">
                                             <div class="col-sm-12">
                                                 <label for="firstname">Pr&eacute;nom <span class="text-danger">*</span></label>
-                                                <input class="form-control" type="text" id="firstname" name="firstname" placeholder="Pr&eacute;nom du client..." value="<%= personne.getPrenom() %>" required>
+                                                <input class="form-control" type="text" id="firstname" name="firstname" placeholder="Pr&eacute;nom du client..." value="<%= personne.getPrenom() %>" required="true">
                                             </div>
                                         </div>
                                         <div class="form-group">
                                             <div class="col-sm-12">
                                                 <label for="lastname">Nom <span class="text-danger">*</span></label>
-                                                <input class="form-control" type="text" id="lastname" name="lastname" placeholder="Nom du client..." value="<%= personne.getNom() %>" required>
+                                                <input class="form-control" type="text" id="lastname" name="lastname" placeholder="Nom du client..." value="<%= personne.getNom() %>" required="true">
                                             </div>
                                         </div>
                                         <div class="form-group">
                                             <div class="col-sm-12">
                                                 <label for="address">Adresse <span class="text-danger">*</span></label>
-                                                <input class="form-control" type="text" id="address" name="address" placeholder="Adresse du client..." value="<%= personne.getAdresse() %>" required>
+                                                <input class="form-control" type="text" id="address" name="address" placeholder="Adresse du client..." value="<%= personne.getAdresse() %>" required="true">
                                             </div>
                                         </div>
                                         <div class="form-group">
                                             <div class="col-sm-12">
                                                 <label for="city">Ville <span class="text-danger">*</span></label>
-                                                <input class="form-control" type="text" id="city" name="city" placeholder="Ville du client..." value="<%= personne.getVille() %>" required>
+                                                <input class="form-control" type="text" id="city" name="city" placeholder="Ville du client..." value="<%= personne.getVille() %>" required="true">
                                             </div>
                                         </div>
                                         <div class="form-group">
@@ -183,6 +186,11 @@
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
         <script src="assets/js/bootstrap.min.js"></script>
         
+        <script>
+            $(document).ready(function(){
+                $('[data-toggle="tooltip"]').tooltip();   
+            });
+        </script>
         <script>
             $('#edit-form').submit(function () {
                 $('#waiting-modal').modal('show');

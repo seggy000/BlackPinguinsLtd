@@ -20,7 +20,7 @@
     
     String achievementName = "Premier coup d'oeil";
     if (!Services.checkUserAchievement(username, achievementName)) {
-        Achievement achievement = Services.addAchievement(username, achievementName);
+        Achievement achievement = Services.addAchievement(username, achievementName, s);
 
         if (achievement == null) {
             alertMessages.add(new AlertMessage(true, "Une erreur s'est produite lors de l'attribution de la récompense \"" + achievementName + "\"."));
@@ -90,7 +90,10 @@
             <header id="header-navbar">
                 <ul class="pull-right">
                     <li>
-                        Connect&eacute; en tant que <%= Services.getNomCommercial(username) %>
+                        Connect&eacute; en tant que <a href="profil.jsp" class="font-w600 text-gray-darker"><%= Services.getNomCommercial(username) %></a>
+                    </li>
+                    <li>
+                        <a href="ServletLogout" id="logout-btn" class="text-gray-darker" data-toggle="tooltip" data-placement="left" title="Se d&eacute;connecter"><span class="glyphicon glyphicon-log-out" aria-hidden="true"></span></a>
                     </li>
                 </ul>
                 <!--<ul class="pull-left">
@@ -281,7 +284,7 @@
                                                 <% 
                                                     for (Personne personne : personnes) { 
                                                 %>
-                                                <tr>
+                                                <tr data-toggle="tooltip" data-placement="top" title="Cliquez pour plus de détails">
                                                     <td class="text-primary modal-customer-preview" data-id="<%= personne.getId() %>" data-firstname="<%= personne.getPrenom() %>" data-lastname="<%= personne.getNom() %>" data-address="<%= personne.getAdresse() %>" data-city="<%= personne.getVille() %>"><%= personne.getPrenom() %></td>
                                                     <td class="text-primary modal-customer-preview" data-id="<%= personne.getId() %>" data-firstname="<%= personne.getPrenom() %>" data-lastname="<%= personne.getNom() %>" data-address="<%= personne.getAdresse() %>" data-city="<%= personne.getVille() %>"><%= personne.getNom() %></td>
                                                     <td class="text-muted modal-customer-preview" data-id="<%= personne.getId() %>" data-firstname="<%= personne.getPrenom() %>" data-lastname="<%= personne.getNom() %>" data-address="<%= personne.getAdresse() %>" data-city="<%= personne.getVille() %>"><%= personne.getAdresse() %></td>
@@ -331,6 +334,15 @@
         <script>
             $(document).ready(function(){
                 $('[data-toggle="tooltip"]').tooltip();   
+                $('body').on({'mousewheel': function(e) {
+                        if ($('#confirm-delete').css('display') == 'block'
+                                || $('#customer-preview').css('display') == 'block'
+                                || $('#waiting-modal').css('display') == 'block') {
+                            e.preventDefault();
+                            e.stopPropagation();
+                        }
+                    }
+                });
             });
             $('.modal-confirm-delete').on('click', function () {
                 $('#confirm-delete').modal('show');
@@ -354,6 +366,8 @@
                 $('#customer-preview').find('.btn-delete').attr('data-lastname', $(this).data('lastname'));
                 $('#customer-preview').find('.btn-delete').attr('data-address', $(this).data('address'));
                 $('#customer-preview').find('.btn-delete').attr('data-city', $(this).data('city'));
+                //$('#main-container .modal').css({"margin-top":60+($('#page-container').height()*$('body').scrollTop()/100)-$(window).height()});
+                //$('#main-container .modal').css({"margin-top":60+($('#page-container').height()*$('body').scrollTop()/100)-$(window).height()});
             });
             $('#search-form').submit(function () {
                 $('#waiting-modal').modal('show');
