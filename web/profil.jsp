@@ -138,15 +138,15 @@
                                             <tbody>
                                                 <tr>
                                                     <td class="font-w600">Inscrit(e) depuis</td>
-                                                    <td class="text-muted text-right">JJ/MM/AAAA</td>
+                                                    <td class="text-muted text-right" style="width: 70px;">23/10/2015</td>
                                                 </tr>
                                                 <tr>
-                                                    <td class="font-w600">Information#2</td>
-                                                    <td class="text-muted text-right">Bla bla...</td>
+                                                    <td class="font-w600">Adresse</td>
+                                                    <td class="text-muted text-right" style="width: 70px;">Holzstrasse 1<br>6436 Muotathal</td>
                                                 </tr>
                                                 <tr>
-                                                    <td class="font-w600">Information#3</td>
-                                                    <td class="text-muted text-right">Bla bla...</td>
+                                                    <td class="font-w600">E-mail</td>
+                                                    <td class="text-muted text-right" style="width: 70px;">colibri36@hotmail.com</td>
                                                 </tr>
                                             </tbody>
                                         </table>
@@ -177,7 +177,7 @@
                                     <div class="col-xs-12">
                                         <div class="row">
                                             <% for (Achievement achievement : Services.getUserAchievements(username)) { %>
-                                            <div class="col-sm-6 block-content sub-block <%= (achievement.isAchieved() ? "bg-white" : "bg-muted") %>">
+                                            <div style="height: 160px;" class="col-sm-6 block-content sub-block <%= (achievement.isAchieved() ? "bg-white" : "bg-muted") %>">
                                                 <div class="row items-push text-center">
                                                     <div class="col-xs-12">
                                                         <div class="h1 font-w300 <%= (achievement.isAchieved() ? "text-primary" : "") %>"><%= achievement.getLibelle() %></div>
@@ -200,7 +200,7 @@
                     Haute &eacute;cole de gestion Arc, 635-1.1 Technologies actuelles, 3-IG-PT
                 </div>
                 <div class="pull-left">
-                    BlackPinguinsLtd Project (Geoffroy Megert, Loïc Megert, Thierry Hubmann, Steve Julmy, Thomas Rüegsegger)
+                    BlackPinguinsLtd Project (Thierry Hubmann, Steve Julmy, Thomas Rüegsegger, Geoffroy Megert, Loïc Megert)
                 </div>
             </footer>
         </div>
