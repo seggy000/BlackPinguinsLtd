@@ -113,15 +113,15 @@
                                             <tbody>
                                                 <tr>
                                                     <td class="font-w600">Inscrit(e) depuis</td>
-                                                    <td class="text-muted text-right" style="width: 70px;">JJ/MM/AAAA</td>
+                                                    <td class="text-muted text-right" style="width: 70px;">23/10/2015</td>
                                                 </tr>
                                                 <tr>
-                                                    <td class="font-w600">Information#2</td>
-                                                    <td class="text-muted text-right" style="width: 70px;">Bla bla...</td>
+                                                    <td class="font-w600">Adresse</td>
+                                                    <td class="text-muted text-right" style="width: 70px;">Holzstrasse 1<br>6436 Muotathal</td>
                                                 </tr>
                                                 <tr>
-                                                    <td class="font-w600">Information#3</td>
-                                                    <td class="text-muted text-right" style="width: 70px;">Bla bla...</td>
+                                                    <td class="font-w600">E-mail</td>
+                                                    <td class="text-muted text-right" style="width: 70px;">colibri36@hotmail.com</td>
                                                 </tr>
                                             </tbody>
                                         </table>
@@ -175,7 +175,7 @@
                     Haute &eacute;cole de gestion Arc, 635-1.1 Technologies actuelles, 3-IG-PT
                 </div>
                 <div class="pull-left">
-                    BlackPinguinsLtd Project (Geoffroy Megert, Loïc Megert, Thierry Hubmann, Steve Julmy, Thomas Rüegsegger)
+                    BlackPinguinsLtd Project (Thierry Hubmann, Steve Julmy, Thomas Rüegsegger, Geoffroy Megert, Loïc Megert)
                 </div>
             </footer>
         </div>
