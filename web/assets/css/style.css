@@ -299,7 +299,7 @@ input[type="text"].form-control,input[type="password"].form-control,input[type="
 .block-title {font-size:15px; font-weight:600; text-transform:uppercase; line-height:1.2}
 .block-title.text-normal {text-transform:none}
 .block-title small {font-size:13px; font-weight:normal; text-transform:none}
-.block-content {margin:0 auto; padding:20px 20px 1px; max-width:100%; height: 160px; overflow-x:visible; -webkit-transition:opacity .2s ease-out; transition:opacity .2s ease-out}
+.block-content {margin:0 auto; padding:20px 20px 1px; max-width:100%; overflow-x:visible; -webkit-transition:opacity .2s ease-out; transition:opacity .2s ease-out}
 .block-content p,.block-content .push,.block-content .block,.block-content .items-push>div {margin-bottom:20px}
 .block-content .items-push-2x>div {margin-bottom:40px}
 .block-content .items-push-3x>div {margin-bottom:60px}

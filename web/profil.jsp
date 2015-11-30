@@ -152,7 +152,7 @@
                                     <div class="col-xs-12">
                                         <div class="row">
                                             <% for (Achievement achievement : Services.getUserAchievements(username)) { %>
-                                            <div class="col-sm-6 block-content sub-block <%= (achievement.isAchieved() ? "bg-white" : "bg-muted") %>">
+                                            <div style="height: 160px;" class="col-sm-6 block-content sub-block <%= (achievement.isAchieved() ? "bg-white" : "bg-muted") %>">
                                                 <div class="row items-push text-center">
                                                     <div class="col-xs-12">
                                                         <div class="h1 font-w300 <%= (achievement.isAchieved() ? "text-primary" : "") %>"><%= achievement.getLibelle() %></div>
