@@ -203,7 +203,7 @@ input[type="text"].form-control,input[type="password"].form-control,input[type="
 .table-borderless>thead>tr>th,.table-borderless>thead>tr>td {border-bottom:1px solid #ddd}
 .table-vcenter>thead>tr>th,.table-vcenter>tbody>tr>th,.table-vcenter>tfoot>tr>th,.table-vcenter>thead>tr>td,.table-vcenter>tbody>tr>td,.table-vcenter>tfoot>tr>td {vertical-align:middle}
 .table-striped>tbody>tr:nth-of-type(odd) {background-color:#f9f9f9}
-.table-hover>tbody>tr:hover {background-color:#f5f5f5}
+.table-hover>tbody>tr:hover {background-color:#f9f9f9}
 .table-header-bg>thead>tr>th,.table-header-bg>thead>tr>td {color:#fff; background-color:#5c90d2; border-bottom-color:#5c90d2}
 .table>thead>tr>td.active,.table>tbody>tr>td.active,.table>tfoot>tr>td.active,.table>thead>tr>th.active,.table>tbody>tr>th.active,.table>tfoot>tr>th.active,.table>thead>tr.active>td,.table>tbody>tr.active>td,.table>tfoot>tr.active>td,.table>thead>tr.active>th,.table>tbody>tr.active>th,.table>tfoot>tr.active>th {background-color:#f9f9f9}
 .table-hover>tbody>tr>td.active:hover,.table-hover>tbody>tr>th.active:hover,.table-hover>tbody>tr.active:hover>td,.table-hover>tbody>tr:hover>.active,.table-hover>tbody>tr.active:hover>th {background-color:#ececec}
@@ -218,7 +218,7 @@ input[type="text"].form-control,input[type="password"].form-control,input[type="
 .table-responsive {-webkit-overflow-scrolling:touch}
 
 
-
+#main-container .modal, #main-container .modal-backdrop {position: absolute !important; margin: 60px 0px 43px 230px}
 .modal-content {border:none; border-radius:0; -webkit-box-shadow:none; box-shadow:none}
 .modal-backdrop.in {opacity:.25}
 .modal-header {padding:18px 20px; border-bottom-color:#eee}
@@ -261,7 +261,7 @@ input[type="text"].form-control,input[type="password"].form-control,input[type="
 
 
 
-#main-container {padding-top:60px; padding-bottom:40px; background-color:#f5f5f5; overflow-x:hidden}
+#main-container {padding-top:60px; padding-bottom:43px; background-color:#f5f5f5; overflow-x:hidden}
 .content {margin:0 auto; padding:16px 14px 1px; max-width:100%; overflow-x:visible}
 .content p,.content .push,.content .block,.content .items-push>div {margin-bottom:16px}
 .content .items-push-2x>div {margin-bottom:32px}
@@ -367,7 +367,38 @@ input[type="text"].form-control,input[type="password"].form-control,input[type="
 .push-150-t {margin-top:150px !important}
 .push-150-r {margin-right:150px !important}
 .push-150-l {margin-left:150px !important}
+.pad-5 {padding-bottom:5px !important}
+.pad-5-t {padding-top:5px !important}
+.pad-5-r {padding-right:5px !important}
+.pad-5-l {padding-left:5px !important}
+.pad-10 {padding-bottom:10px !important}
+.pad-10-t {padding-top:10px !important}
+.pad-10-r {padding-right:10px !important}
 .pad-10-l {padding-left:10px !important}
+.pad-15 {padding-bottom:15px !important}
+.pad-15-t {padding-top:15px !important}
+.pad-15-r {padding-right:15px !important}
+.pad-15-l {padding-left:15px !important}
+.pad-20 {padding-bottom:20px !important}
+.pad-20-t {padding-top:20px !important}
+.pad-20-r {padding-right:20px !important}
+.pad-20-l {padding-left:20px !important}
+.pad-30 {padding-bottom:30px !important}
+.pad-30-t {padding-top:30px !important}
+.pad-30-r {padding-right:30px !important}
+.pad-30-l {padding-left:30px !important}
+.pad-50 {padding-bottom:50px !important}
+.pad-50-t {padding-top:50px !important}
+.pad-50-r {padding-right:50px !important}
+.pad-50-l {padding-left:50px !important}
+.pad-100 {padding-bottom:100px !important}
+.pad-100-t {padding-top:100px !important}
+.pad-100-r {padding-right:100px !important}
+.pad-100-l {padding-left:100px !important}
+.pad-150 {padding-bottom:150px !important}
+.pad-150-t {padding-top:150px !important}
+.pad-150-r {padding-right:150px !important}
+.pad-150-l {padding-left:150px !important}
 .pulldown {position:relative; top:50px}
 @media screen and (min-width:992px) {
     .pulldown {top:150px}

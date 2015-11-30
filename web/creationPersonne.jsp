@@ -1,3 +1,6 @@
+<%@page import="ch.hearc.ig.ta.business.AlertMessage"%>
+<%@page import="java.util.ArrayList"%>
+<%@page import="ch.hearc.ig.ta.business.Achievement"%>
 <%@page import="ch.hearc.ig.ta.servlets.HtmlHttpUtils"%>
 <%@page import="ch.hearc.ig.ta.services.Services"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
@@ -8,13 +11,19 @@
     
     HttpSession s = request.getSession(true);
     String username = s.getAttribute("username").toString();
+    ArrayList<Achievement> lastUnlockedAchievements = (ArrayList<Achievement>) s.getAttribute("lastUnlockedAchievements");
+    ArrayList<AlertMessage> alertMessages = (ArrayList<AlertMessage>) s.getAttribute("alertMessages");
 %>
 <!DOCTYPE html>
 <html lang="fr">
     <head>
         <meta charset="utf-8">
-        <title>Nouveau client - Portail commecial</title>
         <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1.0">
+        <meta name="description" content="Portail commecial, Haute &eacute;cole de gestion Arc, 635-1.1 Technologies actuelles, 3-IG-PT">
+        <meta name="author" content="BlackPinguinsLtd Project Team (Geoffroy Megert, Loïc Megert, Thierry Hubmann, Steve Julmy, Thomas Rüegsegger)">
+        <link rel="icon" type="image/png" href="assets/img/favicons/favicon.png">
+        <!--[if IE]><link rel="shortcut icon" type="image/x-icon" href="assets/img/favicons/favicon.ico"><![endif]-->
+        <title>Nouveau client - Portail commecial</title>
         <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400italic,600,700%7COpen+Sans:300,400,400italic,600,700">
         <link rel="stylesheet" href="assets/css/bootstrap.min.css">
         <link rel="stylesheet" href="assets/css/style.css">
@@ -45,7 +54,7 @@
                                 <a href="profil.jsp">Profil</a>
                             </li>
                             <li>
-                                <a href="ServletLogout">Se d&eacute;connecter</a>
+                                <a href="ServletLogout" id="logout-btn">Se d&eacute;connecter</a>
                             </li>
                         </ul>
                     </div>
@@ -67,6 +76,15 @@
                 </ul>-->
             </header>
             <main id="main-container">
+                <div class="modal fade" id="waiting-modal" role="dialog">
+                    <div class="modal-dialog modal-sm">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h4 class="modal-title"><span class="glyphicon glyphicon-refresh glyphicon-refresh-animate"></span>&emsp;</h4>
+                            </div>
+                        </div>
+                    </div>
+                </div>
                 <div class="content bg-gray-lighter">
                     <div class="row">
                         <div class="col-xs-12 page-heading">
@@ -76,6 +94,18 @@
                         </div>
                     </div>
                 </div>
+                <%
+                    for (AlertMessage alertMessage : alertMessages) {
+                %>
+                <div class="alert <%= (alertMessage.isFailed()) ? "alert-danger" : "alert-success" %> alert-dismissible" role="alert">
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <span class="glyphicon <%= (alertMessage.isFailed()) ? "glyphicon-remove" : "glyphicon-ok" %>"></span>&emsp;<%= alertMessage.getMessage() %>
+                </div>
+                <%
+                    }
+                    alertMessages.clear();
+                    s.setAttribute("alertMessages", alertMessages);
+                %>
                 <div class="content">
                     <div class="row">
                         <div class="col-lg-offset-4 col-lg-4">
@@ -84,7 +114,7 @@
                                     <h3 class="block-title">Formulaire d'ajout de client</h3>
                                 </div>
                                 <div class="block-content block-content-narrow">
-                                    <form class="form-horizontal push-10-t" action="ServletCreationPersonne" method="post">
+                                    <form class="form-horizontal push-10-t" id="create-form" action="ServletCreationPersonne" method="post">
                                         <div class="form-group">
                                             <div class="col-sm-12">
                                                 <label for="firstname">Pr&eacute;nom <span class="text-danger">*</span></label>
@@ -135,6 +165,42 @@
         <!-- Bootstrap core JavaScript-->
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
         <script src="assets/js/bootstrap.min.js"></script>
+        
+        <script>
+            $('#create-form').submit(function () {
+                $('#waiting-modal').modal('show');
+                $('.modal-backdrop').appendTo('#main-container');
+                $('body').removeClass();
+                $('#waiting-modal').find('.modal-title').append('Ajout en cours...');
+            });
+            $('#logout-btn').on('click', function () {
+                $('#waiting-modal').modal('show');
+                $('.modal-backdrop').appendTo('#main-container');
+                $('body').removeClass();
+                $('#waiting-modal').find('.modal-title').append('D&eacute;connection en cours...');
+            });
+        </script>
+        <% 
+            for (Achievement lastUnlockedAchievement : lastUnlockedAchievements) {
+        %>
+        <script>
+            $(function () {
+                new PNotify({
+                    title: '<%= lastUnlockedAchievement.getLibelle() %> (D&eacute;bloqu&eacute;)',
+                    text: 'F&eacute;licitation! Vous venez de gagner un nouveau badge.<br><small><i><%= lastUnlockedAchievement.getDescription() %></i></small>',
+                    delay: 8000,
+                    buttons: {
+                        closer: false,
+                        sticker: false
+                    }
+                });
+            });
+        </script>
+        <% 
+            } 
+            lastUnlockedAchievements.clear();
+            s.setAttribute("lastUnlockedAchievements", lastUnlockedAchievements);
+        %>
     </body>
 </html>
 

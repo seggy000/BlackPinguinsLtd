@@ -44,32 +44,18 @@
 <html lang="fr">
     <head>
         <meta charset="utf-8">
-        <title>Annuaire de clients - Portail commecial</title>
         <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1.0">
+        <meta name="description" content="Portail commecial, Haute &eacute;cole de gestion Arc, 635-1.1 Technologies actuelles, 3-IG-PT">
+        <meta name="author" content="BlackPinguinsLtd Project Team (Geoffroy Megert, Loïc Megert, Thierry Hubmann, Steve Julmy, Thomas Rüegsegger)">
+        <link rel="icon" type="image/png" href="assets/img/favicons/favicon.png">
+        <!--[if IE]><link rel="shortcut icon" type="image/x-icon" href="assets/img/favicons/favicon.ico"><![endif]-->
+        <title>Annuaire de clients - Portail commecial</title>
         <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400italic,600,700%7COpen+Sans:300,400,400italic,600,700">
         <link rel="stylesheet" href="assets/css/bootstrap.min.css">
         <link rel="stylesheet" href="assets/css/style.css">
         <link rel="stylesheet" href="assets/css/pnotify.custom.min.css">
     </head>
     <body>
-        <div class="modal fade" id="confirm-delete" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                        <h4 class="modal-title font-w600" id="myModalLabel">Confirmation de suppression</h4>
-                    </div>
-                    <div class="modal-body">
-                        <p>Vous &ecirc;tes sur le point de supprimer une fiche client, cette action est irr&eacute;versible.</p>
-                        <p>Voulez-vous continuer ?</p>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Annuler</button>
-                        <a class="btn btn-danger btn-ok pull-right">Supprimer</a>
-                    </div>
-                </div>
-            </div>
-        </div>
         <div id="page-container">
             <nav id="sidebar">
                 <div class="sidebar-content">
@@ -95,7 +81,7 @@
                                 <a href="profil.jsp">Profil</a>
                             </li>
                             <li>
-                                <a href="ServletLogout">Se d&eacute;connecter</a>
+                                <a href="ServletLogout" id="logout-btn">Se d&eacute;connecter</a>
                             </li>
                         </ul>
                     </div>
@@ -117,6 +103,70 @@
                 </ul>-->
             </header>
             <main id="main-container">
+                <div class="modal fade" id="waiting-modal" role="dialog">
+                    <div class="modal-dialog modal-sm">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h4 class="modal-title"><span class="glyphicon glyphicon-refresh glyphicon-refresh-animate"></span>&emsp;</h4>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal fade" id="customer-preview" tabindex="-1" role="dialog" aria-labelledby="myModalLabel2" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                <h4 class="modal-title font-w600" id="myModalLabel2">Fiche client</h4>
+                            </div>
+                            <div class="modal-body remove-padding">
+                                <table class="table remove-margin-b font-s13">
+                                    <tbody>
+                                        <tr>
+                                            <td class="font-w600 pad-20-l">Pr&eacute;nom</td>
+                                            <td class="text-muted text-right pad-20-r" id="customer-preview-firstname"></td>
+                                        </tr>
+                                        <tr>
+                                            <td class="font-w600 pad-20-l">Nom</td>
+                                            <td class="text-muted text-right pad-20-r" id="customer-preview-lastname"></td>
+                                        </tr>
+                                        <tr>
+                                            <td class="font-w600 pad-20-l">Adresse</td>
+                                            <td class="text-muted text-right pad-20-r" id="customer-preview-address"></td>
+                                        </tr>
+                                        <tr>
+                                            <td class="font-w600 pad-20-l">Ville</td>
+                                            <td class="text-muted text-right pad-20-r" id="customer-preview-city"></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Fermer</button>
+                                <a class="btn btn-default btn-delete pull-right modal-confirm-delete" href="#">Supprimer</a>
+                                <a class="btn btn-default btn-edit pull-right">Modifier</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal fade" id="confirm-delete" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                <h4 class="modal-title font-w600" id="myModalLabel">Confirmation de suppression</h4>
+                            </div>
+                            <div class="modal-body">
+                                <p>Vous &ecirc;tes sur le point de supprimer la fiche client de <a id="confirm-delete-customer" href="#" data-toggle="tooltip"></a>, cette action est irr&eacute;versible.</p>
+                                <p>Voulez-vous continuer ?</p>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Annuler</button>
+                                <a class="btn btn-danger btn-ok pull-right">Supprimer</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
                 <div class="content bg-gray-lighter">
                     <div class="row">
                         <div class="col-xs-12 page-heading">
@@ -160,7 +210,7 @@
                             %>
                             <div class="block bg-gray-light">
                                 <div class="block-content remove-padding bg-white">
-                                    <form class="form-horizontal form-group remove-margin" action="annuairePersonnes.jsp" method="post">
+                                    <form class="form-horizontal form-group remove-margin" id="search-form" action="annuairePersonnes.jsp" method="post">
                                         <div class="input-group">
                                             <input class="form-control pad-10-l" name="search" placeholder="<%= (request.getParameter("search") != null) ? request.getParameter("search") : "Rechercher..." %>" type="text">
                                             <span class="input-group-btn">
@@ -184,7 +234,7 @@
                             %>
                             <div class="block bg-gray-light">
                                 <div class="block-content remove-padding bg-white">
-                                    <form class="form-horizontal form-group remove-margin" action="annuairePersonnes.jsp" method="post">
+                                    <form class="form-horizontal form-group remove-margin" id="search-form" action="annuairePersonnes.jsp" method="post">
                                         <div class="input-group">
                                             <input class="form-control pad-10-l" name="search" placeholder="<%= (request.getParameter("search") != null) ? request.getParameter("search") : "Rechercher..." %>" type="text">
                                             <span class="input-group-btn">
@@ -217,7 +267,7 @@
                             <div class="block">
                                 <div class="block-content">
                                     <div class="pull-t pull-r-l">
-                                        <table class="table remove-margin-b font-s13">
+                                        <table class="table table-hover remove-margin-b font-s13">
                                             <thead>
                                                 <tr>
                                                     <td class="font-w600">Pr&eacute;nom</td>
@@ -232,15 +282,15 @@
                                                     for (Personne personne : personnes) { 
                                                 %>
                                                 <tr>
-                                                    <td class="text-primary"><%= personne.getPrenom() %></td>
-                                                    <td class="text-primary"><%= personne.getNom() %></td>
-                                                    <td class="text-muted"><%= personne.getAdresse() %></td>
-                                                    <td class="text-muted"><%= personne.getVille() %></td>
+                                                    <td class="text-primary modal-customer-preview" data-id="<%= personne.getId() %>" data-firstname="<%= personne.getPrenom() %>" data-lastname="<%= personne.getNom() %>" data-address="<%= personne.getAdresse() %>" data-city="<%= personne.getVille() %>"><%= personne.getPrenom() %></td>
+                                                    <td class="text-primary modal-customer-preview" data-id="<%= personne.getId() %>" data-firstname="<%= personne.getPrenom() %>" data-lastname="<%= personne.getNom() %>" data-address="<%= personne.getAdresse() %>" data-city="<%= personne.getVille() %>"><%= personne.getNom() %></td>
+                                                    <td class="text-muted modal-customer-preview" data-id="<%= personne.getId() %>" data-firstname="<%= personne.getPrenom() %>" data-lastname="<%= personne.getNom() %>" data-address="<%= personne.getAdresse() %>" data-city="<%= personne.getVille() %>"><%= personne.getAdresse() %></td>
+                                                    <td class="text-muted modal-customer-preview" data-id="<%= personne.getId() %>" data-firstname="<%= personne.getPrenom() %>" data-lastname="<%= personne.getNom() %>" data-address="<%= personne.getAdresse() %>" data-city="<%= personne.getVille() %>"><%= personne.getVille() %></td>
                                                     <td class="dropdown">
-                                                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><span class="glyphicon glyphicon-cog text-muted pull-right"></span></a>
+                                                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false" data-toggle="tooltip" data-placement="left" title="G&eacute;rer"><span class="glyphicon glyphicon-cog text-muted pull-right"></span></a>
                                                         <ul class="dropdown-menu">
                                                             <li><a href="modificationPersonne.jsp?id=<%= personne.getId() %>">Modifier</a></li>
-                                                            <li><a href="#" data-href="ServletFaireEffacementPersonne?id=<%= personne.getId() %>" data-toggle="modal" data-target="#confirm-delete">Supprimer</a></li>
+                                                            <li><a class="modal-confirm-delete" href="#" data-href="ServletFaireEffacementPersonne?id=<%= personne.getId() %>" data-firstname="<%= personne.getPrenom() %>" data-lastname="<%= personne.getNom() %>" data-address="<%= personne.getAdresse() %>" data-city="<%= personne.getVille() %>">Supprimer</a></li>
                                                         </ul>
                                                     </td>
                                                 </tr>
@@ -279,8 +329,43 @@
         <script src="assets/js/pnotify.custom.min.js"></script>
 
         <script>
-            $('#confirm-delete').on('show.bs.modal', function (e) {
-                $(this).find('.btn-ok').attr('href', $(e.relatedTarget).data('href'));
+            $(document).ready(function(){
+                $('[data-toggle="tooltip"]').tooltip();   
+            });
+            $('.modal-confirm-delete').on('click', function () {
+                $('#confirm-delete').modal('show');
+                $('.modal-backdrop').appendTo('#main-container');
+                $('body').removeClass();
+                $('#confirm-delete').find('.btn-ok').attr('href', $(this).data('href'));
+                $('#confirm-delete').find('#confirm-delete-customer').text($(this).data('firstname') + ' ' + $(this).data('lastname'));
+                $('#confirm-delete').find('#confirm-delete-customer').attr('title', 'Adresse: ' + $(this).data('address') + ', ' + 'Ville: ' + $(this).data('city'));
+            });
+            $('.modal-customer-preview').on('click', function () {
+                $('#customer-preview').modal('show');
+                $('.modal-backdrop').appendTo('#main-container');
+                $('body').removeClass();
+                $('#customer-preview').find('#customer-preview-firstname').text($(this).data('firstname'));
+                $('#customer-preview').find('#customer-preview-lastname').text($(this).data('lastname'));
+                $('#customer-preview').find('#customer-preview-address').text($(this).data('address'));
+                $('#customer-preview').find('#customer-preview-city').text($(this).data('city'));
+                $('#customer-preview').find('.btn-edit').attr('href', 'modificationPersonne.jsp?id=' + $(this).data('id'));
+                $('#customer-preview').find('.btn-delete').attr('data-href', 'ServletFaireEffacementPersonne?id=' + $(this).data('id'));
+                $('#customer-preview').find('.btn-delete').attr('data-firstname', $(this).data('firstname'));
+                $('#customer-preview').find('.btn-delete').attr('data-lastname', $(this).data('lastname'));
+                $('#customer-preview').find('.btn-delete').attr('data-address', $(this).data('address'));
+                $('#customer-preview').find('.btn-delete').attr('data-city', $(this).data('city'));
+            });
+            $('#search-form').submit(function () {
+                $('#waiting-modal').modal('show');
+                $('.modal-backdrop').appendTo('#main-container');
+                $('body').removeClass();
+                $('#waiting-modal').find('.modal-title').append('Recherche en cours...');
+            });
+            $('#logout-btn').on('click', function () {
+                $('#waiting-modal').modal('show');
+                $('.modal-backdrop').appendTo('#main-container');
+                $('body').removeClass();
+                $('#waiting-modal').find('.modal-title').append('D&eacute;connection en cours...');
             });
         </script>
         <% 

@@ -1,3 +1,5 @@
+<%@page import="ch.hearc.ig.ta.business.AlertMessage"%>
+<%@page import="java.util.ArrayList"%>
 <%@page import="ch.hearc.ig.ta.servlets.HtmlHttpUtils"%>
 <%@page import="ch.hearc.ig.ta.business.Achievement"%>
 <%@page import="ch.hearc.ig.ta.services.Services"%>
@@ -9,6 +11,8 @@
     
     HttpSession s = request.getSession(true);
     String username = s.getAttribute("username").toString();
+    ArrayList<Achievement> lastUnlockedAchievements = (ArrayList<Achievement>) s.getAttribute("lastUnlockedAchievements");
+    ArrayList<AlertMessage> alertMessages = (ArrayList<AlertMessage>) s.getAttribute("alertMessages");
 %>
 <!DOCTYPE html>
 <html lang="fr">
@@ -16,7 +20,7 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1.0">
         <meta name="description" content="Portail commecial, Haute &eacute;cole de gestion Arc, 635-1.1 Technologies actuelles, 3-IG-PT">
-        <meta name="author" content="BlackPinguinsLtd Team (Geoffroy Megert, Loïc Megert, Thierry Hubmann, Steve Julmy, Thomas Rüegsegger)">
+        <meta name="author" content="BlackPinguinsLtd Project Team (Geoffroy Megert, Loïc Megert, Thierry Hubmann, Steve Julmy, Thomas Rüegsegger)">
         <link rel="icon" type="image/png" href="assets/img/favicons/favicon.png">
         <!--[if IE]><link rel="shortcut icon" type="image/x-icon" href="assets/img/favicons/favicon.ico"><![endif]-->
         <title>Profil - Portail commecial</title>
@@ -50,7 +54,7 @@
                                 <a class="active" href="profil.jsp">Profil</a>
                             </li>
                             <li>
-                                <a href="ServletLogout">Se d&eacute;connecter</a>
+                                <a href="ServletLogout" id="logout-btn">Se d&eacute;connecter</a>
                             </li>
                         </ul>
                     </div>
@@ -72,6 +76,15 @@
                 </ul>-->
             </header>
             <main id="main-container">
+                <div class="modal fade" id="waiting-modal" role="dialog">
+                    <div class="modal-dialog modal-sm">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h4 class="modal-title"><span class="glyphicon glyphicon-refresh glyphicon-refresh-animate"></span>&emsp;</h4>
+                            </div>
+                        </div>
+                    </div>
+                </div>
                 <div class="content bg-gray-lighter">
                     <div class="row">
                         <div class="col-xs-12 page-heading">
@@ -81,6 +94,18 @@
                         </div>
                     </div>
                 </div>
+                <%
+                    for (AlertMessage alertMessage : alertMessages) {
+                %>
+                <div class="alert <%= (alertMessage.isFailed()) ? "alert-danger" : "alert-success" %> alert-dismissible" role="alert">
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <span class="glyphicon <%= (alertMessage.isFailed()) ? "glyphicon-remove" : "glyphicon-ok" %>"></span>&emsp;<%= alertMessage.getMessage() %>
+                </div>
+                <%
+                    }
+                    alertMessages.clear();
+                    s.setAttribute("alertMessages", alertMessages);
+                %>
                 <div class="content bg-white border-b">
                     <div class="row items-push text-uppercase">
                         <div class="col-xs-6 col-sm-4">
@@ -113,15 +138,15 @@
                                             <tbody>
                                                 <tr>
                                                     <td class="font-w600">Inscrit(e) depuis</td>
-                                                    <td class="text-muted text-right" style="width: 70px;">JJ/MM/AAAA</td>
+                                                    <td class="text-muted text-right">JJ/MM/AAAA</td>
                                                 </tr>
                                                 <tr>
                                                     <td class="font-w600">Information#2</td>
-                                                    <td class="text-muted text-right" style="width: 70px;">Bla bla...</td>
+                                                    <td class="text-muted text-right">Bla bla...</td>
                                                 </tr>
                                                 <tr>
                                                     <td class="font-w600">Information#3</td>
-                                                    <td class="text-muted text-right" style="width: 70px;">Bla bla...</td>
+                                                    <td class="text-muted text-right">Bla bla...</td>
                                                 </tr>
                                             </tbody>
                                         </table>
@@ -183,5 +208,35 @@
         <!-- Bootstrap core JavaScript-->
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
         <script src="assets/js/bootstrap.min.js"></script>
+        
+        <script>
+            $('#logout-btn').on('click', function () {
+                $('#waiting-modal').modal('show');
+                $('.modal-backdrop').appendTo('#main-container');
+                $('body').removeClass();
+                $('#waiting-modal').find('.modal-title').append('D&eacute;connection en cours...');
+            });
+        </script>
+        <% 
+            for (Achievement lastUnlockedAchievement : lastUnlockedAchievements) {
+        %>
+        <script>
+            $(function () {
+                new PNotify({
+                    title: '<%= lastUnlockedAchievement.getLibelle() %> (D&eacute;bloqu&eacute;)',
+                    text: 'F&eacute;licitation! Vous venez de gagner un nouveau badge.<br><small><i><%= lastUnlockedAchievement.getDescription() %></i></small>',
+                    delay: 8000,
+                    buttons: {
+                        closer: false,
+                        sticker: false
+                    }
+                });
+            });
+        </script>
+        <% 
+            } 
+            lastUnlockedAchievements.clear();
+            s.setAttribute("lastUnlockedAchievements", lastUnlockedAchievements);
+        %>
     </body>
 </html>

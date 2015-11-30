@@ -9,8 +9,12 @@
 <html lang="fr">
     <head>
         <meta charset="utf-8">
-        <title>Page de connexion - Portail commecial</title>
         <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1.0">
+        <meta name="description" content="Portail commecial, Haute &eacute;cole de gestion Arc, 635-1.1 Technologies actuelles, 3-IG-PT">
+        <meta name="author" content="BlackPinguinsLtd Project Team (Geoffroy Megert, Loïc Megert, Thierry Hubmann, Steve Julmy, Thomas Rüegsegger)">
+        <link rel="icon" type="image/png" href="assets/img/favicons/favicon.png">
+        <!--[if IE]><link rel="shortcut icon" type="image/x-icon" href="assets/img/favicons/favicon.ico"><![endif]-->
+        <title>Page de connexion - Portail commecial</title>
         <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400italic,600,700%7COpen+Sans:300,400,400italic,600,700">
         <link rel="stylesheet" href="assets/css/bootstrap.min.css">
         <link rel="stylesheet" href="assets/css/style.css">
@@ -51,6 +55,15 @@
                 </ul>-->
             </header>
             <main id="main-container">
+                <div class="modal fade" id="connecting-modal" role="dialog">
+                    <div class="modal-dialog modal-sm">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h4 class="modal-title"><span class="glyphicon glyphicon-refresh glyphicon-refresh-animate"></span>&emsp;Connexion en cours...</h4>
+                            </div>
+                        </div>
+                    </div>
+                </div>
                 <div class="content bg-gray-lighter">
                     <div class="row">
                         <div class="col-xs-12 page-heading">
@@ -76,7 +89,7 @@
                                     }
                                 %>
                                 <div class="block-content block-content-narrow">
-                                    <form class="form-horizontal" action="ServletLogin" method="post">
+                                    <form class="form-horizontal" action="ServletLogin" method="post" id="login-form">
                                         <div class="form-group">
                                             <div class="col-sm-12">
                                                 <label for="username">Nom d'utilisateur</label>
@@ -91,7 +104,7 @@
                                         </div>
                                         <div class="form-group">
                                             <div class="col-sm-12">
-                                                <input class="btn btn-default pull-right" data-toggle="modal" data-target="#modal-connexion" type="submit" value="Se connecter">
+                                                <input class="btn btn-default pull-right" id="submit-btn" type="submit" value="Se connecter">
                                             </div>
                                         </div>
                                     </form>
@@ -114,5 +127,13 @@
         <!-- Bootstrap core JavaScript-->
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
         <script src="assets/js/bootstrap.min.js"></script>
+        
+        <script>
+            $('#login-form').submit(function () {
+                $('#connecting-modal').modal('show');
+                $('.modal-backdrop').appendTo('#main-container');
+                $('body').removeClass();
+            });
+        </script>
     </body>
 </html>
