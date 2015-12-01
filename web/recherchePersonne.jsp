@@ -10,6 +10,7 @@
     }
     
     HttpSession s = request.getSession(true);
+    request.setCharacterEncoding("UTF-8");
     String username = s.getAttribute("username").toString();
     ArrayList<Achievement> lastUnlockedAchievements = (ArrayList<Achievement>) s.getAttribute("lastUnlockedAchievements");
     ArrayList<AlertMessage> alertMessages = (ArrayList<AlertMessage>) s.getAttribute("alertMessages");
