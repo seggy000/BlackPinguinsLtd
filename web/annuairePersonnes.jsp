@@ -175,6 +175,7 @@
                         <div class="col-xs-12 page-heading">
                             <h1>
                                 <%
+                                request.setCharacterEncoding("UTF-8");
                                     if(request.getParameter("search") != null) {
                                 %>
                                 Annuaire de clients <small>Recherche simple</small>
