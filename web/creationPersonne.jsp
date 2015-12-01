@@ -176,13 +176,13 @@
         </script>
         <script>
             $('#create-form').submit(function () {
-                $('#waiting-modal').modal('show');
+                $('#waiting-modal').modal({backdrop: 'static'});
                 $('.modal-backdrop').appendTo('#main-container');
                 $('body').removeClass();
                 $('#waiting-modal').find('.modal-title').append('Ajout en cours...');
             });
             $('#logout-btn').on('click', function () {
-                $('#waiting-modal').modal('show');
+                $('#waiting-modal').modal({backdrop: 'static'});
                 $('.modal-backdrop').appendTo('#main-container');
                 $('body').removeClass();
                 $('#waiting-modal').find('.modal-title').append('D&eacute;connection en cours...');

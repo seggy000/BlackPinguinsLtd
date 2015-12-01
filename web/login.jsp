@@ -130,7 +130,7 @@
         
         <script>
             $('#login-form').submit(function () {
-                $('#connecting-modal').modal('show');
+                $('#connecting-modal').modal({backdrop: 'static'});
                 $('.modal-backdrop').appendTo('#main-container');
                 $('body').removeClass();
             });

@@ -226,7 +226,7 @@ input[type="text"].form-control,input[type="password"].form-control,input[type="
 
 
 /* MODALS */
-#main-container .modal, #main-container .modal-backdrop {position: absolute !important; margin: 60px 0px 43px 230px}
+#main-container .modal, #main-container .modal-backdrop {position: fixed !important; margin: 60px 0px 43px 230px}
 .modal-content {border:none; border-radius:0; -webkit-box-shadow:none; box-shadow:none}
 .modal-backdrop.in {opacity:.25}
 .modal-header {padding:18px 20px; border-bottom-color:#eee}
