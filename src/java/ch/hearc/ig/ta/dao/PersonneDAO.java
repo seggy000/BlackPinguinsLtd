@@ -31,7 +31,7 @@ public class PersonneDAO extends DAO {
 
         List<Personne> listPersonnes = new ArrayList<>();
 
-        String query = "SELECT numero, prenom, nom, adresse, ville FROM personne";
+        String query = "SELECT numero, prenom, nom, adresse, ville FROM personne ORDER BY prenom";
 
         try {
             stmt = c.prepareStatement(query);
@@ -60,7 +60,7 @@ public class PersonneDAO extends DAO {
         List<Personne> listPersonnes = new ArrayList<>();
 
         //String query = "SELECT numero, prenom, nom, adresse, ville FROM personne WHERE INSTR(UPPER(prenom), UPPER('" + search + "')) > 0 OR INSTR(UPPER(nom), UPPER('" + search + "')) > 0 OR INSTR(UPPER(adresse), UPPER('" + search + "')) > 0 OR INSTR(UPPER(ville), UPPER('" + search + "')) > 0";
-        String query = "SELECT numero, prenom, nom, adresse, ville FROM personne WHERE UPPER(prenom) like UPPER('%" + search + "%') OR UPPER(nom) like UPPER('%" + search + "%') OR UPPER(adresse) like UPPER('%" + search + "%') OR UPPER(ville) like UPPER('%" + search + "%')";
+        String query = "SELECT numero, prenom, nom, adresse, ville FROM personne WHERE UPPER(prenom) like UPPER('%" + search + "%') OR UPPER(nom) like UPPER('%" + search + "%') OR UPPER(adresse) like UPPER('%" + search + "%') OR UPPER(ville) like UPPER('%" + search + "%') ORDER BY prenom";
                 
         try {
             stmt = c.prepareStatement(query);
